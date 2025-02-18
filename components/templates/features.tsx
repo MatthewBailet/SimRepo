@@ -45,8 +45,8 @@ export default function Features() {
   ];
 
   return (
-    <section className="relative pb-40 md:pb-44 bg-white text-bold overflow-hidden">
-      <div className="container lg:px-20 md:px-6 lg:px-8 pt-20">
+    <section className="relative pb-20 md:pb-12 bg-white text-bold overflow-hidden">
+      <div className="container lg:px-20 md:px-6 lg:px-3 pt-28">
         {/* Top Section: Title + Interactive Animation */}
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between  gap-8">
           {/* Left: Section Title */}
@@ -58,10 +58,6 @@ export default function Features() {
             />
           </div>
 
-          {/* Right: Interactive Grid */}
-          <div className="flex-1 flex items-center justify-center md:justify-end">
-            <InteractiveGrid />
-          </div>
         </div>
 
         {/* 2×2 Card Layout */}

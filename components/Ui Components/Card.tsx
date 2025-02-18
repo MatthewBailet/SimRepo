@@ -23,7 +23,7 @@ const Card: React.FC<CardProps> = ({
       <div>{icon}</div>
 
       {/* Title */}
-      <h3 className="text-[#0a2540] text-lg font-semibold">
+      <h3 className="text-[#0a2540] text-md font-semibold">
         {title}
       </h3>
 

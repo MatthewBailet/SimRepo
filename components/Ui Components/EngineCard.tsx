@@ -179,7 +179,7 @@ const EngineCard: React.FC = () => {
         onMouseLeave={() => setCardHovered(false)}
         className="block group"
       >
-        <Card className="lg:aspect-[3/1] aspect-[4/3] py-0 sm:py-8 relative overflow-hidden shadow-md hover:shadow-xl transition-shadow">
+        <Card className="lg:aspect-[3/1] aspect-[4/3] py-0 sm:py-8 relative overflow-hidden -md hover:shadow-xl transition-shadow">
           {/* Card Background: Engine Wave Scene with Gradient */}
           <div className="absolute inset-0">
             <EngineWaveScene
