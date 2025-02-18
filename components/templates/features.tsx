@@ -1,44 +1,45 @@
 "use client";
 
 import React from "react";
+import { BarChart2, Scan, Umbrella, Wallet } from "lucide-react";
 import Card from "@/components/Ui Components/Card"; // Adjust path as needed
 import SectionTitle from "@/components/Ui Components/SectionTitle"; // Adjust path as needed
 import "./features.css";
 
 export default function Features() {
-  // Updated card data
+  // Updated card data with Lucide icons
   const cardsData = [
     {
+      icon: <BarChart2 className="h-6 w-6 text-[rgb(111,127,242)]" />,
       title: "Predictive Analysis & Forecasting",
       description:
         "Gain data-driven insights with AI-powered predictive analysis and forecasting. Identify trends, anticipate outcomes, and make smarter business decisions with confidence.",
       learnMoreText: "Learn about Prediction & Forecasting",
       linkHref: "#",
-      imageSection: null,
     },
     {
+      icon: <Scan className="h-6 w-6 text-[rgb(111,127,242)]" />,
       title: "Market Forecasting",
       description:
         "Stay ahead of the competition with AI-driven market forecasting. Analyze trends, predict demand, and make informed business decisions with data-backed insights.",
       learnMoreText: "Learn about Market Forecasting",
       linkHref: "#",
-      imageSection: null,
     },
     {
+      icon: <Umbrella className="h-6 w-6 text-[rgb(111,127,242)]" />,
       title: "Risk Reduction",
       description:
         "Minimize uncertainty with AI-powered risk reduction. Identify potential threats, test scenarios, and make data-driven decisions to safeguard your business.",
       learnMoreText: "Learn about Risk Management",
       linkHref: "#",
-      imageSection: null,
     },
     {
+      icon: <Wallet className="h-6 w-6 text-[rgb(111,127,242)]" />,
       title: "Optimization",
       description:
         "Maximize efficiency with AI-driven optimization. Fine-tune parameters, streamline processes, and achieve peak performance with data-backed insights.",
       learnMoreText: "Learn about Operational Efficiency",
       linkHref: "#",
-      imageSection: null,
     },
   ];
 
@@ -53,7 +54,7 @@ export default function Features() {
         />
 
         {/* 2×2 Card Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-32 px-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-32 px-3 lg:px-20 ">
           {cardsData.map((card, index) => (
             <Card key={index} {...card} />
           ))}

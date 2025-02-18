@@ -3,7 +3,7 @@
 import React from "react";
 
 interface CardProps {
-  imageSection?: React.ReactNode;
+  icon: React.ReactNode; // Lucide icon
   title: string;
   description: string;
   learnMoreText: string;
@@ -11,7 +11,7 @@ interface CardProps {
 }
 
 const Card: React.FC<CardProps> = ({
-  imageSection,
+  icon,
   title,
   description,
   learnMoreText,
@@ -19,27 +19,23 @@ const Card: React.FC<CardProps> = ({
 }) => {
   return (
     <div className="space-y-3">
-      {/* Icon or small image (optional) */}
-      {imageSection ? (
-        <div>{imageSection}</div>
-      ) : (
-        <div className="h-6 w-6 bg-gray-100 rounded" />
-      )}
+      {/* Icon */}
+      <div>{icon}</div>
 
       {/* Title */}
-      <h3 className="text-[#0a2540] text-md font-semibold">
+      <h3 className="text-[#0a2540] text-lg font-semibold">
         {title}
       </h3>
 
       {/* Description */}
-      <p className="text-xs text-gray-600 leading-[1.5]">
+      <p className="text-sm text-gray-600">
         {description}
       </p>
 
-      {/* Learn more link */}
+      {/* Learn more link (no underline) */}
       <a
         href={linkHref}
-        className="text-xs text-blue-600 hover:underline"
+        className="text-sm text-[rgb(111,127,242)] hover:no-underline"
       >
         {learnMoreText}
       </a>
