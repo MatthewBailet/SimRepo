@@ -163,7 +163,17 @@ function BackgroundWaveScene() {
 }
 
 // ------------------- Engine Wave Scene (for Card) -------------------
-function EngineWavePoints({ hovered, defaultHighlightColor, hoverHighlightColor }) {
+interface EngineWavePointsProps {
+  hovered: boolean
+  defaultHighlightColor: THREE.Color
+  hoverHighlightColor: THREE.Color
+}
+
+function EngineWavePoints({
+  hovered,
+  defaultHighlightColor,
+  hoverHighlightColor,
+}: EngineWavePointsProps) {
   // Explicitly typing the ref as ShaderMaterial or null
   const matRef = useRef<THREE.ShaderMaterial | null>(null)
 
