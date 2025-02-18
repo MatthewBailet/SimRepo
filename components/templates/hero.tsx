@@ -257,7 +257,7 @@ export default function Hero() {
         <div className="container mx-auto px-4 md:px-6 lg:px-6">
           <div className="grid  gap-8 md:grid-cols-1">
             {/* Left Column: Text & CTA */}
-            <div className="space-y-6 mb-0 lg:mb-28">
+            <div className="space-y-6 mb-0 lg:mb-20">
               <h1 className="text-4xl mt-20 lg:mt-0 text-center font tracking-tight md:text-7xl lg:text-5xl">
               Powering Smarter Decisions with AI Simulations
               </h1>
@@ -278,7 +278,7 @@ export default function Hero() {
                   onMouseLeave={() => setCardHovered(false)}
                   className="block group"
                 >
-                  <Card className="lg:aspect-[8/2] aspect-[4/3] py-0 sm:py-8 relative overflow-hidden shadow-md hover:shadow-xl transition-shadow">
+                  <Card className="lg:aspect-[3/1] aspect-[4/3] py-0 sm:py-8 relative overflow-hidden shadow-md hover:shadow-xl transition-shadow">
                     {/* Card Background: Engine Wave scene */}
                     <div className="absolute inset-0">
                       <EngineWaveScene
@@ -298,7 +298,7 @@ export default function Hero() {
                       <div className="transform -translate-y-4 flex flex-col items-center transition-transform duration-300 group-hover:scale-110">
                         {/* White circle with the Layers icon */}
                         <div className="bg-white opacity-[.8]  rounded-full p-6">
-                          <Layers className="w-10 h-10 text-[rgb(111,127,242)] transition-colors duration-300 group-hover:text-[rgb(102,217,255)]" />
+                          <Layers className="w-10 h-10 text-[rgb(111,127,242)] transition-colors duration-300 group-hover:text-[rgb(177,235,255)]" />
                         </div>
                         <h3 className="mt-4 text-lg font">Meet our Engine</h3>
                       </div>
