@@ -1,17 +1,14 @@
-"use client"
+"use client";
 
-import React, { useRef, useState } from "react"
-import { Canvas, useFrame } from "@react-three/fiber"
-import * as THREE from "three"
-import Image from "next/image"
-import Link from "next/link"
+import React, { useRef } from "react";
+import { Canvas, useFrame } from "@react-three/fiber";
+import * as THREE from "three";
+import { Button } from "@/components/molecules/shadcn/button";
+import EngineCard from "@/components/Ui Components/EngineCard"; // Adjust path as needed
 
-import { Button } from "@/components/molecules/shadcn/button"
-import { AspectRatio } from "../molecules/shadcn/aspect-ratio"
-import { Card, CardContent } from "../molecules/shadcn/card"
-import { Layers, ArrowRight } from "lucide-react"
-
-// ------------------- Global (Background) Wave Shaders -------------------
+// --------------------
+// Global Background Wave Shaders
+// --------------------
 const vertexShader = `
   uniform float uTime;
   uniform float uFade;
@@ -41,7 +38,7 @@ const vertexShader = `
     gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition, 1.0);
     gl_PointSize = 1.2;
   }
-`
+`;
 
 const backgroundFragmentShader = `
   uniform float uTime;
@@ -63,7 +60,6 @@ const backgroundFragmentShader = `
     float gridPattern = max(gridX, gridY);
     baseColor -= gridPattern * 0.0;
 
-    // Rare glint (~1%):
     if (vRand < 0.2) {
       float pulse = abs(sin(uTime * 1.0 + vRand * 100.0));
       float mixFactor = smoothstep(0.1, 0.7, pulse);
@@ -77,63 +73,24 @@ const backgroundFragmentShader = `
     float finalAlpha = circle * roundedMask;
     gl_FragColor = vec4(baseColor, finalAlpha * uFade);
   }
-`
+`;
 
-// ------------------- Engine (Card) Wave Shaders -------------------
-const engineFragmentShader = `
-  uniform float uTime;
-  uniform float uFade;
-  uniform vec3 uHighlightColor;
-  varying vec2 vUv;
-  varying float vDisplacement;
-  varying float vRand;
-
-  void main() {
-    vec2 center = gl_PointCoord - vec2(0.5);
-    float dist = length(center);
-    float circle = smoothstep(0.5, 0.45, dist);
-
-    vec3 baseColor = mix(vec3(0.95), vec3(1.0), vUv.y);
-    baseColor *= 1.0 - vDisplacement * 0.1;
-
-    float gridX = smoothstep(0.48, 0.5, abs(fract(vUv.x * 90.0) - 0.5));
-    float gridY = smoothstep(0.48, 0.5, abs(fract(vUv.y * 50.0) - 0.5));
-    float gridPattern = max(gridX, gridY);
-    baseColor -= gridPattern * 0.0;
-
-    if (vRand < 0.15) {
-      float pulse = abs(sin(uTime * 2.0 + vRand * 100.0));
-      float mixFactor = smoothstep(0.4, 0.9, pulse);
-      baseColor = mix(baseColor, uHighlightColor, mixFactor);
-    }
-
-    vec2 centeredUv = vUv - vec2(0.5);
-    float edgeDist = max(abs(centeredUv.x), abs(centeredUv.y));
-    float roundedMask = 1.0 - smoothstep(0.48, 0.5, edgeDist);
-
-    float finalAlpha = circle * roundedMask;
-    gl_FragColor = vec4(baseColor, finalAlpha * uFade);
-  }
-`
-
-// ------------------- Background Wave Scene -------------------
 function BackgroundWavePoints() {
-  // Explicitly typing the ref as ShaderMaterial or null
-  const matRef = useRef<THREE.ShaderMaterial | null>(null)
+  const matRef = useRef<THREE.ShaderMaterial | null>(null);
 
   useFrame((state) => {
     if (matRef.current) {
-      const elapsed = state.clock.getElapsedTime()
-      matRef.current.uniforms.uTime.value = elapsed
-      let fade = 0
+      const elapsed = state.clock.getElapsedTime();
+      matRef.current.uniforms.uTime.value = elapsed;
+      let fade = 0;
       if (elapsed > 0.1) {
-        fade = Math.min((elapsed - 0) / 1, 1)
+        fade = Math.min((elapsed - 0) / 1, 1);
       }
-      matRef.current.uniforms.uFade.value = fade
+      matRef.current.uniforms.uFade.value = fade;
     }
-  })
+  });
 
-  const planeGeom = new THREE.PlaneGeometry(18, 21, 688, 328)
+  const planeGeom = new THREE.PlaneGeometry(18, 21, 688, 328);
   const waveMaterial = new THREE.ShaderMaterial({
     vertexShader,
     fragmentShader: backgroundFragmentShader,
@@ -142,124 +99,44 @@ function BackgroundWavePoints() {
       uFade: { value: 0.0 },
     },
     transparent: true,
-  })
+  });
 
   return (
     <points geometry={planeGeom}>
       <primitive object={waveMaterial} ref={matRef} attach="material" />
     </points>
-  )
+  );
 }
 
 function BackgroundWaveScene() {
   return (
-    <Canvas style={{ width: "100%", height: "100%", background: "white" }}>
+    <Canvas style={{ width: "100%", height: "100%" }}>
       <ambientLight intensity={0.3} />
-      <group rotation={[-Math.PI / 2.0, 0.1, 0.1]}>
+      <group rotation={[-Math.PI / 2, 0.1, 0.1]}>
         <BackgroundWavePoints />
       </group>
     </Canvas>
-  )
+  );
 }
 
-// ------------------- Engine Wave Scene (for Card) -------------------
-interface EngineWavePointsProps {
-  hovered: boolean
-  defaultHighlightColor: THREE.Color
-  hoverHighlightColor: THREE.Color
-}
-
-function EngineWavePoints({
-  hovered,
-  defaultHighlightColor,
-  hoverHighlightColor,
-}: EngineWavePointsProps) {
-  // Explicitly typing the ref as ShaderMaterial or null
-  const matRef = useRef<THREE.ShaderMaterial | null>(null)
-
-  useFrame((state) => {
-    if (matRef.current) {
-      const elapsed = state.clock.getElapsedTime()
-      matRef.current.uniforms.uTime.value = elapsed
-      let fade = 0
-      if (elapsed > 0.1) {
-        fade = Math.min((elapsed - 0) / 1, 1)
-      }
-      matRef.current.uniforms.uFade.value = fade
-
-      // Smoothly interpolate the highlight color based on hover state.
-      matRef.current.uniforms.uHighlightColor.value.lerp(
-        hovered ? hoverHighlightColor : defaultHighlightColor,
-        0.05
-      )
-    }
-  })
-
-  const planeGeom = new THREE.PlaneGeometry(18, 21, 688, 328)
-  const engineMaterial = new THREE.ShaderMaterial({
-    vertexShader,
-    fragmentShader: engineFragmentShader,
-    uniforms: {
-      uTime: { value: 0.2 },
-      uFade: { value: 0.0 },
-      uHighlightColor: { value: new THREE.Color(defaultHighlightColor.getStyle()) },
-    },
-    transparent: true,
-  })
-
-  return (
-    <points geometry={planeGeom}>
-      <primitive object={engineMaterial} ref={matRef} attach="material" />
-    </points>
-  )
-}
-interface EngineWaveSceneProps {
-  hovered?: boolean
-  rotation?: [number, number, number]
-  defaultHighlightColor?: THREE.Color
-  hoverHighlightColor?: THREE.Color
-}
-
-function EngineWaveScene({
-  hovered = false,
-  rotation = [-Math.PI / 3, 0.2, 0.2] as [number, number, number],
-  defaultHighlightColor = new THREE.Color("rgb(111,127,242)"),
-  hoverHighlightColor = new THREE.Color("rgb(173,216,230)")
-}: EngineWaveSceneProps) {
-  return (
-    <Canvas style={{ width: "100%", height: "100%", background: "white" }}>
-      <ambientLight intensity={0.3} />
-      <group rotation={rotation}>
-        <EngineWavePoints
-          hovered={hovered}
-          defaultHighlightColor={defaultHighlightColor}
-          hoverHighlightColor={hoverHighlightColor}
-        />
-      </group>
-    </Canvas>
-  )
-}
-
-// ------------------- Hero Section -------------------
+// --------------------
+// Hero Section
+// --------------------
 export default function Hero() {
-  const [cardHovered, setCardHovered] = useState(false)
-
   return (
     <section className="relative flex min-h-screen items-center justify-center overflow-hidden">
-      {/* Global 3D wave background (behind content) */}
+      {/* Global 3D Wave Background */}
       <div className="absolute inset-0 -z-10">
         <BackgroundWaveScene />
       </div>
 
-      {/* Hero content */}
-      {/* On mobile, margin-top is removed; from md and up, mt-40 is applied */}
-      <div className="lg:mt-64  mt-8 sm:mt-20 md:mt-5">
+      <div className="lg:mt-64 mt-8 sm:mt-20 md:mt-5">
         <div className="container mx-auto px-4 md:px-6 lg:px-6">
-          <div className="grid  gap-8 md:grid-cols-1">
+          <div className="grid gap-8 md:grid-cols-1">
             {/* Left Column: Text & CTA */}
             <div className="space-y-6 mb-0 lg:mb-20">
               <h1 className="text-4xl mt-20 lg:mt-0 text-center font tracking-tight md:text-7xl lg:text-5xl">
-              Powering Smarter Decisions with AI Simulations
+                Powering Smarter Decisions with AI Simulations
               </h1>
               <p className="text-m text-center text-gray-600 dark:text-gray-400">
                 Providing fine-tuned AI models paired with realtime industry data to produce accurate, intelligent business forecasting.
@@ -269,47 +146,13 @@ export default function Hero() {
                 <Button variant="secondary">Book a Consultation</Button>
               </div>
             </div>
-
-            {/* Right Column: Engine Card as a link */}
+            {/* Right Column: Engine Card */}
             <div className="md:block sm:block mt-10 lg:mt-1">
-              <Link legacyBehavior href="#">
-                <a
-                  onMouseEnter={() => setCardHovered(true)}
-                  onMouseLeave={() => setCardHovered(false)}
-                  className="block group"
-                >
-                  <Card className="lg:aspect-[3/1] aspect-[4/3] py-0 sm:py-8 relative overflow-hidden shadow-md hover:shadow-xl transition-shadow">
-                    {/* Card Background: Engine Wave scene */}
-                    <div className="absolute inset-0">
-                      <EngineWaveScene
-                        hovered={cardHovered}
-                        rotation={[-Math.PI / 2.0, 2.9, 0.1]}
-                        defaultHighlightColor={new THREE.Color("rgb(111,127,242)")}
-                        hoverHighlightColor={new THREE.Color("rgb(59, 206, 255)")}
-                      />
-                    </div>
-                    {/* New arrow in a 50% opacity white circle in the top right */}
-                    <div className="absolute top-4 right-4 ">
-                      <div className="bg-white opacity-50 rounded-full p-2 transition-transform duration-300 group-hover:scale-110">
-                        <ArrowRight className="w-4 h-4 text-black" />
-                      </div>
-                    </div>
-                    <CardContent className="relative flex flex-col items-center mt-6 justify-center h-full">
-                      <div className="transform -translate-y-4 flex flex-col items-center transition-transform duration-300 group-hover:scale-110">
-                        {/* White circle with the Layers icon */}
-                        <div className="bg-white opacity-[.8]  rounded-full p-6">
-                          <Layers className="w-10 h-10 text-[rgb(111,127,242)] transition-colors duration-300 group-hover:text-[rgb(177,235,255)]" />
-                        </div>
-                        <h3 className="mt-4 text-lg font">Meet our Engine</h3>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </a>
-              </Link>
+              <EngineCard />
             </div>
           </div>
         </div>
       </div>
     </section>
-  )
+  );
 }
