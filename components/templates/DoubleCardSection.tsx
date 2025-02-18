@@ -50,14 +50,14 @@ const blueWaveFragmentShader = `
   void main() {
     vec2 center = gl_PointCoord - vec2(0.5);
     float dist = length(center);
-    float circle = smoothstep(0.05, 2.45, dist);
+    float circle = smoothstep(0.05, 8.45, dist);
     vec3 baseColor = mix(vec3(0.95), vec3(1.0), vUv.y);
     baseColor *= 1.0 - vDisplacement * 0.1;
     float gridX = smoothstep(0.48, 0.5, abs(fract(vUv.x * 90.0) - 0.5));
     float gridY = smoothstep(0.48, 0.5, abs(fract(vUv.y * 50.0) - 0.5));
     float gridPattern = max(gridX, gridY);
     baseColor -= gridPattern * 0.0;
-    if (vRand < 0.15) {
+    if (vRand < 0.00) {
       float pulse = abs(sin(uTime * 2.0 + vRand * 200.0));
       float mixFactor = smoothstep(0.4, 0.9, pulse);
       baseColor = mix(baseColor, uHighlightColor, mixFactor);
@@ -137,7 +137,7 @@ function BlueWaveScene({
   hoverColor,
 }: BlueWaveSceneProps) {
   if (!enabled) return null;
-  const defColor = defaultColor ?? new THREE.Color("rgb(111,127,242)");
+  const defColor = defaultColor ?? new THREE.Color("rgb(119,192,255)");
   const hovColor = hoverColor ?? new THREE.Color("rgb(59,206,255)");
   return (
     <Canvas
@@ -155,13 +155,7 @@ function BlueWaveScene({
   );
 }
 
-// --------------------
-// Helper: Random Rotation Generator
-// --------------------
-function randomRotation(): [number, number, number] {
-  const randAngle = () => (Math.random() - 0.5) * (Math.PI / 3);
-  return [randAngle(), randAngle(), randAngle()];
-}
+
 
 // --------------------
 // DoubleCardSection Component
@@ -181,7 +175,7 @@ export default function DoubleCardSection() {
               <div className="absolute inset-0">
                 <BlueWaveScene 
                   rotation={[-Math.PI / 4.4, .3, 6.2]} 
-                  enabled={showWave}
+                
                   defaultColor={new THREE.Color("rgb(254, 125, 56)")} 
                   hoverColor={new THREE.Color("rgb(59,206,255)")}
                 />
@@ -232,8 +226,8 @@ export default function DoubleCardSection() {
               <div className="absolute inset-0">
                 <BlueWaveScene 
                   rotation={[-Math.PI / 2, 0.1, 0.1]} 
-                  enabled={showWave}
-                  defaultColor={new THREE.Color("rgb(111,127,242)")} 
+              
+                  defaultColor={new THREE.Color("rgb(12,53,90)")} 
                   hoverColor={new THREE.Color("rgb(59,206,255)")}
                 />
               </div>
