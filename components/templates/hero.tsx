@@ -253,11 +253,11 @@ export default function Hero() {
 
       {/* Hero content */}
       {/* On mobile, margin-top is removed; from md and up, mt-40 is applied */}
-      <div className="lg:mt-48 mt-8 sm:mt-20 md:mt-5">
+      <div className="lg:mt-64  mt-8 sm:mt-20 md:mt-5">
         <div className="container mx-auto px-4 md:px-6 lg:px-6">
           <div className="grid  gap-8 md:grid-cols-1">
             {/* Left Column: Text & CTA */}
-            <div className="space-y-6">
+            <div className="space-y-6 mb-0 lg:mb-28">
               <h1 className="text-4xl mt-20 lg:mt-0 text-center font tracking-tight md:text-7xl lg:text-5xl">
               Powering Smarter Decisions with AI Simulations
               </h1>
@@ -285,7 +285,7 @@ export default function Hero() {
                         hovered={cardHovered}
                         rotation={[-Math.PI / 2.0, 2.9, 0.1]}
                         defaultHighlightColor={new THREE.Color("rgb(111,127,242)")}
-                        hoverHighlightColor={new THREE.Color("rgb(173,216,230)")}
+                        hoverHighlightColor={new THREE.Color("rgb(59, 206, 255)")}
                       />
                     </div>
                     {/* New arrow in a 50% opacity white circle in the top right */}
@@ -297,8 +297,8 @@ export default function Hero() {
                     <CardContent className="relative flex flex-col items-center mt-6 justify-center h-full">
                       <div className="transform -translate-y-4 flex flex-col items-center transition-transform duration-300 group-hover:scale-110">
                         {/* White circle with the Layers icon */}
-                        <div className="bg-white opacity-[.9]  rounded-full p-6">
-                          <Layers className="w-10 h-10 text-[rgb(111,127,242)] transition-colors duration-300 group-hover:text-[rgb(173,216,230)]" />
+                        <div className="bg-white opacity-[.8]  rounded-full p-6">
+                          <Layers className="w-10 h-10 text-[rgb(111,127,242)] transition-colors duration-300 group-hover:text-[rgb(102,217,255)]" />
                         </div>
                         <h3 className="mt-4 text-lg font">Meet our Engine</h3>
                       </div>
