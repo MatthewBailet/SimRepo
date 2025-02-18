@@ -63,3 +63,9 @@
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 }
+
+@keyframes drawLine {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
