@@ -253,7 +253,7 @@ export default function Hero() {
 
       {/* Hero content */}
       {/* On mobile, margin-top is removed; from md and up, mt-40 is applied */}
-      <div className="lg:mt-40 sm:mt-5 md:mt-5">
+      <div className="lg:mt-48 sm:mt-5 md:mt-5">
         <div className="container mx-auto px-4 md:px-6 lg:px-6">
           <div className="grid  gap-8 md:grid-cols-1">
             {/* Left Column: Text & CTA */}
@@ -271,14 +271,14 @@ export default function Hero() {
             </div>
 
             {/* Right Column: Engine Card as a link */}
-            <div className="md:block sm:block">
+            <div className="md:block sm:block lg:mt-20">
               <Link legacyBehavior href="#">
                 <a
                   onMouseEnter={() => setCardHovered(true)}
                   onMouseLeave={() => setCardHovered(false)}
                   className="block group"
                 >
-                  <Card className="lg:aspect-[3/1] sm:aspect-[4/3] md:aspect-[4/3] relative overflow-hidden shadow-md hover:shadow-xl transition-shadow">
+                  <Card className="lg:aspect-[8/2]  relative overflow-hidden shadow-md hover:shadow-xl transition-shadow">
                     {/* Card Background: Engine Wave scene */}
                     <div className="absolute inset-0">
                       <EngineWaveScene
