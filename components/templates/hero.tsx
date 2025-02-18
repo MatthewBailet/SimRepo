@@ -213,12 +213,19 @@ function EngineWavePoints({
     </points>
   )
 }
+interface EngineWaveSceneProps {
+  hovered?: boolean
+  rotation?: [number, number, number]
+  defaultHighlightColor?: THREE.Color
+  hoverHighlightColor?: THREE.Color
+}
+
 function EngineWaveScene({
   hovered = false,
-  rotation = [-Math.PI / 3, 0.2, 0.2],
+  rotation = [-Math.PI / 3, 0.2, 0.2] as [number, number, number],
   defaultHighlightColor = new THREE.Color("rgb(111,127,242)"),
   hoverHighlightColor = new THREE.Color("rgb(173,216,230)")
-}) {
+}: EngineWaveSceneProps) {
   return (
     <Canvas style={{ width: "100%", height: "100%", background: "white" }}>
       <ambientLight intensity={0.3} />
