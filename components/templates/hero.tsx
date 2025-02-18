@@ -56,16 +56,16 @@ const backgroundFragmentShader = `
     float circle = smoothstep(0.5, 0.45, dist);
 
     vec3 baseColor = mix(vec3(0.95), vec3(1.0), vUv.y);
-    baseColor *= 1.0 - vDisplacement * 0.1;
+    baseColor *= 1.5 - vDisplacement * 0.1;
 
     float gridX = smoothstep(0.48, 0.5, abs(fract(vUv.x * 50.0) - 0.5));
     float gridY = smoothstep(0.48, 0.5, abs(fract(vUv.y * 50.0) - 0.5));
     float gridPattern = max(gridX, gridY);
-    baseColor -= gridPattern * 0.05;
+    baseColor -= gridPattern * 0.00;
 
     // Rare glint (~1%):
-    if (vRand < 0.3) {
-      float pulse = abs(sin(uTime * 2.0 + vRand * 100.0));
+    if (vRand < 0.2) {
+      float pulse = abs(sin(uTime * 1.0 + vRand * 100.0));
       float mixFactor = smoothstep(0.4, 0.7, pulse);
       baseColor = mix(baseColor, vec3(0.6, 0.8, 1.0), mixFactor);
     }
@@ -138,7 +138,7 @@ function BackgroundWavePoints() {
     vertexShader,
     fragmentShader: backgroundFragmentShader,
     uniforms: {
-      uTime: { value: 0.2 },
+      uTime: { value: 0.1 },
       uFade: { value: 0.0 },
     },
     transparent: true,
@@ -155,7 +155,7 @@ function BackgroundWaveScene() {
   return (
     <Canvas style={{ width: "100%", height: "100%", background: "white" }}>
       <ambientLight intensity={0.3} />
-      <group rotation={[-Math.PI / 2.3, 0.1, 0.1]}>
+      <group rotation={[-Math.PI / 2.3, 0.2, 0.1]}>
         <BackgroundWavePoints />
       </group>
     </Canvas>
