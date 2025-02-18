@@ -143,7 +143,7 @@ interface EngineWaveSceneProps {
 function EngineWaveScene({
   hovered = false,
   rotation = [-Math.PI / 3, 0.2, 0.2] as [number, number, number],
-  defaultHighlightColor = new THREE.Color("rgb(111,127,242)"),
+  defaultHighlightColor = new THREE.Color("rgb(255,255,255)"),
   hoverHighlightColor = new THREE.Color("rgb(59,206,255)")
 }: EngineWaveSceneProps) {
   return (
@@ -151,7 +151,7 @@ function EngineWaveScene({
       style={{
         width: "100%",
         height: "100%",
-        background: "linear-gradient(165deg, rgb(156, 168, 255), rgb(159,231,255))",
+        background: "linear-gradient(165deg, rgb(156,168,255), rgb(159,231,255))",
       }}
     >
       <ambientLight intensity={0.3} />
@@ -185,7 +185,7 @@ const EngineCard: React.FC = () => {
             <EngineWaveScene
               hovered={cardHovered}
               rotation={[-Math.PI / 2.0, 2.9, 0.1]}
-              defaultHighlightColor={new THREE.Color("rgb(111,127,242)")}
+              defaultHighlightColor={new THREE.Color("rgb(255,255,255))")}
               hoverHighlightColor={new THREE.Color("rgb(59,206,255)")}
             />
           </div>
