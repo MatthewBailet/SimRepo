@@ -253,7 +253,7 @@ export default function Hero() {
 
       {/* Hero content */}
       {/* On mobile, margin-top is removed; from md and up, mt-40 is applied */}
-      <div className="lg:mt-48 mt-20 sm:mt-20 md:mt-5">
+      <div className="lg:mt-48 mt-8 sm:mt-20 md:mt-5">
         <div className="container mx-auto px-4 md:px-6 lg:px-6">
           <div className="grid  gap-8 md:grid-cols-1">
             {/* Left Column: Text & CTA */}
@@ -278,7 +278,7 @@ export default function Hero() {
                   onMouseLeave={() => setCardHovered(false)}
                   className="block group"
                 >
-                  <Card className="lg:aspect-[8/2] aspect-[4/2] py-0 sm:py-8 relative overflow-hidden shadow-md hover:shadow-xl transition-shadow">
+                  <Card className="lg:aspect-[8/2] aspect-[4/3] py-0 sm:py-8 relative overflow-hidden shadow-md hover:shadow-xl transition-shadow">
                     {/* Card Background: Engine Wave scene */}
                     <div className="absolute inset-0">
                       <EngineWaveScene
