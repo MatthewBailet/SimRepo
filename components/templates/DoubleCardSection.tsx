@@ -180,7 +180,7 @@ export default function DoubleCardSection() {
             {showWave && (
               <div className="absolute inset-0">
                 <BlueWaveScene 
-                  rotation={[-Math.PI / 2.4, 3.2, 3.2]} 
+                  rotation={[-Math.PI / 4.4, .3, 6.2]} 
                   enabled={showWave}
                   defaultColor={new THREE.Color("rgb(254, 125, 56)")} 
                   hoverColor={new THREE.Color("rgb(59,206,255)")}
@@ -231,7 +231,7 @@ export default function DoubleCardSection() {
             {showWave && (
               <div className="absolute inset-0">
                 <BlueWaveScene 
-                  rotation={randomRotation()} 
+                  rotation={[-Math.PI / 2, 0.1, 0.1]} 
                   enabled={showWave}
                   defaultColor={new THREE.Color("rgb(111,127,242)")} 
                   hoverColor={new THREE.Color("rgb(59,206,255)")}
