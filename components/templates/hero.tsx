@@ -136,7 +136,7 @@ export default function Hero() {
             {/* Left Column: Text & CTA */}
             <div className="space-y-6 mb-0 lg:mb-20">
               <h1 className="text-4xl mt-20 lg:mt-0 text-center font tracking-tight md:text-7xl lg:text-5xl">
-                Powering Better Decisions through AI Simulations
+                Powering Better Decisions with AI Based Simulations
               </h1>
               <p className="text-m text-center text-gray-600 dark:text-gray-400">
                 Providing fine-tuned AI models paired with realtime industry data to produce accurate, intelligent business forecasting.

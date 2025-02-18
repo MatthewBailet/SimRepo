@@ -6,27 +6,29 @@ import Card from "@/components/Ui Components/Card"; // Adjust path as needed
 import SectionTitle from "@/components/Ui Components/SectionTitle"; // Adjust path as needed
 import InteractiveGrid from "@/components/Ui Components/InteractiveGrid"; // new component
 import "./features.css";
+import { Button } from "../molecules/shadcn/button";
 
 export default function Explaination() {
-
-
   return (
     <section className="relative pb-20 md:pb-12 bg-white text-bold overflow-hidden">
-      <div className="container lg:px-20 md:px-6 lg:px-3 pt-8">
+      <div className="container md:px-6 lg:px-3 pt-8">
         {/* Top Section: Title + Interactive Animation */}
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between  gap-8">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8 mb-20">
           {/* Left: Section Title */}
           <div className="flex-1">
             <SectionTitle
-              title="Smarter Decisions, Better Outcomes"
-              subtitle="Unlock the power of AI-driven simulations"
-              description="Leverage predictive analytics and market forecasting for confident, data-driven decisions. Optimize processes, cut costs, and fine-tune strategies without costly experimentation—keeping your business ahead."
+              title="Built for Intelligence"
+              subtitle="Reliable AI-driven processing, from data to decision"
+              description="Our platform ingests, structures, and analyzes complex data with AI-powered parsers, real-time automation, and advanced simulations. By handling the heavy lifting—data integration, pattern recognition, and predictive modeling—we deliver high-accuracy insights, empowering you to make strategic decisions with confidence."
             />
+            
           </div>
+          {/* Right: Interactive Grid */}
 
+          <div className="flex-1">
+            <InteractiveGrid />
+          </div>
         </div>
-
-       <InteractiveGrid/>
       </div>
     </section>
   );
