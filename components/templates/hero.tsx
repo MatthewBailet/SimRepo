@@ -20,7 +20,7 @@ const vertexShader = `
   varying float vRand;
 
   float random(vec2 st) {
-    return fract(sin(dot(st.xy, vec2(14.9898,78.233))) * 43758.5453123);
+    return fract(sin(dot(st.xy, vec2(1.9898,78.233))) * 43758.5453123);
   }
 
   void main() {
@@ -30,16 +30,16 @@ const vertexShader = `
     float wave1 = sin(position.x * 0.5 + uTime * 0.8);
     float wave2 = sin(position.y * 0.7 + uTime * 0.6);
     float wave3 = sin((position.x + position.y) * 0.3 + uTime * 0.3);
-    float pulsation = 0.1 * sin(uTime * 2.0);
+    float pulsation = 0.05 * sin(uTime * 2.0);
 
-    float displacement = (wave1 + wave2 + wave3) * 0.3 + pulsation;
+    float displacement = (wave1 + wave2 + wave3) * 0.2 + pulsation;
     vDisplacement = displacement;
 
     vec3 newPosition = position;
     newPosition.z += displacement * uFade;
 
     gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition, 1.0);
-    gl_PointSize = 1.3;
+    gl_PointSize = 1.2;
   }
 `
 
@@ -66,7 +66,7 @@ const backgroundFragmentShader = `
     // Rare glint (~1%):
     if (vRand < 0.2) {
       float pulse = abs(sin(uTime * 1.0 + vRand * 100.0));
-      float mixFactor = smoothstep(0.4, 0.7, pulse);
+      float mixFactor = smoothstep(0.1, 0.7, pulse);
       baseColor = mix(baseColor, vec3(0.6, 0.8, 1.0), mixFactor);
     }
 
@@ -138,7 +138,7 @@ function BackgroundWavePoints() {
     vertexShader,
     fragmentShader: backgroundFragmentShader,
     uniforms: {
-      uTime: { value: 0.1 },
+      uTime: { value: 0.2 },
       uFade: { value: 0.0 },
     },
     transparent: true,
@@ -283,7 +283,7 @@ export default function Hero() {
                     <div className="absolute inset-0">
                       <EngineWaveScene
                         hovered={cardHovered}
-                        rotation={[-Math.PI / 2.0, 2.9, 6]}
+                        rotation={[-Math.PI / 2.0, 2.9, 0.1]}
                         defaultHighlightColor={new THREE.Color("rgb(111,127,242)")}
                         hoverHighlightColor={new THREE.Color("rgb(173,216,230)")}
                       />
