@@ -44,8 +44,8 @@ export default function Features() {
   ];
 
   return (
-    <section className="relative pb-40 md:pb-44 md:pt-10 bg-white text-bold overflow-hidden">
-      <div className="container lg:px-20 md:px-6 lg:px-8 pt-10">
+    <section className="relative pb-40 md:pb-44 bg-white text-bold overflow-hidden">
+      <div className="container lg:px-20 md:px-6 lg:px-8 pt-4">
         {/* Section Title Component */}
         <SectionTitle
           title="Smarter Decisions, Better Outcomes"
