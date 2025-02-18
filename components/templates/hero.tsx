@@ -118,7 +118,8 @@ const engineFragmentShader = `
 
 // ------------------- Background Wave Scene -------------------
 function BackgroundWavePoints() {
-  const matRef = useRef(null)
+  // Explicitly typing the ref as ShaderMaterial or null
+  const matRef = useRef<THREE.ShaderMaterial | null>(null)
 
   useFrame((state) => {
     if (matRef.current) {
@@ -163,7 +164,8 @@ function BackgroundWaveScene() {
 
 // ------------------- Engine Wave Scene (for Card) -------------------
 function EngineWavePoints({ hovered, defaultHighlightColor, hoverHighlightColor }) {
-  const matRef = useRef(null)
+  // Explicitly typing the ref as ShaderMaterial or null
+  const matRef = useRef<THREE.ShaderMaterial | null>(null)
 
   useFrame((state) => {
     if (matRef.current) {
@@ -201,7 +203,6 @@ function EngineWavePoints({ hovered, defaultHighlightColor, hoverHighlightColor 
     </points>
   )
 }
-
 function EngineWaveScene({
   hovered = false,
   rotation = [-Math.PI / 3, 0.2, 0.2],
