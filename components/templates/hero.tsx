@@ -50,9 +50,9 @@ const backgroundFragmentShader = `
   void main() {
     vec2 center = gl_PointCoord - vec2(0.5);
     float dist = length(center);
-    float circle = smoothstep(0.3, 2.45, dist);
+    float circle = smoothstep(0.2, 4.45, dist);
 
-    vec3 baseColor = mix(vec3(0.95), vec3(1.0), vUv.y);
+    vec3 baseColor = mix(vec3(0.0), vec3(1.0), vUv.y);
     baseColor *= 5.0 - vDisplacement * 2.1;
 
     float gridX = smoothstep(0.48, 0.5, abs(fract(vUv.x * 50.0) - 0.5));
