@@ -235,13 +235,13 @@ export default function Hero() {
 
       {/* Hero content */}
       {/* On mobile, margin-top is removed; from md and up, mt-40 is applied */}
-      <div className="mt-0 md:mt-40">
+      <div className="lg:mt-40 sm:mt-5 md:mt-5">
         <div className="container mx-auto px-4 md:px-6 lg:px-6">
-          <div className="grid items-center gap-8 md:grid-cols-1">
+          <div className="grid  gap-8 md:grid-cols-1">
             {/* Left Column: Text & CTA */}
             <div className="space-y-6">
-              <h1 className="text-3xl text-center font tracking-tight sm:text-4xl md:text-5xl lg:text-5xl">
-                Transforming Decisions with AI-Powered Simulations
+              <h1 className="text-3xl text-center font tracking-tight sm:text-6xl md:text-7xl lg:text-5xl">
+              Powering Smarter Decisions with AI Simulations
               </h1>
               <p className="text-m text-center text-gray-600 dark:text-gray-400">
                 Providing fine-tuned AI models paired with realtime industry data to produce accurate, intelligent business forecasting.
@@ -253,14 +253,14 @@ export default function Hero() {
             </div>
 
             {/* Right Column: Engine Card as a link */}
-            <div className="hidden md:block">
+            <div className="md:block sm:block">
               <Link legacyBehavior href="#">
                 <a
                   onMouseEnter={() => setCardHovered(true)}
                   onMouseLeave={() => setCardHovered(false)}
                   className="block group"
                 >
-                  <Card className="aspect-[3/1] relative overflow-hidden shadow-md hover:shadow-xl transition-shadow">
+                  <Card className="lg:aspect-[3/1] sm:aspect-[4/3] md:aspect-[4/3] relative overflow-hidden shadow-md hover:shadow-xl transition-shadow">
                     {/* Card Background: Engine Wave scene */}
                     <div className="absolute inset-0">
                       <EngineWaveScene
@@ -282,7 +282,7 @@ export default function Hero() {
                         <div className="bg-white opacity-75 rounded-full p-6">
                           <Layers className="w-10 h-10 text-[rgb(111,127,242)] transition-colors duration-300 group-hover:text-[rgb(173,216,230)]" />
                         </div>
-                        <h3 className="mt-4 text-lg font">Meet the Engine</h3>
+                        <h3 className="mt-4 text-lg font">Meet our Engine</h3>
                       </div>
                     </CardContent>
                   </Card>

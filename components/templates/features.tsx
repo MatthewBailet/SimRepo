@@ -1,72 +1,64 @@
-"use client"
+"use client";
 
-import React, { useRef } from "react"
-import { useInView } from "react-intersection-observer"
-import CountUp from "react-countup"
-import { Canvas, useFrame } from "@react-three/fiber"
-import * as THREE from "three"
-import { Badge } from "../molecules/shadcn/badge"
-import { Check } from "lucide-react"
-import "./features.css"
+import React from "react";
+import Card from "@/components/Ui Components/Card"; // Adjust path as needed
+import SectionTitle from "@/components/Ui Components/SectionTitle"; // Adjust path as needed
+import "./features.css";
 
-
-// --------------------
-// Features Section Component
-// --------------------
 export default function Features() {
+  // Updated card data
+  const cardsData = [
+    {
+      title: "Predictive Analysis & Forecasting",
+      description:
+        "Gain data-driven insights with AI-powered predictive analysis and forecasting. Identify trends, anticipate outcomes, and make smarter business decisions with confidence.",
+      learnMoreText: "Learn about Prediction & Forecasting",
+      linkHref: "#",
+      imageSection: null,
+    },
+    {
+      title: "Market Forecasting",
+      description:
+        "Stay ahead of the competition with AI-driven market forecasting. Analyze trends, predict demand, and make informed business decisions with data-backed insights.",
+      learnMoreText: "Learn about Market Forecasting",
+      linkHref: "#",
+      imageSection: null,
+    },
+    {
+      title: "Risk Reduction",
+      description:
+        "Minimize uncertainty with AI-powered risk reduction. Identify potential threats, test scenarios, and make data-driven decisions to safeguard your business.",
+      learnMoreText: "Learn about Risk Management",
+      linkHref: "#",
+      imageSection: null,
+    },
+    {
+      title: "Optimization",
+      description:
+        "Maximize efficiency with AI-driven optimization. Fine-tune parameters, streamline processes, and achieve peak performance with data-backed insights.",
+      learnMoreText: "Learn about Operational Efficiency",
+      linkHref: "#",
+      imageSection: null,
+    },
+  ];
+
   return (
-    <section className="relative py-16 md:py-24 lg:py-32 bg-white text-black overflow-hidden">
-      {/* Understated Wave Background */}
-      <div className="absolute inset-0 -z-10 opacity-20">
-       
-      </div>
-      <div className="container mx-auto px-4 md:px-6 lg:px-8">
-        <div className="grid gap-8 lg:grid-cols-2 items-center">
-          {/* Left Column: 2x2 Animated Counter Grid */}
-         
-          {/* Right Column: Existing Feature Content */}
-          <div className="space-y-6">
-            <Badge variant="default" className="px-3 py-1 text-sm">
-              New Features
-            </Badge>
-            <h2 className="text-3xl font tracking-tight sm:text-4xl md:text-5xl">
-              Elevate your business with our cutting-edge features
-            </h2>
-            <p className="text-muted-foreground">
-              Our platform offers a suite of powerful features to help you streamline your workflows and drive your business forward.
-            </p>
-            <ul className="space-y-4">
-              <li className="flex items-center space-x-2">
-                <Check className="h-6 w-6 text-black" />
-                <div>
-                  <h3 className="text-lg font">Advanced Analytics</h3>
-                  <p className="text-muted-foreground">
-                    Gain deeper insights into your data with our robust analytics tools.
-                  </p>
-                </div>
-              </li>
-              <li className="flex items-center space-x-2">
-                <Check className="h-6 w-6 text-black" />
-                <div>
-                  <h3 className="text-lg font">Seamless Collaboration</h3>
-                  <p className="text-muted-foreground">
-                    Empower your team to work together more efficiently with our collaboration features.
-                  </p>
-                </div>
-              </li>
-              <li className="flex items-center space-x-2">
-                <Check className="h-6 w-6 text-black" />
-                <div>
-                  <h3 className="text-lg font">Scalable Infrastructure</h3>
-                  <p className="text-muted-foreground">
-                    Easily scale your application with our reliable and high-performance infrastructure.
-                  </p>
-                </div>
-              </li>
-            </ul>
-          </div>
+    <section className="relative pb-40 md:pb-44 md:pt-10 bg-white text-bold overflow-hidden">
+      <div className="container lg:px-20 md:px-6 lg:px-8 pt-10">
+        {/* Section Title Component */}
+        <SectionTitle
+          title="Smarter Decisions, Better Outcomes"
+          subtitle="Unlock the power of AI-driven simulations"
+          description="Leverage predictive analytics and market forecasting for confident, data-driven decisions. Optimize processes, cut costs, and fine-tune strategies without costly experimentation—keeping your business ahead."
+        />
+
+        {/* 2×2 Card Layout */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-32 px-10">
+          {cardsData.map((card, index) => (
+            <Card key={index} {...card} />
+          ))}
         </div>
       </div>
     </section>
-  )
+  );
 }

@@ -1,0 +1,31 @@
+"use client";
+
+import React from "react";
+
+interface SectionTitleProps {
+  title: string;
+  subtitle: string;
+  description: string;
+}
+
+const SectionTitle: React.FC<SectionTitleProps> = ({
+  title,
+  subtitle,
+  description,
+}) => {
+  return (
+    <div className="space-y-7 max-w-3xl lg:px-10 md:px-5">
+      <h2 className="text-md font-semibold tracking-tight text-2s md:text-md">
+        {title}
+      </h2>
+      <h3 className="text-4xl font-semibold text-black leading-[1.2]">
+        {subtitle}
+      </h3>
+      <p className="text-gray-600 text-md leading-relaxed">
+        {description}
+      </p>
+    </div>
+  );
+};
+
+export default SectionTitle;
