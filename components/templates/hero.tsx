@@ -155,7 +155,7 @@ function BackgroundWaveScene() {
   return (
     <Canvas style={{ width: "100%", height: "100%", background: "white" }}>
       <ambientLight intensity={0.3} />
-      <group rotation={[-Math.PI / 0.43, 0.1, 0.1]}>
+      <group rotation={[-Math.PI / 2.3, 0.1, 0.1]}>
         <BackgroundWavePoints />
       </group>
     </Canvas>
