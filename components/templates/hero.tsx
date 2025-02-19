@@ -75,18 +75,21 @@ const backgroundFragmentShader = `
   }
 `;
 
+// --------------------
+// BackgroundWavePoints with Fade-in Transition
+// --------------------
 function BackgroundWavePoints() {
   const matRef = useRef<THREE.ShaderMaterial | null>(null);
+  // Use a local start time to drive the fade
+  const startTimeRef = useRef(Date.now());
 
-  useFrame((state) => {
+  useFrame(() => {
     if (matRef.current) {
-      const elapsed = state.clock.getElapsedTime();
-      matRef.current.uniforms.uTime.value = elapsed;
-      let fade = 0;
-      if (elapsed > 0.1) {
-        fade = Math.min((elapsed - 0) / 1, 1);
-      }
+      const elapsed = (Date.now() - startTimeRef.current) / 1000; // seconds elapsed since mount
+      const fade = Math.min(elapsed / 1, 1); // fade in over 1 second
       matRef.current.uniforms.uFade.value = fade;
+      // Optionally update uTime as well
+      matRef.current.uniforms.uTime.value = elapsed;
     }
   });
 
@@ -95,8 +98,8 @@ function BackgroundWavePoints() {
     vertexShader,
     fragmentShader: backgroundFragmentShader,
     uniforms: {
-      uTime: { value: 0.2 },
-      uFade: { value: 0.0 },
+      uTime: { value: 0 },
+      uFade: { value: 0 },
     },
     transparent: true,
   });
@@ -120,7 +123,7 @@ function BackgroundWaveScene() {
 }
 
 // --------------------
-// Hero Section with Lazy Wave Rendering
+// Hero Section with Lazy and Fading Wave Rendering
 // --------------------
 export default function Hero() {
   const heroRef = useRef<HTMLElement>(null);
