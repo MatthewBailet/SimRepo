@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { Card, CardContent } from "@/components/molecules/shadcn/card";
 import { ArrowRight, Layers } from "lucide-react";
@@ -42,7 +42,7 @@ const vertexShader = `
 `;
 
 // --------------------
-// Engine Fragment Shader
+// Fragment Shader for Engine Wave Scene
 // --------------------
 const engineFragmentShader = `
   uniform float uTime;
@@ -80,9 +80,7 @@ const engineFragmentShader = `
   }
 `;
 
-// --------------------
-// EngineWavePoints Component
-// --------------------
+// EngineWavePoints component (same as before)
 function EngineWavePoints({
   hovered,
   defaultHighlightColor,
@@ -92,7 +90,7 @@ function EngineWavePoints({
   defaultHighlightColor: THREE.Color;
   hoverHighlightColor: THREE.Color;
 }) {
-  const matRef = useRef<THREE.ShaderMaterial | null>(null);
+  const matRef = React.useRef<THREE.ShaderMaterial | null>(null);
 
   useFrame((state) => {
     if (matRef.current) {
@@ -103,7 +101,6 @@ function EngineWavePoints({
         fade = Math.min((elapsed - 0) / 1, 1);
       }
       matRef.current.uniforms.uFade.value = fade;
-      // Smoothly interpolate the highlight color based on hover state
       matRef.current.uniforms.uHighlightColor.value.lerp(
         hovered ? hoverHighlightColor : defaultHighlightColor,
         0.05
@@ -130,9 +127,7 @@ function EngineWavePoints({
   );
 }
 
-// --------------------
-// EngineWaveScene Component with Gradient Background
-// --------------------
+// EngineWaveScene component
 interface EngineWaveSceneProps {
   hovered?: boolean;
   rotation?: [number, number, number];
@@ -142,16 +137,17 @@ interface EngineWaveSceneProps {
 
 function EngineWaveScene({
   hovered = false,
-  rotation = [-Math.PI / 3, 0.2, 0.2] as [number, number, number],
+  rotation = [-Math.PI / 3, 0.2, 0.2],
   defaultHighlightColor = new THREE.Color("rgb(255,255,255)"),
-  hoverHighlightColor = new THREE.Color("rgb(59,206,255)")
+  hoverHighlightColor = new THREE.Color("rgb(59,206,255)"),
 }: EngineWaveSceneProps) {
   return (
     <Canvas
       style={{
         width: "100%",
         height: "100%",
-        background: "linear-gradient(165deg, rgb(156,168,255), rgb(159,231,255))",
+        background:
+          "linear-gradient(165deg, rgb(156,168,255), rgb(159,231,255))",
       }}
     >
       <ambientLight intensity={0.3} />
@@ -166,10 +162,12 @@ function EngineWaveScene({
   );
 }
 
-// --------------------
-// EngineCard Component
-// --------------------
-const EngineCard: React.FC = () => {
+// EngineCard Component accepts renderWave prop
+type EngineCardProps = {
+  renderWave?: boolean;
+};
+
+const EngineCard: React.FC<EngineCardProps> = ({ renderWave = true }) => {
   const [cardHovered, setCardHovered] = useState(false);
 
   return (
@@ -179,16 +177,18 @@ const EngineCard: React.FC = () => {
         onMouseLeave={() => setCardHovered(false)}
         className="block group"
       >
-        <Card className="lg:aspect-[3/1] aspect-[4/3] py-0 sm:py-8 relative overflow-hidden -md hover:shadow-xl transition-shadow  transition-transform duration-300 group-hover:scale-105">
-          {/* Card Background: Engine Wave Scene with Gradient */}
-          <div className="absolute inset-0">
-            <EngineWaveScene
-              hovered={cardHovered}
-              rotation={[-Math.PI / 2.0, 2.9, 0.1]}
-              defaultHighlightColor={new THREE.Color("rgb(255,255,255))")}
-              hoverHighlightColor={new THREE.Color("rgb(59,206,255)")}
-            />
-          </div>
+        <Card className="lg:aspect-[3/1] aspect-[4/3] py-0 sm:py-8 relative overflow-hidden hover:shadow-xl transition-shadow">
+          {/* Card Background: Only render wave if renderWave is true */}
+          {renderWave && (
+            <div className="absolute inset-0">
+              <EngineWaveScene
+                hovered={cardHovered}
+                rotation={[-Math.PI / 2.0, 2.9, 0.1]}
+                defaultHighlightColor={new THREE.Color("rgb(255,255,255)")}
+                hoverHighlightColor={new THREE.Color("rgb(59,206,255)")}
+              />
+            </div>
+          )}
           {/* Top Right Arrow */}
           <div className="absolute top-4 right-4">
             <div className="bg-white opacity-50 rounded-full p-2 transition-transform duration-300 group-hover:scale-110">

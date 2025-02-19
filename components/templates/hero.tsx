@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { Button } from "@/components/molecules/shadcn/button";
@@ -36,7 +36,7 @@ const vertexShader = `
     newPosition.z += displacement * uFade;
 
     gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition, 1.0);
-    gl_PointSize = .4;
+    gl_PointSize = 0.4;
   }
 `;
 
@@ -60,7 +60,7 @@ const backgroundFragmentShader = `
     float gridPattern = max(gridX, gridY);
     baseColor -= gridPattern * 0.0;
 
-    if (vRand < .99) {
+    if (vRand < 0.99) {
       float pulse = abs(sin(uTime * 1.0 + vRand * 10.0));
       float mixFactor = smoothstep(0.02, 0.2, pulse);
       baseColor = mix(baseColor, vec3(0.6, 0.8, 1.0), mixFactor);
@@ -120,15 +120,44 @@ function BackgroundWaveScene() {
 }
 
 // --------------------
-// Hero Section
+// Hero Section with Lazy Wave Rendering
 // --------------------
 export default function Hero() {
+  const heroRef = useRef<HTMLElement>(null);
+  const [isHeroInView, setIsHeroInView] = useState(true);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          setIsHeroInView(entry.isIntersecting);
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    if (heroRef.current) {
+      observer.observe(heroRef.current);
+    }
+
+    return () => {
+      if (heroRef.current) {
+        observer.unobserve(heroRef.current);
+      }
+    };
+  }, []);
+
   return (
-    <section className="relative flex min-h-screen items-center justify-center overflow-hidden ">
-      {/* Global 3D Wave Background */}
-      <div className="absolute inset-0 -z-10 py-3">
-        <BackgroundWaveScene />
-      </div>
+    <section
+      ref={heroRef}
+      className="relative flex min-h-screen items-center justify-center overflow-hidden"
+    >
+      {/* Global 3D Wave Background: only render if hero is in view */}
+      {isHeroInView && (
+        <div className="absolute inset-0 -z-10 py-3">
+          <BackgroundWaveScene />
+        </div>
+      )}
 
       <div className="lg:mt-64 mt-8 sm:mt-20 md:mt-5">
         <div className="container mx-auto px-4 md:px-6 lg:px-6">
@@ -148,7 +177,8 @@ export default function Hero() {
             </div>
             {/* Right Column: Engine Card */}
             <div className="md:block sm:block mt-10 lg:mt-1">
-              <EngineCard />
+              {/* Pass the flag to EngineCard so it too can disable its wave scene */}
+              <EngineCard renderWave={isHeroInView} />
             </div>
           </div>
         </div>
