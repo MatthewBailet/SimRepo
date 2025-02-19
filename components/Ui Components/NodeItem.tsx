@@ -18,11 +18,11 @@ export default function NodeItem({ icon, label }: NodeItemProps) {
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger>
-          <div className="rounded-lg border border-gray-200 bg-white w-16 h-16 flex items-center justify-center hover:scale-105 transition-transform duration-300 shadow-sm">
+          <div className="rounded-sm border border-gray-200 bg-white w-16 h-16 flex items-center justify-center hover:scale-125 transition-transform duration-300 shadow-sm">
             {icon}
           </div>
         </TooltipTrigger>
-        <TooltipContent>
+        <TooltipContent className="text-white bg-slate-800">
           <p>{label}</p>
         </TooltipContent>
       </Tooltip>

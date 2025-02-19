@@ -177,7 +177,7 @@ const EngineCard: React.FC<EngineCardProps> = ({ renderWave = true }) => {
         onMouseLeave={() => setCardHovered(false)}
         className="block group"
       >
-        <Card className="lg:aspect-[3/1] aspect-[4/3] py-0 sm:py-8 relative overflow-hidden hover:shadow-xl transition-shadow">
+        <Card className="lg:aspect-[3/1] aspect-[4/3] py-0 sm:py-8 relative overflow-hidden hover:shadow-xl transition-shadow  transition-transform duration-300 group-hover:scale-[105%]">
           {/* Card Background: Only render wave if renderWave is true */}
           {renderWave && (
             <div className="absolute inset-0">
