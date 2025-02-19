@@ -46,14 +46,14 @@ export default function Features() {
 
   return (
     <section className="relative bg-white text-bold overflow-hidden  ">
-      <div className="container lg:px-20 md:px-6 lg:px-12 pt-20">
+      <div className="container lg:px-20 md:px-6 lg:px-12 pt-20 mt-10">
         {/* Top Section: Title + Interactive Animation */}
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
           {/* Left: Section Title */}
           <div className="flex-1">
             <SectionTitle
               title="Smarter Decisions, Better Outcomes"
-              subtitle="Unlock the power of AI-driven simulations"
+              subtitle="The AI-Powered Solution for Smarter Predictions & Risk-Free Decisions"
               description="Leverage predictive analytics and market forecasting for confident, data-driven decisions. Optimize processes, cut costs, and fine-tune strategies without costly experimentation—keeping your business ahead."
             />
           </div>
