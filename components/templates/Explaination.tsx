@@ -84,7 +84,7 @@ export default function Explaination() {
           <div className="flex-1">
             <SectionTitle2
               title="Built for Precision"
-              subtitle="Reliable AI-driven processing, from data to decision"
+              subtitle="Reliable AI-Driven Processing, From Data to Decision"
               description="Our AI-powered platform transforms complex data into actionable insights through automated parsing, pattern recognition, and predictive modeling—empowering confident decision-making."
             />
           </div>
@@ -95,7 +95,7 @@ export default function Explaination() {
         </div>
 
         {/* Card List Section (the four cards in a row) */}
-        <div className="mt-20">
+        <div className="mt-40">
           <CardList items={cardItems} />
         </div>
       </div>

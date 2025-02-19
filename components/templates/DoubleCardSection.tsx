@@ -59,7 +59,7 @@ export default function DoubleCardSection() {
                 <h2 className="text-xl font-semibold text-[#0a2540] mt-12">
                   Consultation
                 </h2>
-                <p className="mt-4 text-md text-gray-600 w-96">
+                <p className="mt-4 text-sm text-gray-600 w-96">
                   Form your new business from anywhere. Atlas sets up your US
                   legal entity and tax ID, issues stock, and offers special
                   benefits to kickstart growth.
@@ -91,7 +91,7 @@ export default function DoubleCardSection() {
                 <h2 className="text-xl font-semibold text-white mt-12">
                   API
                 </h2>
-                <p className="mt-4 text-md text-gray-300 w-80 pr-6">
+                <p className="mt-4 text-sm text-gray-300 w-80 pr-6">
                   Integrate with our flexible API to manage business operations,
                   launch new revenue models, and stay ahead in a rapidly changing
                   market.
@@ -128,7 +128,7 @@ export default function DoubleCardSection() {
                 <h2 className="text-xl font-semibold text-gray-100 mt-12">
                   Platform
                 </h2>
-                <p className="mt-4 text-md text-gray-300 w-96">
+                <p className="mt-4 text-sm text-gray-100 w-96">
                   Form your new business from anywhere. Atlas sets up your US
                   legal entity and tax ID, issues stock, and offers special
                   benefits to kickstart growth.

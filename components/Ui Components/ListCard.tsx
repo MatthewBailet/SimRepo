@@ -29,7 +29,7 @@ export default function ListCard({
         {/* Title */}
         
       </div>
-      <h3 className="text-2sm font-medium text-[#0a2540]">{title}</h3>
+      <h3 className="text-sm font-medium text-[#0a2540]">{title}</h3>
 
       {/* Description */}
       <p className="text-xs text-gray-600 mt-3 leading-relaxed">{description}</p>
