@@ -85,14 +85,14 @@ export default function Features() {
               </div>
             )}
       
-      <div className="container relative z-10  lg:px-20 md:px-6 lg:px-12 pt-20 lg:mt-20 mt-5">
+      <div className="container relative z-10  lg:px-20 md:px-6 pt-20 lg:mt-20 mt-5">
         {/* Top Section: Title + Interactive Animation */}
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between">
           {/* Left: Section Title */}
           <div className="flex-1 mb-20">
             <SectionTitle
               title="Smarter Decisions, Better Outcomes"
-              subtitle="The AI-Powered Solution for Smarter Predictions & Risk-Free Decisions"
+              subtitle="AI-Powered Solutions for Better Predictions and Risk-Free Decisions"
               description="Leverage predictive analytics and market forecasting for confident, data-driven decisions. Optimize processes, cut costs, and fine-tune strategies without costly experimentation—keeping your business ahead."
             />
           </div>
@@ -104,7 +104,7 @@ export default function Features() {
         </div>
 
         {/* 2×2 Card Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-24 px-3 lg:px-20 py-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-0 lg:mt-24 px-3 lg:px-12 py-5">
           {cardsData.map((card, index) => (
             <Card key={index} {...card} />
           ))}

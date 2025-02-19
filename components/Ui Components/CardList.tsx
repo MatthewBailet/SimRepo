@@ -1,34 +1,22 @@
 "use client";
 
 import React from "react";
-import ListCard from "./ListCard";
+import ListCard, { ListCardProps } from "./ListCard";
 
-type CardItem = {
-  icon: React.ReactNode;
-  title: string;
-  description: string;
-  colorClass?: string;
-};
+export type CardItem = ListCardProps;
 
 type CardListProps = {
   items: CardItem[];
 };
 
 /**
- * Displays a row of ListCards with a small colored divider between them.
+ * Displays a grid of ListCards. On small screens, it displays two columns.
  */
 export default function CardList({ items }: CardListProps) {
   return (
-    <div className="flex items-start justify-start divide-x divide-gray-200 px-12">
-      {items.map((item, idx) => (
-        <div key={idx} className="px-8">
-          <ListCard
-            icon={item.icon}
-            title={item.title}
-            description={item.description}
-
-          />
-        </div>
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:px-20 px-0">
+      {items.map((item, index) => (
+        <ListCard key={index} {...item} />
       ))}
     </div>
   );

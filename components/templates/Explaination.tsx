@@ -36,28 +36,28 @@ export default function Explaination() {
   // Sample data for the four cards
   const cardItems = [
     {
-      icon: <Book size={32} />,
+      icon: <Book size={24} />,
       title: "Launch in weeks",
       description:
         "Use hosted or embedded functionality for rapid setup, so you can focus on building your product—not on payment complexities.",
       colorClass: "bg-blue-500",
     },
     {
-      icon: <BarChart2 size={32} />,
+      icon: <BarChart2 size={24} />,
       title: "Manage payments at scale",
       description:
         "Leverage robust tooling, advanced analytics, and global payment methods to streamline operations and scale seamlessly.",
       colorClass: "bg-green-500",
     },
     {
-      icon: <Globe size={32} />,
+      icon: <Globe size={24} />,
       title: "Grow globally",
       description:
         "Reach new markets worldwide with local payment methods and the ability to easily onboard new customers.",
       colorClass: "bg-purple-500",
     },
     {
-      icon: <DollarSign size={32} />,
+      icon: <DollarSign size={24} />,
       title: "Build new lines of revenue",
       description:
         "Monetize more effectively by collecting fees on each transaction. Expand with financing, expense cards, and more.",

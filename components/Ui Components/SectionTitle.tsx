@@ -14,7 +14,7 @@ const SectionTitle: React.FC<SectionTitleProps> = ({
   description,
 }) => {
   return (
-    <div className="space-y-7 px-3 lg:px-20 md:px-5 text-[rgb(111,127,242)]">
+    <div className="space-y-7 px-3 lg:px-12 md:px-5 text-[rgb(111,127,242)]">
       <h2 className="text-md font-semibold tracking-tight text-2s md:text-md">
         {title}
       </h2>

@@ -125,7 +125,7 @@ export default function DoubleCardSection() {
             </div>
             <div className="relative z-10">
               <div className="transform -translate-y-4 transition-transform duration-300 group-hover:scale-[103%]">
-                <h2 className="text-xl font-semibold text-gray-100 mt-12">
+                <h2 className="text-xl font-semibold text-gray-50 mt-12">
                   Platform
                 </h2>
                 <p className="mt-4 text-sm text-gray-100 w-96">
