@@ -11,7 +11,7 @@ import { Button } from "../molecules/shadcn/button";
 export default function Explaination() {
   return (
     <section className="relative  bg-white text-bold overflow-hidden ">
-      <div className="container md:px-6 lg:px-3 pt-8">
+      <div className="container md:px-6 lg:px-3 pt-8 pb-20">
         {/* Top Section: Title + Interactive Animation */}
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8 ">
           {/* Left: Section Title */}

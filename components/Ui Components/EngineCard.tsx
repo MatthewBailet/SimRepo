@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { Card, CardContent } from "@/components/molecules/shadcn/card";
-import { ArrowRight, Layers } from "lucide-react";
+import { ArrowRight, Layers, Plane } from "lucide-react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
@@ -200,9 +200,9 @@ const EngineCard: React.FC<EngineCardProps> = ({ renderWave = true }) => {
             <div className="transform -translate-y-4 flex flex-col items-center transition-transform duration-300 group-hover:scale-110">
               {/* Icon Circle */}
               <div className="bg-white opacity-[.8] rounded-full p-6">
-                <Layers className="w-10 h-10 text-[rgb(111,127,242)] transition-colors duration-300 group-hover:text-[rgb(177,235,255)]" />
+                <Plane className="w-10 h-10 text-[rgb(111,127,242)] transition-colors duration-300 group-hover:text-[rgb(177,235,255)]" />
               </div>
-              <h3 className="mt-4 text-sm text-white font">Learn about Engine2.0</h3>
+              <h3 className="mt-4 text-sm text-white font-medium">Join our Pilot Program</h3>
             </div>
           </CardContent>
         </Card>

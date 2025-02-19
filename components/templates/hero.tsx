@@ -159,14 +159,14 @@ export default function Hero() {
       )}
 
       <div className="lg:mt-64 mt-8 sm:mt-20 md:mt-5">
-        <div className="container mx-auto px-4 md:px-6 lg:px-6">
-          <div className="grid gap-8 md:grid-cols-1">
+        <div className="container mx-auto px-4 md:px-6 lg:px-12">
+          <div className="grid gap-8 md:grid-cols-1 px-12">
             {/* Left Column: Text & CTA */}
-            <div className="space-y-6 mb-0 lg:mb-20">
-              <h1 className="text-4xl mt-20 lg:mt-0 text-center font tracking-tight md:text-7xl lg:text-5xl">
+            <div className="space-y-6 mb-0 lg:mb-20 ">
+              <h1 className="lg:text-5xl text-5xl mt-20 lg:mt-0 text-left lg:text-center font-medium lg:font-medium tracking-tight md:text-7xl lg:text-5xl">
                 Powering Better Decisions with AI Based Simulations
               </h1>
-              <p className="text-m text-center text-gray-600 dark:text-gray-400">
+              <p className="text-m lg:text-center text-gray-600 dark:text-gray-400 sm:text-left">
                 Providing fine-tuned AI models paired with realtime industry data to produce accurate, intelligent business forecasting.
               </p>
               <div className="flex items-center justify-center space-x-4">
