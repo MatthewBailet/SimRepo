@@ -80,7 +80,7 @@ export default function Features() {
     ref={sectionRef} className="relative bg-white text-bold overflow-hidden">
        {/* Background Wave (only render when in view) */}
             {isSectionInView && (
-              <div className="absolute inset-0 -z-8">
+              <div className="absolute inset-0 -z-8 -mt-96 lg:mt-0">
                 <ColoredBackgroundWaveScene2 color="rgb(255,22,112)" />
               </div>
             )}
