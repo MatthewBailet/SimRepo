@@ -83,11 +83,15 @@ export default function DoubleCardSection() {
           </div>
           {/* Card #3 (bottom row, full width) */}
           <div className="relative group col-span-1 md:col-span-2 rounded-lg border border-gray-200 bg-gradient-to-r from-[rgb(84,104,255)] to-[rgb(233,216,255)] py-12 px-12 transform hover:scale-105 transition-transform duration-300 shadow-sm">
-            {showWave && (
+          {showWave && (
               <div className="absolute inset-0">
-                {/* Optional wave background for card #3 */}
+                <BlueWaveScene
+                  rotation={[-Math.PI / 3, .1, 4.2]}
+                  enabled={showWave}
+                />
               </div>
             )}
+  
             {/* Top Right Arrow */}
             <div className="absolute top-4 right-4">
               <div className="bg-white opacity-50 rounded-full p-2 transition-transform duration-300 group-hover:scale-[103%]">
