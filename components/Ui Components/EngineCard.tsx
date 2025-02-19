@@ -230,6 +230,7 @@ const EngineCard: React.FC<EngineCardProps> = ({ renderWave = true }) => {
               <h3 className="mt-4 text-sm text-white font-medium">
                 Join our Pilot Program
               </h3>
+              <h4 className="mt-1 text-xs text-white font-medium">March 2025</h4>
             </div>
           </CardContent>
         </Card>
