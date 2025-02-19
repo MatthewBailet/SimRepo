@@ -85,7 +85,7 @@ function BackgroundWavePoints() {
     uniforms: {
       uTime: { value: 0 },
       uFade: { value: 0 },
-      uTargetColor: { value: new THREE.Color("rgb(255,22,112)") },
+      uTargetColor: { value: new THREE.Color("rgb(97,237,127)") },
     },
     transparent: true,
   });
@@ -98,7 +98,7 @@ function BackgroundWavePoints() {
 }
 
 export default function ColoredBackgroundWaveScene({
-  color = "rgb(255,22,112)",
+  color = "rgb(97,237,127)",
 }: ColoredBackgroundWaveSceneProps) {
   // Update target color based on prop.
   const targetColor = new THREE.Color(color);
@@ -106,7 +106,7 @@ export default function ColoredBackgroundWaveScene({
   return (
     <Canvas style={{ width: "100%", height: "100%" }}>
       <ambientLight intensity={0.3} />
-      <group rotation={[-Math.PI / 2, .4, 0]}> 
+      <group rotation={[-Math.PI / 2, .2, 0]}> 
         {/* Use a simpler rotation for testing */}
         <BackgroundWavePoints />
       </group>

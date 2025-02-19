@@ -40,7 +40,7 @@ export default function Explaination() {
       {/* Background Wave (only render when in view) */}
       {isSectionInView && (
         <div className="absolute inset-0 -z-8">
-          <ColoredBackgroundWaveScene color="rgb(255,22,112)" />
+          <ColoredBackgroundWaveScene color="rgb(97,237,127)" />
         </div>
       )}
       {/* Content container with higher z-index */}
