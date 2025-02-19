@@ -10,8 +10,8 @@ export default function DoubleCardSection() {
   const [showWave] = useState(true);
 
   return (
-    <section className="relative pb-10 md:pb-24 bg-white text-bold overflow-hidden">
-      <div className="container lg:px-20 px-3 md:px-8 pt-8 lg:pt-28">
+    <section className="relative pb-10 pt-10 md:pb-24 bg-white text-bold overflow-hidden">
+      <div className="container lg:px-20 px-3 md:px-8 pt-3 lg:pt-4">
         {/* Grid: Top row (65%/35%) and bottom row (full width) */}
         <div className="grid grid-cols-1 md:grid-cols-[65%_35%] grid-rows-[auto_auto] gap-5 px-3 pr-5">
           {/* Card #1 (top-left, 65%) */}
@@ -82,7 +82,7 @@ export default function DoubleCardSection() {
             </div>
           </div>
           {/* Card #3 (bottom row, full width) */}
-          <div className="relative group col-span-1 md:col-span-2 rounded-lg border border-gray-200 bg-gradient-to-r from-[rgb(56,74,213)] to-[rgb(233,216, 255)] py-12 px-12 transform hover:scale-105 transition-transform duration-300 shadow-sm">
+          <div className="relative group col-span-1 md:col-span-2 rounded-lg border border-gray-200 bg-gradient-to-r from-[rgb(84,104,255)] to-[rgb(233,216,255)] py-12 px-12 transform hover:scale-105 transition-transform duration-300 shadow-sm">
             {showWave && (
               <div className="absolute inset-0">
                 {/* Optional wave background for card #3 */}

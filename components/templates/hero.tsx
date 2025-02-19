@@ -124,9 +124,9 @@ function BackgroundWaveScene() {
 // --------------------
 export default function Hero() {
   return (
-    <section className="relative flex min-h-screen items-center justify-center overflow-hidden">
+    <section className="relative flex min-h-screen items-center justify-center overflow-hidden ">
       {/* Global 3D Wave Background */}
-      <div className="absolute inset-0 -z-10">
+      <div className="absolute inset-0 -z-10 py-3">
         <BackgroundWaveScene />
       </div>
 

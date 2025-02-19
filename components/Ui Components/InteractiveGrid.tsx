@@ -67,7 +67,7 @@ export default function InteractiveGrid() {
 
         
       </div>
-      <CurvedConnector />
+
     </div>
   );
 }

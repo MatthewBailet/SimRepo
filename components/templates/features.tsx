@@ -45,10 +45,10 @@ export default function Features() {
   ];
 
   return (
-    <section className="relative pb-20 md:pb-12 bg-white text-bold overflow-hidden">
-      <div className="container lg:px-20 md:px-6 lg:px-3 pt-28">
+    <section className="relative bg-white text-bold overflow-hidden  ">
+      <div className="container lg:px-20 md:px-6 lg:px-3 pt-20">
         {/* Top Section: Title + Interactive Animation */}
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between  gap-8">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
           {/* Left: Section Title */}
           <div className="flex-1">
             <SectionTitle
@@ -61,7 +61,7 @@ export default function Features() {
         </div>
 
         {/* 2×2 Card Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-20 px-3 lg:px-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-20 px-3 lg:px-20 py-5">
           {cardsData.map((card, index) => (
             <Card key={index} {...card} />
           ))}
