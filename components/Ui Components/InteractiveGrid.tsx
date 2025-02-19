@@ -21,8 +21,8 @@ export default function InteractiveGrid() {
 
       <div className="grid grid-cols-5 grid-rows-5 gap-5 lg:gap-4 w-full h-full px-0 sm:px-2 lg:px-12">
         {/* Node #1: Book (row1, col1) */}
-        <div className="col-start-1 row-start-1 flex items-center justify-center ">
-          <NodeItem icon={<Book size={24} className="text-gray-400" />} label="Databook" />
+        <div className="col-start-1 row-start-1 flex items-center justify-center">
+          <NodeItem icon={<Book size={24} className="text-gray-400 " />} label="Databook" />
         </div>
 
         {/* Node #2: Book (row1, col2) */}
