@@ -1,13 +1,44 @@
 "use client";
 
-import React from "react";
+import React, { useRef, useState, useEffect } from "react";
+
 import { BarChart2, Scan, Umbrella, Wallet } from "lucide-react";
 import Card from "@/components/Ui Components/Card"; // Adjust path as needed
 import SectionTitle from "@/components/Ui Components/SectionTitle"; // Adjust path as needed
 import InteractiveGrid from "@/components/Ui Components/InteractiveGrid"; // new component
+import { AspectRatio } from "@/components/molecules/shadcn/aspect-ratio"; // ShadCN's AspectRatio component
 import "./features.css";
 
+import ColoredBackgroundWaveScene2 from "@/components/Ui Components/ColoredBackgroundWaveScene2"; // Adjust path as needed
+
+
 export default function Features() {
+
+  const sectionRef = useRef<HTMLElement>(null);
+    const [isSectionInView, setIsSectionInView] = useState(true);
+  
+    useEffect(() => {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            setIsSectionInView(entry.isIntersecting);
+          });
+        },
+        { threshold: 0.1 }
+      );
+  
+      if (sectionRef.current) {
+        observer.observe(sectionRef.current);
+      }
+  
+      return () => {
+        if (sectionRef.current) {
+          observer.unobserve(sectionRef.current);
+        }
+      };
+    }, []);
+  
+
   // Updated card data with Lucide icons
   const cardsData = [
     {
@@ -45,12 +76,20 @@ export default function Features() {
   ];
 
   return (
-    <section className="relative bg-white text-bold overflow-hidden  ">
-      <div className="container lg:px-20 md:px-6 lg:px-12 pt-20 mt-10">
+    <section
+    ref={sectionRef} className="relative bg-white text-bold overflow-hidden">
+       {/* Background Wave (only render when in view) */}
+            {isSectionInView && (
+              <div className="absolute inset-0 -z-8">
+                <ColoredBackgroundWaveScene2 color="rgb(255,22,112)" />
+              </div>
+            )}
+      
+      <div className="container relative z-10  lg:px-20 md:px-6 lg:px-12 pt-20 lg:mt-20 mt-5">
         {/* Top Section: Title + Interactive Animation */}
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between">
           {/* Left: Section Title */}
-          <div className="flex-1">
+          <div className="flex-1 mb-20">
             <SectionTitle
               title="Smarter Decisions, Better Outcomes"
               subtitle="The AI-Powered Solution for Smarter Predictions & Risk-Free Decisions"
@@ -58,6 +97,10 @@ export default function Features() {
             />
           </div>
 
+          {/* Right: AspectRatio Placeholder */}
+          <div className="flex">
+           
+          </div>
         </div>
 
         {/* 2×2 Card Layout */}

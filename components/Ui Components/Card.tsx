@@ -18,7 +18,7 @@ const Card: React.FC<CardProps> = ({
   linkHref,
 }) => {
   return (
-    <div className="space-y-3">
+    <div className="space-y-3 ">
       {/* Icon */}
       <div>{icon}</div>
 
