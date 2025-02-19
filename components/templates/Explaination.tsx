@@ -6,33 +6,32 @@ import InteractiveGrid from "@/components/Ui Components/InteractiveGrid"; // Adj
 import CardList from "@/components/Ui Components/CardList"; // Adjust path as needed
 import ColoredBackgroundWaveScene from "@/components/Ui Components/ColoredBackgroundWaveScene"; // Adjust path as needed
 
-
-// Import any icons from lucide-react (adjust as needed)
 import { Book, BarChart2, Globe, DollarSign } from "lucide-react";
 
 export default function Explaination() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const [isSectionInView, setIsSectionInView] = useState(true);
 
-    const sectionRef = useRef<HTMLElement>(null);
-    const [isSectionInView, setIsSectionInView] = useState(true);
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          setIsSectionInView(entry.isIntersecting);
+        });
+      },
+      { threshold: 0.1 }
+    );
 
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
-              setIsSectionInView(entry.isIntersecting);
-            });
-          },
-          { threshold: 0.1 }
-        );
-        if (sectionRef.current) {
-          observer.observe(sectionRef.current);
-        }
-        return () => {
-          if (sectionRef.current) {
-            observer.unobserve(sectionRef.current);
-          }
-        };
-      }, []);
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
+  }, []);
 
   // Sample data for the four cards
   const cardItems = [
@@ -67,13 +66,17 @@ export default function Explaination() {
   ];
 
   return (
-    <section className="relative bg-white text-bold overflow-hidden">
-         {/* Background Wave (only render when in view) */}
+    <section
+      ref={sectionRef}
+      className="relative bg-white text-bold overflow-hidden"
+    >
+      {/* Background Wave (only render when in view) */}
       {isSectionInView && (
         <div className="absolute inset-0 -z-8">
           <ColoredBackgroundWaveScene color="rgb(255,22,112)" />
         </div>
       )}
+
       <div className="container relative z-10 md:px-6 lg:px-3 pt-8 pb-20">
         {/* Top Section: Title + Interactive Animation */}
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
@@ -82,7 +85,7 @@ export default function Explaination() {
             <SectionTitle2
               title="Built for Precision"
               subtitle="Reliable AI-driven processing, from data to decision"
-              description="Our platform ingests, structures, and analyzes complex data with AI-powered parsers, real-time automation, and advanced simulations. By handling the heavy lifting—data integration, pattern recognition, and predictive modeling—we deliver high-accuracy insights, empowering you to make strategic decisions with confidence."
+              description="Our AI-powered platform transforms complex data into actionable insights through automated parsing, pattern recognition, and predictive modeling—empowering confident decision-making."
             />
           </div>
           {/* Right: Interactive Grid */}
