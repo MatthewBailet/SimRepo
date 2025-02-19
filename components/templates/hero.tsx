@@ -151,32 +151,33 @@ export default function Hero() {
       ref={heroRef}
       className="relative flex min-h-screen items-center justify-center overflow-hidden"
     >
-      {/* Global 3D Wave Background: only render if hero is in view */}
+      {/* Only render the expensive 3D wave background if the hero is in view */}
       {isHeroInView && (
-        <div className="absolute inset-0 -z-10 -mt-40 py-0 lg:py-3">
+        <div className="absolute inset-0 -z-10 py-3">
           <BackgroundWaveScene />
         </div>
       )}
 
-      <div className="lg:mt-64 mt-8 sm:mt-20 md:mt-5 ">
-        <div className="container mx-auto px-6 ">
+      <div className="lg:mt-48 pt-32 mt-8 sm:mt-20 md:mt-5">
+        <div className="container mx-auto px-6">
           <div className="grid gap-8 md:grid-cols-1 lg:px-24">
             {/* Left Column: Text & CTA */}
-            <div className="space-y-6 mb-0 lg:mb-20 ">
-              <h1 className="lg:text-5xl text-4xl  font-semibold pl-4 pr-12 lg:pr-0 lg:pl-0 mt-40 lg:mt-0  text-left lg:text-center lg:font-medium lg:font-medium tracking-tight md:text-7xl lg:text-5xl">
+            <div className="space-y-4 mb-0 lg:mb-3">
+              <h1 className="lg:text-6xl text-4xl font-medium lg:text-center  mx-auto pl-4 pr-12 lg:pr-0 lg:pl-0 mt-40 lg:mt-0 text-left tracking-tight md:text-7xl lg:text-5xl w-95 lg:w-[80%]">
                 Powering Better Decisions with AI Based Simulations
               </h1>
-              <p className="text-m lg:text-center pl-4 text-gray-600 dark:text-gray-400 sm:text-left content-left">
+              <p className="text-m p-1  lg:text-center lg:justify-center  mx-auto text-gray-600 dark:text-gray-400 sm:text-left lg:w-[50%] w-[90]">
                 Providing fine-tuned AI models paired with realtime industry data to produce accurate, intelligent business forecasting.
               </p>
-              <div className="flex items-center pl-4 lg:pl-0 justify-left lg:justify-center lg:space-x-4 space-x-2">
+              <div className="flex items-center pl-4 lg:pl-1 justify-left lg:justify-center mx-auto lg:space-x-4 space-x-2">
                 <Button variant="default">Request Early Access</Button>
-                <Button className="sm:visible hidden" variant="secondary">Book a Consultation</Button>
+                <Button className="sm:visible hidden" variant="secondary">
+                  Book a Consultation
+                </Button>
               </div>
             </div>
             {/* Right Column: Engine Card */}
             <div className="md:block sm:block mt-3 lg:mt-1 pb-10">
-              {/* Pass the flag to EngineCard so it too can disable its wave scene */}
               <EngineCard renderWave={isHeroInView} />
             </div>
           </div>

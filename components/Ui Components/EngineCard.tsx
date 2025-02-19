@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useMemo, useRef } from "react";
 import Link from "next/link";
 import { Card, CardContent } from "@/components/molecules/shadcn/card";
-import { ArrowRight, Layers, Plane } from "lucide-react";
+import { ArrowRight, Plane } from "lucide-react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
@@ -80,7 +80,9 @@ const engineFragmentShader = `
   }
 `;
 
-// EngineWavePoints component (same as before)
+// --------------------
+// Optimized EngineWavePoints Component
+// --------------------
 function EngineWavePoints({
   hovered,
   defaultHighlightColor,
@@ -90,17 +92,38 @@ function EngineWavePoints({
   defaultHighlightColor: THREE.Color;
   hoverHighlightColor: THREE.Color;
 }) {
-  const matRef = React.useRef<THREE.ShaderMaterial | null>(null);
+  const matRef = useRef<THREE.ShaderMaterial | null>(null);
 
-  useFrame((state) => {
+  // Use a moderately subdivided plane for performance vs detail trade-off.
+  const geometry = useMemo(
+    () => new THREE.PlaneGeometry(18, 21, 300, 150),
+    []
+  );
+
+  // Memoize the shader material so it doesn't recreate on every render.
+  const material = useMemo(() => {
+    return new THREE.ShaderMaterial({
+      vertexShader,
+      fragmentShader: engineFragmentShader,
+      uniforms: {
+        uTime: { value: 0 },
+        uFade: { value: 0 },
+        // Clone the default color so we can lerp on it.
+        uHighlightColor: { value: defaultHighlightColor.clone() },
+      },
+      transparent: true,
+    });
+  }, [defaultHighlightColor]);
+
+  useFrame((state, delta) => {
     if (matRef.current) {
-      const elapsed = state.clock.getElapsedTime();
-      matRef.current.uniforms.uTime.value = elapsed;
-      let fade = 0;
-      if (elapsed > 0.1) {
-        fade = Math.min((elapsed - 0) / 1, 1);
-      }
+      // Increase fade value over time (once per scene mount)
+      let fade = matRef.current.uniforms.uFade.value;
+      fade = Math.min(fade + delta, 1);
       matRef.current.uniforms.uFade.value = fade;
+      // Accumulate time for continuous animation
+      matRef.current.uniforms.uTime.value += delta;
+      // Smoothly update the highlight color based on hover state.
       matRef.current.uniforms.uHighlightColor.value.lerp(
         hovered ? hoverHighlightColor : defaultHighlightColor,
         0.05
@@ -108,26 +131,16 @@ function EngineWavePoints({
     }
   });
 
-  const planeGeom = new THREE.PlaneGeometry(18, 21, 688, 328);
-  const engineMaterial = new THREE.ShaderMaterial({
-    vertexShader,
-    fragmentShader: engineFragmentShader,
-    uniforms: {
-      uTime: { value: 0.2 },
-      uFade: { value: 0.0 },
-      uHighlightColor: { value: new THREE.Color(defaultHighlightColor.getStyle()) },
-    },
-    transparent: true,
-  });
-
   return (
-    <points geometry={planeGeom}>
-      <primitive object={engineMaterial} ref={matRef} attach="material" />
+    <points geometry={geometry}>
+      <primitive object={material} ref={matRef} attach="material" />
     </points>
   );
 }
 
-// EngineWaveScene component
+// --------------------
+// Optimized EngineWaveScene Component
+// --------------------
 interface EngineWaveSceneProps {
   hovered?: boolean;
   rotation?: [number, number, number];
@@ -141,6 +154,8 @@ function EngineWaveScene({
   defaultHighlightColor = new THREE.Color("rgb(255,255,255)"),
   hoverHighlightColor = new THREE.Color("rgb(59,206,255)"),
 }: EngineWaveSceneProps) {
+  // Memoize rotation to avoid unnecessary re-renders.
+  const rotationMemo = useMemo(() => rotation, [rotation]);
   return (
     <Canvas
       style={{
@@ -151,7 +166,7 @@ function EngineWaveScene({
       }}
     >
       <ambientLight intensity={0.3} />
-      <group rotation={rotation}>
+      <group rotation={rotationMemo}>
         <EngineWavePoints
           hovered={hovered}
           defaultHighlightColor={defaultHighlightColor}
@@ -162,13 +177,33 @@ function EngineWaveScene({
   );
 }
 
-// EngineCard Component accepts renderWave prop
+// --------------------
+// Optimized EngineCard Component
+// --------------------
 type EngineCardProps = {
   renderWave?: boolean;
 };
 
 const EngineCard: React.FC<EngineCardProps> = ({ renderWave = true }) => {
   const [cardHovered, setCardHovered] = useState(false);
+
+  // Memoize default and hover colors so they are not re-created on each render.
+  const defaultColor = useMemo(() => new THREE.Color("rgb(255,255,255)"), []);
+  const hoverColor = useMemo(() => new THREE.Color("rgb(59,206,255)"), []);
+  // Memoize the rotation for the wave scene.
+  const waveRotation = useMemo(() => [-Math.PI / 2.0, 2.9, 0.1] as [number, number, number], []);
+
+  // Memoize the EngineWaveScene so that changes in hover state update uniforms only.
+  const waveScene = useMemo(() => {
+    return (
+      <EngineWaveScene
+        hovered={cardHovered}
+        rotation={waveRotation}
+        defaultHighlightColor={defaultColor}
+        hoverHighlightColor={hoverColor}
+      />
+    );
+  }, [cardHovered, waveRotation, defaultColor, hoverColor]);
 
   return (
     <Link legacyBehavior href="#">
@@ -177,18 +212,8 @@ const EngineCard: React.FC<EngineCardProps> = ({ renderWave = true }) => {
         onMouseLeave={() => setCardHovered(false)}
         className="block group"
       >
-        <Card className="lg:aspect-[3/1] aspect-[4/3] rounded-lg py-0 sm:py-8 relative overflow-hidden hover:shadow-xl transition-shadow  transition-transform duration-300 group-hover:scale-[105%]">
-          {/* Card Background: Only render wave if renderWave is true */}
-          {renderWave && (
-            <div className="absolute inset-0">
-              <EngineWaveScene
-                hovered={cardHovered}
-                rotation={[-Math.PI / 2.0, 2.9, 0.1]}
-                defaultHighlightColor={new THREE.Color("rgb(255,255,255)")}
-                hoverHighlightColor={new THREE.Color("rgb(59,206,255)")}
-              />
-            </div>
-          )}
+        <Card className="lg:aspect-[3/1] aspect-[4/3] rounded-lg py-0 sm:py-8 relative overflow-hidden transition-transform duration-300 group-hover:scale-[105%] hover:shadow-xl">
+          {renderWave && <div className="absolute inset-0">{waveScene}</div>}
           {/* Top Right Arrow */}
           <div className="absolute top-4 right-4">
             <div className="bg-white opacity-50 rounded-full p-2 transition-transform duration-300 group-hover:scale-110">
@@ -202,7 +227,9 @@ const EngineCard: React.FC<EngineCardProps> = ({ renderWave = true }) => {
               <div className="bg-white opacity-[.8] rounded-full p-6">
                 <Plane className="w-10 h-10 text-[rgb(111,127,242)] transition-colors duration-300 group-hover:text-[rgb(177,235,255)]" />
               </div>
-              <h3 className="mt-4 text-sm text-white font-medium">Join our Pilot Program</h3>
+              <h3 className="mt-4 text-sm text-white font-medium">
+                Join our Pilot Program
+              </h3>
             </div>
           </CardContent>
         </Card>
