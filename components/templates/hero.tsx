@@ -160,10 +160,10 @@ export default function Hero() {
 
       <div className="lg:mt-48 pt-32 mt-8 sm:mt-20 md:mt-5">
         <div className="container mx-auto px-6">
-          <div className="grid gap-8 md:grid-cols-1 lg:px-24">
+          <div className="grid gap-8 md:grid-cols-1 ">
             {/* Left Column: Text & CTA */}
             <div className="space-y-4 mb-0 lg:mb-3">
-              <h1 className="lg:text-6xl text-4xl font-medium lg:text-center  mx-auto pl-4 pr-12 lg:pr-0 lg:pl-0 mt-40 lg:mt-0 text-left tracking-tight md:text-7xl lg:text-5xl w-95 lg:w-[80%]">
+              <h1 className="lg:text-6xl text-4xl lg:px-20 font-medium lg:text-center  mx-auto pl-4 pr-12 lg:pr-0 lg:pl-0 mt-40 lg:mt-0 text-left tracking-tight md:text-7xl lg:text-5xl w-95 lg:w-[80%]">
                 Powering Better Decisions with AI Based Simulations
               </h1>
               <p className="text-m p-1  lg:text-center lg:justify-center  mx-auto text-gray-600 dark:text-gray-400 sm:text-left lg:w-[50%] w-[90]">
