@@ -75,21 +75,17 @@ const backgroundFragmentShader = `
   }
 `;
 
-// --------------------
-// BackgroundWavePoints with Fade-in Transition
-// --------------------
 function BackgroundWavePoints() {
   const matRef = useRef<THREE.ShaderMaterial | null>(null);
-  // Use a local start time to drive the fade
-  const startTimeRef = useRef(Date.now());
+  // Accumulate fade value using delta time
+  const fadeRef = useRef(0);
 
-  useFrame(() => {
+  useFrame((state, delta) => {
     if (matRef.current) {
-      const elapsed = (Date.now() - startTimeRef.current) / 1000; // seconds elapsed since mount
-      const fade = Math.min(elapsed / 1, 1); // fade in over 1 second
-      matRef.current.uniforms.uFade.value = fade;
-      // Optionally update uTime as well
-      matRef.current.uniforms.uTime.value = elapsed;
+      fadeRef.current = Math.min(fadeRef.current + delta, 1); // fade in over ~1 second
+      matRef.current.uniforms.uFade.value = fadeRef.current;
+      // Update uTime by accumulating delta (for continuous animation)
+      matRef.current.uniforms.uTime.value += delta;
     }
   });
 

@@ -18,7 +18,7 @@ const SectionTitle: React.FC<SectionTitleProps> = ({
       <h2 className="text-md font-semibold tracking-tight text-2s md:text-md">
         {title}
       </h2>
-      <h3 className="text-4xl font-semibold text-black leading-[1.2]">
+      <h3 className="text-4xl font-bold text-slate-800 leading-[1.2]">
         {subtitle}
       </h3>
       <p className="text-gray-600 text-md leading-relaxed">
