@@ -25,14 +25,14 @@ export default function ListCard({
         {/* Small color spacer */}
 
         {/* Icon (if any) */}
-        {icon && <div className="text-gray-600 ">{icon}</div>}
+        {icon && <div className="text-gray-600 pb-2">{icon}</div>}
         {/* Title */}
         
       </div>
-      <h3 className="text-sm font-semibold text-[#0a2540]">{title}</h3>
+      <h3 className="text-2sm font-medium text-[#0a2540]">{title}</h3>
 
       {/* Description */}
-      <p className="text-sm text-gray-600 mt-3 leading-relaxed">{description}</p>
+      <p className="text-xs text-gray-600 mt-3 leading-relaxed">{description}</p>
     </div>
   );
 }

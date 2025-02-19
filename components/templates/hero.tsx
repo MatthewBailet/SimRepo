@@ -159,7 +159,7 @@ export default function Hero() {
       )}
 
       <div className="lg:mt-64 mt-8 sm:mt-20 md:mt-5">
-        <div className="container mx-auto px-4 md:px-6 lg:px-12">
+        <div className="container mx-auto px-4 md:px-6 lg:px-20">
           <div className="grid gap-8 md:grid-cols-1 px-12">
             {/* Left Column: Text & CTA */}
             <div className="space-y-6 mb-0 lg:mb-20 ">

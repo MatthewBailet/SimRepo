@@ -7,6 +7,7 @@ import Explaination from '@/components/templates/Explaination'
 export default function Home() {
   return (
     <>
+    
       <Hero></Hero>
       <Features></Features>
       <DoubleCardSection/>
