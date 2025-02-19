@@ -104,7 +104,7 @@ export default function Features() {
         </div>
 
         {/* 2×2 Card Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-20 px-3 lg:px-20 py-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-24 px-3 lg:px-20 py-5">
           {cardsData.map((card, index) => (
             <Card key={index} {...card} />
           ))}
