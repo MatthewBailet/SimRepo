@@ -163,7 +163,7 @@ export default function Hero() {
           <div className="grid gap-8 md:grid-cols-1 lg:px-24">
             {/* Left Column: Text & CTA */}
             <div className="space-y-6 mb-0 lg:mb-20 ">
-              <h1 className="lg:text-5xl text-4xl  font-semibold pl-4 pr-12 mt-40 lg:mt-0  text-left lg:text-center lg:font-medium lg:font-medium tracking-tight md:text-7xl lg:text-5xl">
+              <h1 className="lg:text-5xl text-4xl  font-semibold pl-4 pr-12 lg:pr-0 lg:pl-0 mt-40 lg:mt-0  text-left lg:text-center lg:font-medium lg:font-medium tracking-tight md:text-7xl lg:text-5xl">
                 Powering Better Decisions with AI Based Simulations
               </h1>
               <p className="text-m lg:text-center pl-4 text-gray-600 dark:text-gray-400 sm:text-left content-left">
@@ -175,7 +175,7 @@ export default function Hero() {
               </div>
             </div>
             {/* Right Column: Engine Card */}
-            <div className="md:block sm:block mt-3 lg:mt-1">
+            <div className="md:block sm:block mt-3 lg:mt-1 pb-10">
               {/* Pass the flag to EngineCard so it too can disable its wave scene */}
               <EngineCard renderWave={isHeroInView} />
             </div>
