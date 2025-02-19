@@ -74,7 +74,7 @@ export default function Explaination() {
           <ColoredBackgroundWaveScene color="rgb(255,22,112)" />
         </div>
       )}
-      <div className="container md:px-6 lg:px-3 pt-8 pb-20">
+      <div className="container relative z-10 md:px-6 lg:px-3 pt-8 pb-20">
         {/* Top Section: Title + Interactive Animation */}
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
           {/* Left: Section Title */}
