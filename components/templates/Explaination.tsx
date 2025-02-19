@@ -95,7 +95,7 @@ export default function Explaination() {
         </div>
 
         {/* Card List Section (the four cards in a row) */}
-        <div className="mt-40">
+        <div className="mt-48">
           <CardList items={cardItems} />
         </div>
       </div>

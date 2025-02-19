@@ -8,7 +8,7 @@ import SectionTitle from "@/components/Ui Components/SectionTitle"; // Adjust pa
 import InteractiveGrid from "@/components/Ui Components/InteractiveGrid"; // new component
 import { AspectRatio } from "@/components/molecules/shadcn/aspect-ratio"; // ShadCN's AspectRatio component
 import "./features.css";
-
+import { Separator } from "../molecules/shadcn/separator";
 import ColoredBackgroundWaveScene2 from "@/components/Ui Components/ColoredBackgroundWaveScene2"; // Adjust path as needed
 
 
@@ -89,12 +89,15 @@ export default function Features() {
         {/* Top Section: Title + Interactive Animation */}
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between">
           {/* Left: Section Title */}
-          <div className="flex-1 mb-20">
+          <div className="flex-1 mb-5 lg:mb-20">
             <SectionTitle
               title="Smarter Decisions, Better Outcomes"
               subtitle="AI-Powered Solutions for Better Predictions and Risk-Free Decisions"
               description="Leverage predictive analytics and market forecasting for confident, data-driven decisions. Optimize processes, cut costs, and fine-tune strategies without costly experimentation—keeping your business ahead."
             />
+
+          <Separator className=" mt-8 visible lg:hidden"/>
+        
           </div>
 
           {/* Right: AspectRatio Placeholder */}
@@ -104,7 +107,7 @@ export default function Features() {
         </div>
 
         {/* 2×2 Card Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-0 lg:mt-24 px-3 lg:px-12 py-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-0 lg:mt-24 px-3 lg:px-12 py-2">
           {cardsData.map((card, index) => (
             <Card key={index} {...card} />
           ))}

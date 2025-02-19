@@ -153,29 +153,29 @@ export default function Hero() {
     >
       {/* Global 3D Wave Background: only render if hero is in view */}
       {isHeroInView && (
-        <div className="absolute inset-0 -z-10 py-3">
+        <div className="absolute inset-0 -z-10 -mt-40 py-0 lg:py-3">
           <BackgroundWaveScene />
         </div>
       )}
 
-      <div className="lg:mt-64 mt-8 sm:mt-20 md:mt-5">
-        <div className="container mx-auto px-4 md:px-6 lg:px-20">
-          <div className="grid gap-8 md:grid-cols-1 px-12">
+      <div className="lg:mt-64 mt-8 sm:mt-20 md:mt-5 ">
+        <div className="container mx-auto px-6 ">
+          <div className="grid gap-8 md:grid-cols-1 lg:px-24">
             {/* Left Column: Text & CTA */}
             <div className="space-y-6 mb-0 lg:mb-20 ">
-              <h1 className="lg:text-5xl text-5xl mt-20 lg:mt-0 text-left lg:text-center font-medium lg:font-medium tracking-tight md:text-7xl lg:text-5xl">
+              <h1 className="lg:text-5xl text-4xl  font-semibold pl-4 pr-12 mt-40 lg:mt-0  text-left lg:text-center lg:font-medium lg:font-medium tracking-tight md:text-7xl lg:text-5xl">
                 Powering Better Decisions with AI Based Simulations
               </h1>
-              <p className="text-m lg:text-center text-gray-600 dark:text-gray-400 sm:text-left">
+              <p className="text-m lg:text-center pl-4 text-gray-600 dark:text-gray-400 sm:text-left content-left">
                 Providing fine-tuned AI models paired with realtime industry data to produce accurate, intelligent business forecasting.
               </p>
-              <div className="flex items-center justify-center space-x-4">
+              <div className="flex items-center pl-4 lg:pl-0 justify-left lg:justify-center lg:space-x-4 space-x-2">
                 <Button variant="default">Request Early Access</Button>
-                <Button variant="secondary">Book a Consultation</Button>
+                <Button className="sm:visible hidden" variant="secondary">Book a Consultation</Button>
               </div>
             </div>
             {/* Right Column: Engine Card */}
-            <div className="md:block sm:block mt-10 lg:mt-1">
+            <div className="md:block sm:block mt-3 lg:mt-1">
               {/* Pass the flag to EngineCard so it too can disable its wave scene */}
               <EngineCard renderWave={isHeroInView} />
             </div>
