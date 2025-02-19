@@ -8,7 +8,7 @@ interface SectionTitleProps {
   description: string;
 }
 
-const SectionTitle: React.FC<SectionTitleProps> = ({
+const SectionTitle2: React.FC<SectionTitleProps> = ({
   title,
   subtitle,
   description,
@@ -18,7 +18,7 @@ const SectionTitle: React.FC<SectionTitleProps> = ({
       <h2 className="text-md font-semibold tracking-tight text-2s md:text-md">
         {title}
       </h2>
-      <h3 className="text-5xl max-w-md font-semibold text-slate-800 leading-[1.2]">
+      <h3 className="text-4xl max-w-md font-semibold text-slate-800 leading-[1.2]">
         {subtitle}
       </h3>
       <p className="text-gray-600 max-w-lg  text-md leading-relaxed">
@@ -28,4 +28,4 @@ const SectionTitle: React.FC<SectionTitleProps> = ({
   );
 };
 
-export default SectionTitle;
+export default SectionTitle2;

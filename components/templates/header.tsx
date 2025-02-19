@@ -10,7 +10,7 @@ export default function Header() {
     <header className='fixed top-0 left-0 right-0 z-50 bg-white shadow-md flex items-center justify-between px-4 py-3 md:px-6 lg:px-8 '>
       <Link className='flex items-center' href='#'>
 
-        <Image src="/simrepo.png" alt="SimRepo Logo" width={90} height={90} />
+        <Image src="/simrepo.png" alt="SimRepo Logo" width={90} height={26} />
       </Link>
       <nav className='hidden space-x-4 md:flex'>
         <NavigationMenuDemo></NavigationMenuDemo>
