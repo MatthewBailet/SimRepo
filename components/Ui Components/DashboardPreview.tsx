@@ -101,7 +101,7 @@ export default function DashboardPreview() {
           initial={false}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="w-full max-w-6xl mx-auto mt-12 bg-white rounded-xl shadow-xl overflow-hidden border border-gray-100"
+          className="w-full max-w-6xl mx-auto mt-4 bg-white rounded-xl shadow-xl overflow-hidden border border-gray-100"
         >
           {/* Top Navigation Bar */}
           <div className="w-full bg-white border-b border-gray-100 px-6 py-3 flex items-center justify-between">

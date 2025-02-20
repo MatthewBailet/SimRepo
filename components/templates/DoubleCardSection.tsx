@@ -37,7 +37,7 @@ export default function DoubleCardSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative pb-10 pt-10 md:pb-24 bg-white text-bold overflow-hidden"
+      className="relative pb-10 pt-10 bg-white text-bold overflow-hidden"
     >
       <div className="container lg:px-24 px-3 md:px-8 pt-3 lg:pt-4">
         {/* Grid: Top row (65%/35%) and bottom row (full width) */}

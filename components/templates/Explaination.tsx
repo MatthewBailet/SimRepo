@@ -1,119 +1,116 @@
 "use client";
 
-import React, { useRef, useState, useEffect } from "react";
-import SectionTitle2 from "@/components/Ui Components/SectionTitle2"; // Adjust path as needed
-import InteractiveGrid from "@/components/Ui Components/InteractiveGrid"; // Adjust path as needed
-import CardList from "@/components/Ui Components/CardList"; // Adjust path as needed
-import ColoredBackgroundWaveScene from "@/components/Ui Components/ColoredBackgroundWaveScene"; // Adjust path as needed
+import React from "react";
+import { motion } from "framer-motion";
+import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
+import { Terminal, Database, Network, Braces } from "lucide-react";
+import { Badge } from "@/components/molecules/shadcn/badge";
+import { Card } from "@/components/molecules/shadcn/card";
+import ColoredBackgroundWaveScene2 from "@/components/Ui Components/ColoredBackgroundWaveScene2";
 
-import { Book, BarChart2, Globe, DollarSign } from "lucide-react";
+const features = [
+  {
+    icon: <Terminal className="h-6 w-6" />,
+    title: "Advanced Parser Engine",
+    description: "High-performance data extraction with support for complex nested structures and custom formats.",
+    techStack: ["Pattern Matching", "Custom DSL", "Streaming"]
+  },
+  {
+    icon: <Braces className="h-6 w-6" />,
+    title: "Intelligent Scraping",
+    description: "Self-learning data collection system with automatic rate limiting and proxy rotation.",
+    techStack: ["ML-Based", "Auto-Scaling", "Distributed"]
+  },
+  {
+    icon: <Database className="h-6 w-6" />,
+    title: "Data Pipeline",
+    description: "Real-time data processing with built-in validation and transformation capabilities.",
+    techStack: ["Stream Processing", "Schema Validation", "ETL"]
+  },
+  {
+    icon: <Network className="h-6 w-6" />,
+    title: "API Framework",
+    description: "Enterprise-grade integration layer supporting multiple protocols and data formats.",
+    techStack: ["REST", "GraphQL", "WebSocket"]
+  }
+];
 
-export default function Explaination() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const [isSectionInView, setIsSectionInView] = useState(true);
-
-  useEffect(() => {
-    const currentRef = sectionRef.current; // Store ref value
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          setIsSectionInView(entry.isIntersecting);
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    if (currentRef) {
-      observer.observe(currentRef);
-    }
-
-    return () => {
-      if (currentRef) {
-        observer.unobserve(currentRef);
-      }
-    };
-  }, []);
-
-  // Sample data for the four cards
-  const cardItems = [
-    {
-      icon: <Book size={24} />,
-      title: "Launch in weeks",
-      description:
-        "Use hosted or embedded functionality for rapid setup, so you can focus on building your product—not on payment complexities.",
-      colorClass: "bg-blue-500",
-    },
-    {
-      icon: <BarChart2 size={24} />,
-      title: "Manage payments at scale",
-      description:
-        "Leverage robust tooling, advanced analytics, and global payment methods to streamline operations and scale seamlessly.",
-      colorClass: "bg-green-500",
-    },
-    {
-      icon: <Globe size={24} />,
-      title: "Grow globally",
-      description:
-        "Reach new markets worldwide with local payment methods and the ability to easily onboard new customers.",
-      colorClass: "bg-purple-500",
-    },
-    {
-      icon: <DollarSign size={24} />,
-      title: "Build new lines of revenue",
-      description:
-        "Monetize more effectively by collecting fees on each transaction. Expand with financing, expense cards, and more.",
-      colorClass: "bg-pink-500",
-    },
-    {
-      icon: <DollarSign size={24} />,
-      title: "Build new lines of revenue",
-      description:
-        "Monetize more effectively by collecting fees on each transaction. Expand with financing, expense cards, and more.",
-      colorClass: "bg-pink-500",
-    },
-    {
-      icon: <DollarSign size={24} />,
-      title: "Build new lines of revenue",
-      description:
-        "Monetize more effectively by collecting fees on each transaction. Expand with financing, expense cards, and more.",
-      colorClass: "bg-pink-500",
-    },
-  ];
+export default function Explanation() {
+  const [ref, isInView] = useIntersectionObserver(0.1);
 
   return (
     <section
-      ref={sectionRef}
-      className="relative bg-slate-950 text-bold overflow-hidden pb-20"
+      ref={ref}
+      className="relative bg-white text-bold overflow-hidden py-12"
     >
-      {/* Background Wave (only render when in view) */}
-      {isSectionInView && (
+      {isInView && (
         <div className="absolute inset-0 -z-8">
-          <ColoredBackgroundWaveScene color="rgb(255,22,112)" />
+          <ColoredBackgroundWaveScene2 
+            color="rgb(111,127,242)" 
+            shouldRasterize={true}
+          />
         </div>
       )}
 
-      <div className="container relative z-10 px-6 md:px-6 lg:px-12 lg:pt-32 pb-20 pt-0 ">
-        {/* Top Section: Title + Interactive Animation */}
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
-          {/* Left: Section Title */}
-          <div className="flex-1">
-            <SectionTitle2
-              title="Built for Precision"
-              subtitle="Reliable AI-Driven Processing, From Data to Decision"
-              description="Our AI-powered platform transforms complex data into actionable insights through automated parsing, pattern recognition, and predictive modeling—empowering confident decision-making."
-            />
-          </div>
-          {/* Right: Interactive Grid */}
-          <div className="w-full md:flex-1 flex justify-center">
-            <div className="transform scale-100 md:scale-100 sm:scale-50 xs:scale-50 origin-center mx-auto">
-              <InteractiveGrid />
-            </div>
-          </div>
+      <div className="container relative z-10 px-6 md:px-6 lg:px-20">
+        <div className="max-w-3xl mx-auto text-center mb-20">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <Badge 
+              variant="outline" 
+              className="bg-blue-500/5 text-blue-600 border-blue-200 mb-4"
+            >
+              Technical Architecture
+            </Badge>
+            <h2 className="text-4xl font-semibold text-slate-900 mb-6">
+              Built for Enterprise Scale
+            </h2>
+            <p className="text-gray-600 text-md max-w-2xl mx-auto">
+              Our platform leverages cutting-edge technology to deliver reliable, 
+              scalable data processing with enterprise-grade security and performance.
+            </p>
+          </motion.div>
         </div>
 
-        {/* Card List Section (the four cards in a row) */}
-        <div className="lg:mt-48 mt-4">
-          <CardList items={cardItems} />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {features.map((feature, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1 }}
+            >
+              <Card className="bg-white/50 backdrop-blur-sm border-gray-100 p-6 h-full hover:shadow-lg transition-shadow duration-300">
+                <div className="flex items-start gap-4">
+                  <div className="p-3 bg-blue-500/5 rounded-lg text-blue-600">
+                    {feature.icon}
+                  </div>
+                  <div>
+                    <h3 className="text-md font-semibold text-slate-900 mb-3">
+                      {feature.title}
+                    </h3>
+                    <p className="text-gray-600 mb-4 text-sm leading-relaxed">
+                      {feature.description}
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {feature.techStack.map((tech, i) => (
+                        <Badge 
+                          key={i} 
+                          variant="outline" 
+                          className="bg-gray-50 text-gray-600 border-gray-200"
+                        >
+                          {tech}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </Card>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>
