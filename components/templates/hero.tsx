@@ -265,13 +265,15 @@ export default function Hero() {
               </div>
             </motion.div>
             <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="md:block sm:block mt-3 lg:mt-1 pb-10"
-            >
-              <EngineCard renderWave={isHeroInView} />
-            </motion.div>
+        initial={{ opacity: 0, y: 100 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.2 }}
+        className="container relative z-10 px-6 mt-20 mb-12"
+      >
+        <div className="max-w-5xl mx-auto">
+          <EngineCard renderWave={isHeroInView} />
+        </div>
+      </motion.div>
           </motion.div>
         </div>
       </div>
