@@ -293,7 +293,7 @@ export default function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="space-y-4 mb-0 lg:mb-3"
+              className="space-y-4 mb-0 lg:mb-3 md:mt-0 2xl:mt-32"
             >
               <h1 className="lg:text-6xl xl:text-7xl text-slate-800 text-5xl lg:px-20 font-semibold lg:font-medium  lg:text-center mx-0  lg:mx-auto pl-0 pr-12 lg:pr-0 lg:pl-0 mt-0 lg:mt-10 lg:mt-0 text-left tracking-tight md:text-7xl lg:text-5xl w-95 w-[90%] lg:w-[80%]">
                 The Ultimate AI-Powered Business Intelligence Suite

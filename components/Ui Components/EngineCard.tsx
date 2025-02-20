@@ -163,7 +163,7 @@ function EngineWaveScene({
         height: "100%",
         borderRadius: "10px",
         background:
-          "linear-gradient(165deg, rgb(106,3,29), rgb(21,12,109))",
+          "linear-gradient(165deg, rgb(94, 4, 4), rgb(38, 21, 190))",
       }}
     >
       <ambientLight intensity={0.3} />
