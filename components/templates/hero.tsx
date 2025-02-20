@@ -81,7 +81,7 @@ const backgroundFragmentShader = `
   void main() {
     vec2 center = gl_PointCoord - vec2(0.5);
     float dist = length(center);
-    float circle = smoothstep(0.2, 4.45, dist);
+    float circle = smoothstep(0.1, 2.45, dist);
 
     vec3 baseColor = mix(vec3(0.0), vec3(1.0), vUv.y);
     baseColor *= 5.0 - vDisplacement * 2.1;
@@ -228,7 +228,7 @@ export default function Hero() {
     >
       {/* Only render the expensive 3D wave background if the hero is in view */}
       {isHeroInView && (
-        <div className="absolute inset-0 -z-10 py-3 -mt-96">
+        <div className="absolute inset-0 -z-10 py-3 -mt-20">
           <BackgroundWaveScene />
         </div>
       )}
@@ -245,8 +245,8 @@ export default function Hero() {
                 Providing fine-tuned AI models paired with realtime industry data to produce accurate, intelligent business forecasting.
               </p>
               <div className="flex items-center pl-4 pl-0 lg:pl-1 justify-right lg:justify-center mx-0 lg:mx-auto lg:space-x-4 space-x-2">
-                <Button variant="default">Request Early Access</Button>
-                <Button className="sm:visible hidden" variant="secondary">
+                <Button className="bg-slate-900  hidden md:block" variant="default">Request Early Access</Button>
+                <Button className="block bg-slate-200  hidden md:block" variant="secondary">
                   Book a Consultation
                 </Button>
               </div>

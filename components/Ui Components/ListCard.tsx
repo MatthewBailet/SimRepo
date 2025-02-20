@@ -20,7 +20,7 @@ export default function ListCard({
   description,
 }: ListCardProps) {
   return (
-    <div className="relative group rounded-lg  bg-slate-900 px-6 pt-6 pb-6 shadow-md transition-transform duration-300 hover:scale-105">
+    <div className="relative group rounded-md bg-slate-900 px-6 pt-6 pb-6 shadow-md transition-transform duration-300 hover:scale-105">
       {/* Top Right Arrow */}
       <div className="absolute top-4 right-4">
         <div className="bg-slate-800 opacity-50 rounded-full p-2 transition-transform duration-300 group-hover:scale-[103%]">

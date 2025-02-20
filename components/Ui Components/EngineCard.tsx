@@ -152,7 +152,7 @@ function EngineWaveScene({
   hovered = false,
   rotation = [-Math.PI / 3, 0.2, 0.2],
   defaultHighlightColor = new THREE.Color("rgb(255,255,255)"),
-  hoverHighlightColor = new THREE.Color("rgb(59,206,255)"),
+  hoverHighlightColor = new THREE.Color("rgb(255,255,255)"),
 }: EngineWaveSceneProps) {
   // Memoize rotation to avoid unnecessary re-renders.
   const rotationMemo = useMemo(() => rotation, [rotation]);
@@ -189,7 +189,7 @@ const EngineCard: React.FC<EngineCardProps> = ({ renderWave = true }) => {
 
   // Memoize default and hover colors so they are not re-created on each render.
   const defaultColor = useMemo(() => new THREE.Color("rgb(255,255,255)"), []);
-  const hoverColor = useMemo(() => new THREE.Color("rgb(59,206,255)"), []);
+  const hoverColor = useMemo(() => new THREE.Color("rgb(0,191,255)"), []);
   // Memoize the rotation for the wave scene.
   const waveRotation = useMemo(() => [-Math.PI / 2.0, 2.9, 0.1] as [number, number, number], []);
 
@@ -224,8 +224,8 @@ const EngineCard: React.FC<EngineCardProps> = ({ renderWave = true }) => {
           <CardContent className="relative flex flex-col items-center mt-6 justify-center h-full">
             <div className="transform -translate-y-4 flex flex-col items-center transition-transform duration-300 group-hover:scale-110">
               {/* Icon Circle */}
-              <div className="bg-white opacity-[.8] rounded-full p-6">
-                <Plane className="w-10 h-10 text-[rgb(111,127,242)] transition-colors duration-300 group-hover:text-[rgb(177,235,255)]" />
+              <div className="bg-white opacity-[.4] group-hover:opacity-[.8] transition-opacity duration-300 rounded-full p-5 md:p-6">
+                <Plane className="w-10 h-10 md:w-10 md:h-10 text-[rgb(111,127,242)] transition-colors duration-300 group-hover:text-[rgb(0,191,255)]" />
               </div>
               <h3 className="mt-4 text-sm text-white font-medium">
                 Join our Pilot Program

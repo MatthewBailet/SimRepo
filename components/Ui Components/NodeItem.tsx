@@ -52,13 +52,10 @@ type NodeItemProps = {
   label: string;
   isVisible: boolean;
   finalPop: boolean;
-  animateHover: boolean;
 };
 
-export default function NodeItem({ icon, label, isVisible, finalPop, animateHover }: NodeItemProps) {
+export default function NodeItem({ icon, label, isVisible, finalPop }: NodeItemProps) {
   const [isColorPop, setIsColorPop] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
-  const [showTooltip, setShowTooltip] = useState(false);
 
   useEffect(() => {
     // Only do initial pop animation if it's not the Summary node
@@ -82,21 +79,9 @@ export default function NodeItem({ icon, label, isVisible, finalPop, animateHove
     }
   }, [finalPop, label]);
 
-  // Add effect for automatic hover animation
-  useEffect(() => {
-    if (animateHover) {
-      setIsHovered(true);
-      setShowTooltip(true);
-      return () => {
-        setIsHovered(false);
-        setShowTooltip(false);
-      };
-    }
-  }, [animateHover]);
-
   return (
     <TooltipProvider>
-      <Tooltip open={showTooltip}>
+      <Tooltip>
         <TooltipTrigger asChild>
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
@@ -105,22 +90,12 @@ export default function NodeItem({ icon, label, isVisible, finalPop, animateHove
               scale: isVisible ? 1 : 0.8,
             }}
             transition={{ duration: 0.5 }}
-            onHoverStart={() => {
-              setIsHovered(true);
-              setShowTooltip(true);
-            }}
-            onHoverEnd={() => {
-              setIsHovered(false);
-              setShowTooltip(false);
-            }}
           >
             <motion.div
               className="w-16 h-16 flex items-center justify-center shadow-sm hover:shadow-md relative rounded-md bg-white"
               animate={{
-                scale: isColorPop || isHovered ? 1.15 : 1,
-                backgroundColor: isColorPop || isHovered 
-                  ? colorMap[label as keyof typeof colorMap] 
-                  : "rgb(202,14,73)",
+                scale: isColorPop ? 1.15 : 1,
+                backgroundColor: isColorPop ? colorMap[label as keyof typeof colorMap] : "rgb(202,14,73)",
               }}
               transition={{ 
                 duration: 0.3,
@@ -135,9 +110,7 @@ export default function NodeItem({ icon, label, isVisible, finalPop, animateHove
               <div 
                 className="relative z-10"
                 style={{
-                  color: isColorPop || isHovered 
-                    ? 'white' 
-                    : 'white',
+                  color: isColorPop ? 'white' : 'white',
                   background: 'none',
                   display: 'flex',
                   alignItems: 'center',

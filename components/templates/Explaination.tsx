@@ -64,12 +64,26 @@ export default function Explaination() {
         "Monetize more effectively by collecting fees on each transaction. Expand with financing, expense cards, and more.",
       colorClass: "bg-pink-500",
     },
+    {
+      icon: <DollarSign size={24} />,
+      title: "Build new lines of revenue",
+      description:
+        "Monetize more effectively by collecting fees on each transaction. Expand with financing, expense cards, and more.",
+      colorClass: "bg-pink-500",
+    },
+    {
+      icon: <DollarSign size={24} />,
+      title: "Build new lines of revenue",
+      description:
+        "Monetize more effectively by collecting fees on each transaction. Expand with financing, expense cards, and more.",
+      colorClass: "bg-pink-500",
+    },
   ];
 
   return (
     <section
       ref={sectionRef}
-      className="relative bg-slate-950 text-bold overflow-hidden"
+      className="relative bg-slate-950 text-bold overflow-hidden pb-20"
     >
       {/* Background Wave (only render when in view) */}
       {isSectionInView && (
@@ -78,7 +92,7 @@ export default function Explaination() {
         </div>
       )}
 
-      <div className="container relative z-10 md:px-6 lg:px-12 pb-20 pt-32">
+      <div className="container relative z-10 md:px-6 lg:px-12 lg:pt-32 pb-20 pt-0 ">
         {/* Top Section: Title + Interactive Animation */}
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
           {/* Left: Section Title */}
@@ -98,7 +112,7 @@ export default function Explaination() {
         </div>
 
         {/* Card List Section (the four cards in a row) */}
-        <div className="mt-48">
+        <div className="lg:mt-48 mt-4">
           <CardList items={cardItems} />
         </div>
       </div>

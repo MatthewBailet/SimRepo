@@ -32,12 +32,6 @@ export default function InteractiveGrid() {
   const [path8Visible, setPath8Visible] = useState(false);
   const [finalPop, setFinalPop] = useState(false);
 
-  // Add state for the currently animated node
-  const [currentAnimatedNode, setCurrentAnimatedNode] = useState<number | null>(null);
-
-  // List of node indices in the order we want to animate them
-  const nodeSequence = [7, 3, 8, 4, 0, 2, 5, 1, 6]; 
-
   useEffect(() => {
     if (inView) {
       const animateConnection = async () => {
@@ -149,34 +143,8 @@ export default function InteractiveGrid() {
     }
   }, [inView]);
 
-  useEffect(() => {
-    if (inView) {
-      let currentIndex = 0;
-      
-      // Start the rotating animation after the initial sequence completes
-      const startRotatingAnimation = async () => {
-        // Wait for initial animation sequence to complete
-        await new Promise(resolve => setTimeout(resolve, 200000));
-        
-        // Start rotating through nodes
-        const interval = setInterval(() => {
-          setCurrentAnimatedNode(nodeSequence[currentIndex]);
-          
-          // Move to next node in sequence
-          currentIndex = (currentIndex + 1) % nodeSequence.length;
-        }, 6000); // Change node every 3 seconds
-
-        return () => clearInterval(interval);
-      };
-
-      startRotatingAnimation();
-    } else {
-      setCurrentAnimatedNode(null);
-    }
-  }, [inView]);
-
   return (
-    <div className="w-[500px] h-[500px] relative mx-auto" ref={ref}>
+    <div className="w-[500px] h-[500px] relative mx-auto hidden md:block" ref={ref}>
       <svg className="absolute w-[500px] h-[500px] top-0 left-0 pointer-events-none -z-10">
         <defs>
           <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%" gradientUnits="userSpaceOnUse">
@@ -347,7 +315,6 @@ export default function InteractiveGrid() {
             label="Databook" 
             isVisible={visibleNodes[0]}
             finalPop={finalPop}
-            animateHover={currentAnimatedNode === 0}
           />
         </div>
 
@@ -358,7 +325,6 @@ export default function InteractiveGrid() {
             label="Databook" 
             isVisible={visibleNodes[1]}
             finalPop={finalPop}
-            animateHover={currentAnimatedNode === 1}
           />
         </div>
 
@@ -369,7 +335,6 @@ export default function InteractiveGrid() {
             label="Plugins" 
             isVisible={visibleNodes[2]}
             finalPop={finalPop}
-            animateHover={currentAnimatedNode === 2}
           />
         </div>
 
@@ -380,7 +345,6 @@ export default function InteractiveGrid() {
             label="Parser" 
             isVisible={visibleNodes[3]}
             finalPop={finalPop}
-            animateHover={currentAnimatedNode === 3}
           />
         </div>
 
@@ -391,7 +355,6 @@ export default function InteractiveGrid() {
             label="Engine" 
             isVisible={visibleNodes[4]}
             finalPop={finalPop}
-            animateHover={currentAnimatedNode === 4}
           />
         </div>
 
@@ -402,7 +365,6 @@ export default function InteractiveGrid() {
             label="Summary" 
             isVisible={visibleNodes[5]}
             finalPop={finalPop}
-            animateHover={currentAnimatedNode === 5}
           />
         </div>
 
@@ -413,7 +375,6 @@ export default function InteractiveGrid() {
             label="Webscraper" 
             isVisible={visibleNodes[6]}
             finalPop={finalPop}
-            animateHover={currentAnimatedNode === 6}
           />
         </div>
 
@@ -424,7 +385,6 @@ export default function InteractiveGrid() {
             label="Parser" 
             isVisible={visibleNodes[7]}
             finalPop={finalPop}
-            animateHover={currentAnimatedNode === 7}
           />
         </div>
 
@@ -435,7 +395,6 @@ export default function InteractiveGrid() {
             label="Webscraper" 
             isVisible={visibleNodes[8]}
             finalPop={finalPop}
-            animateHover={currentAnimatedNode === 8}
           />
         </div>
 
