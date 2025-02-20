@@ -13,6 +13,7 @@ export default function Explaination() {
   const [isSectionInView, setIsSectionInView] = useState(true);
 
   useEffect(() => {
+    const currentRef = sectionRef.current; // Store ref value
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -22,13 +23,13 @@ export default function Explaination() {
       { threshold: 0.1 }
     );
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
+    if (currentRef) {
+      observer.observe(currentRef);
     }
 
     return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
+      if (currentRef) {
+        observer.unobserve(currentRef);
       }
     };
   }, []);
@@ -90,7 +91,7 @@ export default function Explaination() {
           </div>
           {/* Right: Interactive Grid */}
           <div className="w-full md:flex-1 flex justify-center">
-            <div className="w-full max-w-[500px] md:max-w-full">
+            <div className="transform scale-100 md:scale-100 sm:scale-50 xs:scale-50 origin-center mx-auto">
               <InteractiveGrid />
             </div>
           </div>

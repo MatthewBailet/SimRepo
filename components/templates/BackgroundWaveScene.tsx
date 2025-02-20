@@ -3,12 +3,8 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
-import { Button } from "@/components/molecules/shadcn/button";
-import EngineCard from "@/components/Ui Components/EngineCard"; // Adjust path as needed
 
-// --------------------
-// Global Background Wave Shaders
-// --------------------
+// Shader code
 const vertexShader = `
   uniform float uTime;
   uniform float uFade;
@@ -164,25 +160,24 @@ function BackgroundWavePoints() {
     }
   });
 
-  const planeGeom = new THREE.PlaneGeometry(18, 21, isMobile ? 488 : 688, isMobile ? 228 : 328);
-  const waveMaterial = new THREE.ShaderMaterial({
-    vertexShader: isMobile ? mobileVertexShader : vertexShader,
-    fragmentShader: isMobile ? mobileBackgroundFragmentShader : backgroundFragmentShader,
-    uniforms: {
-      uTime: { value: 0 },
-      uFade: { value: 0 },
-    },
-    transparent: true,
-  });
-
   return (
-    <points geometry={planeGeom}>
-      <primitive object={waveMaterial} ref={matRef} attach="material" />
+    <points>
+      <planeGeometry args={[18, 21, isMobile ? 488 : 688, isMobile ? 228 : 328]} />
+      <shaderMaterial
+        ref={matRef}
+        vertexShader={isMobile ? mobileVertexShader : vertexShader}
+        fragmentShader={isMobile ? mobileBackgroundFragmentShader : backgroundFragmentShader}
+        uniforms={{
+          uTime: { value: 0 },
+          uFade: { value: 0 },
+        }}
+        transparent
+      />
     </points>
   );
 }
 
-function BackgroundWaveScene() {
+export default function BackgroundWaveScene() {
   return (
     <Canvas style={{ width: "100%", height: "100%" }}>
       <ambientLight intensity={0.3} />
@@ -191,73 +186,4 @@ function BackgroundWaveScene() {
       </group>
     </Canvas>
   );
-}
-
-// --------------------
-// Hero Section with Lazy and Fading Wave Rendering
-// --------------------
-export default function Hero() {
-  const heroRef = useRef<HTMLElement>(null);
-  const [isHeroInView, setIsHeroInView] = useState(true);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          setIsHeroInView(entry.isIntersecting);
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    if (heroRef.current) {
-      observer.observe(heroRef.current);
-    }
-
-    return () => {
-      if (heroRef.current) {
-        observer.unobserve(heroRef.current);
-      }
-    };
-  }, []);
-
-  return (
-    <section
-      ref={heroRef}
-      className="relative flex min-h-screen items-center justify-center overflow-hidden"
-    >
-      {/* Only render the expensive 3D wave background if the hero is in view */}
-      {isHeroInView && (
-        <div className="absolute inset-0 -z-10 py-3 -mt-96">
-          <BackgroundWaveScene />
-        </div>
-      )}
-
-      <div className="lg:mt-12 pt-20 lg:pt-32 mt-8 sm:mt-20 md:mt-5">
-        <div className="container mx-auto px-6">
-          <div className="grid gap-8 md:grid-cols-1 ">
-            {/* Left Column: Text & CTA */}
-            <div className="space-y-4 mb-0 lg:mb-3">
-              <h1 className="lg:text-6xl text-slate-800 text-5xl lg:px-20 font-semibold lg:font-medium  lg:text-center mx-0  lg:mx-auto pl-0 lg:pl-4 pr-12 lg:pr-0 lg:pl-0 mt-0 lg:mt-10 lg:mt-0 text-left tracking-tight md:text-7xl lg:text-5xl w-95 w-[90%] lg:w-[80%]">
-                Powering Better Decisions with AI Based Simulations
-              </h1>
-              <p className="text-m  lg:text-center lg:justify-center  mx-auto text-gray-600 dark:text-gray-400 sm:text-left lg:w-[50%] w-[90]">
-                Providing fine-tuned AI models paired with realtime industry data to produce accurate, intelligent business forecasting.
-              </p>
-              <div className="flex items-center pl-4 pl-0 lg:pl-1 justify-right lg:justify-center mx-0 lg:mx-auto lg:space-x-4 space-x-2">
-                <Button variant="default">Request Early Access</Button>
-                <Button className="sm:visible hidden" variant="secondary">
-                  Book a Consultation
-                </Button>
-              </div>
-            </div>
-            {/* Right Column: Engine Card */}
-            <div className="md:block sm:block mt-3 lg:mt-1 pb-10">
-              <EngineCard renderWave={isHeroInView} />
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
+} 

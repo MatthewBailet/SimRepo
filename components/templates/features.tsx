@@ -7,7 +7,7 @@ import Card from "@/components/Ui Components/Card"; // Adjust path as needed
 import SectionTitle from "@/components/Ui Components/SectionTitle"; // Adjust path as needed
 import InteractiveGrid from "@/components/Ui Components/InteractiveGrid"; // new component
 import { AspectRatio } from "@/components/molecules/shadcn/aspect-ratio"; // ShadCN's AspectRatio component
-import "./features.css";
+import styles from "./features.module.css";
 import { Separator } from "../molecules/shadcn/separator";
 import ColoredBackgroundWaveScene2 from "@/components/Ui Components/ColoredBackgroundWaveScene2"; // Adjust path as needed
 
@@ -27,13 +27,14 @@ export default function Features() {
         { threshold: 0.1 }
       );
   
-      if (sectionRef.current) {
-        observer.observe(sectionRef.current);
+      const currentRef = sectionRef.current;
+      if (currentRef) {
+        observer.observe(currentRef);
       }
   
       return () => {
-        if (sectionRef.current) {
-          observer.unobserve(sectionRef.current);
+        if (currentRef) {
+          observer.unobserve(currentRef);
         }
       };
     }, []);
@@ -85,7 +86,7 @@ export default function Features() {
               </div>
             )}
       
-      <div className="container relative z-10  lg:px-20 md:px-6 pt-20 lg:mt-20 mt-5">
+      <div className="container relative z-10  lg:px-20 md:px-6 pt-10 lg:mt-8 mt-2">
         {/* Top Section: Title + Interactive Animation */}
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between">
           {/* Left: Section Title */}
