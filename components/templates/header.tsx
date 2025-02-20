@@ -5,8 +5,8 @@ import Image from 'next/image'
 
 export default function Header() {
   return (
-    <header className='text-slate-900 absolute top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-sm'>
-      <div className='flex items-center justify-between px-4 sm:px-6 lg:px-8 xl:px-16 py-3 max-w-[1920px] mx-auto'>
+    <header className='text-slate-900 absolute top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-sm '>
+      <div className='flex items-center justify-between px-4 sm:px-6 lg:px-72 py-3 max-w-[1920px] mx-auto'>
         <Link 
           href='#' 
           className='flex items-center relative w-[90px] h-[26px] min-w-[90px]'

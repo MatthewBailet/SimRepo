@@ -1,14 +1,14 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
-export interface ColoredBackgroundWaveSceneProps {
-  color?: string; // e.g. "rgb(255,22,112)"
+export interface ColoredBackgroundWaveSceneMobileProps {
+  color?: string;
 }
 
-const vertexShader = `
+const mobileVertexShader = `
   uniform float uTime;
   uniform float uFade;
   varying vec2 vUv;
@@ -22,20 +22,24 @@ const vertexShader = `
   void main() {
     vUv = uv;
     vRand = random(position.xy);
-    float wave1 = sin(position.x * 0.5 + uTime * 0.8);
-    float wave2 = sin(position.y * 0.7 + uTime * 0.6);
-    float wave3 = sin((position.x + position.y) * 0.3 + uTime * 0.3);
-    float pulsation = 0.02 * sin(uTime * 1.0);
-    float displacement = (wave1 + wave2 + wave3) * 0.2 + pulsation;
+
+    float wave1 = sin(position.x * 0.8 + uTime * 1.2);
+    float wave2 = sin(position.y * 1.0 + uTime * 0.9);
+    float wave3 = sin((position.x + position.y) * 0.5 + uTime * 0.6);
+    float pulsation = 0.04 * sin(uTime * 1.5);
+
+    float displacement = (wave1 + wave2 + wave3) * 0.3 + pulsation;
     vDisplacement = displacement;
+
     vec3 newPosition = position;
     newPosition.z += displacement * uFade;
+
     gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition, 1.0);
-    gl_PointSize = 0.3;
+    gl_PointSize = 0.6;
   }
 `;
 
-const fragmentShader = `
+const mobileFragmentShader = `
   uniform float uTime;
   uniform float uFade;
   uniform vec3 uTargetColor;
@@ -46,23 +50,28 @@ const fragmentShader = `
   void main() {
     vec2 center = gl_PointCoord - vec2(0.5);
     float dist = length(center);
-    float circle = smoothstep(0.1, 4.45, dist);
-    vec3 baseColor = mix(vec3(0.0), vec3(1.0), vUv.y);
-    baseColor *= 5.0 - vDisplacement * 2.1;
-    float gridX = smoothstep(0.48, 0.5, abs(fract(vUv.x * 50.0) - 0.5));
-    float gridY = smoothstep(0.48, 0.5, abs(fract(vUv.y * 50.0) - 0.5));
+    float circle = smoothstep(0.1, 1.45, dist);
+
+    vec3 baseColor = mix(vec3(0.0), vec3(0.7), vUv.y);
+    baseColor *= 3.0 - vDisplacement * 1.5;
+
+    float gridX = smoothstep(0.48, 0.5, abs(fract(vUv.x * 70.0) - 0.5));
+    float gridY = smoothstep(0.48, 0.5, abs(fract(vUv.y * 70.0) - 0.5));
     float gridPattern = max(gridX, gridY);
-    baseColor -= gridPattern * 0.0;
+    baseColor -= gridPattern * 0.2;
+
     if (vRand < 0.99) {
-      float pulse = abs(sin(uTime * 1.0 + vRand * 10.0));
-      float mixFactor = smoothstep(0.02, 0.2, pulse);
+      float pulse = abs(sin(uTime * 1.5 + vRand * 15.0));
+      float mixFactor = smoothstep(0.02, 0.3, pulse);
       baseColor = mix(baseColor, uTargetColor, mixFactor);
     }
+
     vec2 centeredUv = vUv - vec2(0.5);
     float edgeDist = max(abs(centeredUv.x), abs(centeredUv.y));
     float roundedMask = 1.0 - smoothstep(0.48, 0.9, edgeDist);
+
     float finalAlpha = circle * roundedMask;
-    gl_FragColor = vec4(baseColor, finalAlpha * uFade);
+    gl_FragColor = vec4(baseColor, finalAlpha * uFade * 1.5);
   }
 `;
 
@@ -78,14 +87,14 @@ function BackgroundWavePoints() {
     }
   });
 
-  const planeGeom = new THREE.PlaneGeometry(18, 21, 688, 328);
+  const planeGeom = new THREE.PlaneGeometry(18, 21, 488, 228);
   const waveMaterial = new THREE.ShaderMaterial({
-    vertexShader,
-    fragmentShader,
+    vertexShader: mobileVertexShader,
+    fragmentShader: mobileFragmentShader,
     uniforms: {
       uTime: { value: 0 },
       uFade: { value: 0 },
-      uTargetColor: { value: new THREE.Color("rgb(215,38,91)") },
+      uTargetColor: { value: new THREE.Color("rgb(111,127,242)") },
     },
     transparent: true,
   });
@@ -97,19 +106,29 @@ function BackgroundWavePoints() {
   );
 }
 
-export default function ColoredBackgroundWaveScene({
+export default function ColoredBackgroundWaveSceneMobile({
   color = "rgb(215,38,91)",
-}: ColoredBackgroundWaveSceneProps) {
-  // Update target color based on prop.
-  const targetColor = new THREE.Color(color);
+}: ColoredBackgroundWaveSceneMobileProps) {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  if (!isMobile) return null;
 
   return (
     <Canvas style={{ width: "100%", height: "100%" }}>
       <ambientLight intensity={0.3} />
-      <group rotation={[-Math.PI / 2, .3, 0]}> 
-        {/* Use a simpler rotation for testing */}
+      <group rotation={[-Math.PI / 2, -.4, 0]}> 
         <BackgroundWavePoints />
       </group>
     </Canvas>
   );
-}
+} 

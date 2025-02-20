@@ -9,7 +9,8 @@ import InteractiveGrid from "@/components/Ui Components/InteractiveGrid"; // new
 import { AspectRatio } from "@/components/molecules/shadcn/aspect-ratio"; // ShadCN's AspectRatio component
 import styles from "./features.module.css";
 import { Separator } from "../molecules/shadcn/separator";
-import ColoredBackgroundWaveScene2 from "@/components/Ui Components/ColoredBackgroundWaveScene2"; // Adjust path as needed
+import ColoredBackgroundWaveScene2 from "@/components/Ui Components/ColoredBackgroundWaveScene2";
+import ColoredBackgroundWaveSceneMobile from "@/components/Ui Components/ColoredBackgroundWaveSceneMobile";
 
 
 export default function Features() {
@@ -81,9 +82,14 @@ export default function Features() {
     ref={sectionRef} className="relative bg-white text-bold overflow-hidden">
        {/* Background Wave (only render when in view) */}
             {isSectionInView && (
-              <div className="absolute inset-0 -z-8 -mt-96 lg:mt-0">
-                <ColoredBackgroundWaveScene2 color="rgb(255,22,112)" />
-              </div>
+              <>
+                <div className="absolute inset-0 -z-8 -mt-[200px]  hidden md:block">
+                  <ColoredBackgroundWaveScene2 color="rgb(255,22,112)" />
+                </div>
+                <div className="absolute inset-0 -z-8 -mt-[1000px] md:hidden">
+                  <ColoredBackgroundWaveSceneMobile color="rgb(255,22,112)" />
+                </div>
+              </>
             )}
       
       <div className="container relative z-10  lg:px-20 md:px-6 pt-10 lg:mt-8 mt-2">
