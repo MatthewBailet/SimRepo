@@ -92,7 +92,7 @@ export default function Explaination() {
         </div>
       )}
 
-      <div className="container relative z-10 md:px-6 lg:px-12 lg:pt-32 pb-20 pt-0 ">
+      <div className="container relative z-10 px-6 md:px-6 lg:px-12 lg:pt-32 pb-20 pt-0 ">
         {/* Top Section: Title + Interactive Animation */}
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
           {/* Left: Section Title */}

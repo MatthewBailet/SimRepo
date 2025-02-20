@@ -92,7 +92,7 @@ export default function Features() {
               </>
             )}
       
-      <div className="container relative z-10  lg:px-20 md:px-6 pt-10 lg:mt-8 mt-2">
+      <div className="container relative z-10  lg:px-20 md:px-6 px-3 pt-10 lg:mt-8 mt-2">
         {/* Top Section: Title + Interactive Animation */}
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between">
           {/* Left: Section Title */}

@@ -39,7 +39,7 @@ export default function DoubleCardSection() {
     >
       <div className="container lg:px-24 px-3 md:px-8 pt-3 lg:pt-4">
         {/* Grid: Top row (65%/35%) and bottom row (full width) */}
-        <div className="grid grid-cols-1 md:grid-cols-[65%_35%] grid-rows-[auto_auto] gap-5 px-8 pr-5">
+        <div className="grid grid-cols-1 md:grid-cols-[65%_35%] grid-rows-[auto_auto] gap-5 px-3 md:px-8 pr-5">
           {/* Card #1 (top-left, 65%) */}
           <div className="relative group rounded-lg border border-gray-200 bg-white py-12 px-12 transform hover:scale-105 transition-transform duration-300 shadow-sm">
             {/* Optionally add a background wave here if desired */}
