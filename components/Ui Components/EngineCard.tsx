@@ -207,7 +207,7 @@ const EngineCard: React.FC<EngineCardProps> = ({ renderWave = true }) => {
   }, [cardHovered, waveRotation, defaultColor, hoverColor]);
 
   return (
-    <Link legacyBehavior href="#">
+    <Link legacyBehavior href="/pilot-program">
       <a
         onMouseEnter={() => setCardHovered(true)}
         onMouseLeave={() => setCardHovered(false)}

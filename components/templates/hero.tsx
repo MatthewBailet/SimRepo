@@ -228,12 +228,12 @@ export default function Hero() {
     >
       {/* Only render the expensive 3D wave background if the hero is in view */}
       {isHeroInView && (
-        <div className="absolute inset-0 -z-10 py-3 -mt-20">
+        <div className="absolute -z-8 inset-0 -z-10 py-3 -mt-20">
           <BackgroundWaveScene />
         </div>
       )}
 
-      <div className="lg:mt-12 pt-20 lg:pt-32 mt-8 sm:mt-20 md:mt-5">
+      <div className="lg:mt-12 pt-20 lg:pt-32 mt-8 sm:mt-20 md:mt-5 relative z-10">
         <div className="container mx-auto px-6">
           <div className="grid gap-8 md:grid-cols-1 ">
             {/* Left Column: Text & CTA */}
