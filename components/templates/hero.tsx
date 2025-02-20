@@ -281,7 +281,7 @@ export default function Hero() {
         </div>
       )}
 
-      <div className="lg:mt-72 pt-20 lg:pt-42 text-center  mt-8 sm:mt-20 md:mt-5 relative z-10 pb-20">
+      <div className="lg:mt-48 pt-20 lg:pt-42 text-center  mt-8 sm:mt-20 md:mt-5 relative z-10 pb-20">
         <div className="container mx-auto px-6">
           <motion.div 
             initial={{ opacity: 0 }}
