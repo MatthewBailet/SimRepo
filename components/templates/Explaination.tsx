@@ -47,7 +47,6 @@ export default function Explanation() {
         <div className="absolute inset-0 -z-8">
           <ColoredBackgroundWaveScene 
             color="rgb(111,127,242)" 
-            shouldRasterize={true}
           />
         </div>
       )}

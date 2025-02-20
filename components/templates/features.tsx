@@ -71,7 +71,6 @@ export default function Features() {
                 <div className="absolute inset-0 -z-8 -mt-[200px]  hidden md:block">
                   <ColoredBackgroundWaveScene2 
                     color="rgb(255,22,112)" 
-                    shouldRasterize={true}
                   />
                 </div>
                 <div className="absolute inset-0 -z-8 -mt-[1000px] md:hidden">
