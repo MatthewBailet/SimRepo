@@ -17,7 +17,7 @@ export default function Header() {
         <NavigationMenuDemo></NavigationMenuDemo>
       </nav>
       <Link target='_blank' href='https://github.com/kpedrok/nextjs-atomic-shadcn-ui-landing-page'>
-        <Button variant='default'>
+        <Button variant='default' className='bg-slate-900 text-white'>
     
           <p className='pl-1'>Request Access</p>
         </Button>

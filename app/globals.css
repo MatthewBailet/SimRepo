@@ -69,3 +69,11 @@
     stroke-dashoffset: 0;
   }
 }
+
+.stroke-dashoffset-0 {
+  stroke-dashoffset: 0;
+}
+
+.stroke-dashoffset-full {
+  stroke-dashoffset: 1000;
+}

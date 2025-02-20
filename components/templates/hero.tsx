@@ -238,14 +238,14 @@ export default function Hero() {
           <div className="grid gap-8 md:grid-cols-1 ">
             {/* Left Column: Text & CTA */}
             <div className="space-y-4 mb-0 lg:mb-3">
-              <h1 className="lg:text-6xl text-5xl lg:px-20 font-semibold lg:font-medium  lg:text-center mx-0  lg:mx-auto pl-0 lg:pl-4 pr-12 lg:pr-0 lg:pl-0 mt-0 lg:mt-10 lg:mt-0 text-left tracking-tight md:text-7xl lg:text-5xl w-95 w-[90%] lg:w-[80%]">
+              <h1 className="lg:text-6xl text-slate-800 text-5xl lg:px-20 font-semibold lg:font-medium  lg:text-center mx-0  lg:mx-auto pl-0 lg:pl-4 pr-12 lg:pr-0 lg:pl-0 mt-0 lg:mt-10 lg:mt-0 text-left tracking-tight md:text-7xl lg:text-5xl w-95 w-[90%] lg:w-[80%]">
                 Powering Better Decisions with AI Based Simulations
               </h1>
               <p className="text-m  lg:text-center lg:justify-center  mx-auto text-gray-600 dark:text-gray-400 sm:text-left lg:w-[50%] w-[90]">
                 Providing fine-tuned AI models paired with realtime industry data to produce accurate, intelligent business forecasting.
               </p>
               <div className="flex items-center pl-4 pl-0 lg:pl-1 justify-right lg:justify-center mx-0 lg:mx-auto lg:space-x-4 space-x-2">
-                <Button variant="default">Request Early Access</Button>
+                <Button variant="default" className="bg-slate-900 text-white">Request Early Access</Button>
                 <Button className="sm:visible hidden" variant="secondary">
                   Book a Consultation
                 </Button>

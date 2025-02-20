@@ -89,8 +89,10 @@ export default function Explaination() {
             />
           </div>
           {/* Right: Interactive Grid */}
-          <div className="flex-1">
-            <InteractiveGrid />
+          <div className="w-full md:flex-1 flex justify-center">
+            <div className="w-full max-w-[500px] md:max-w-full">
+              <InteractiveGrid />
+            </div>
           </div>
         </div>
 
