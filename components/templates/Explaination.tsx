@@ -69,7 +69,7 @@ export default function Explaination() {
   return (
     <section
       ref={sectionRef}
-      className="relative bg-white text-bold overflow-hidden"
+      className="relative bg-slate-950 text-bold overflow-hidden"
     >
       {/* Background Wave (only render when in view) */}
       {isSectionInView && (
@@ -78,7 +78,7 @@ export default function Explaination() {
         </div>
       )}
 
-      <div className="container relative z-10 md:px-6 lg:px-12 pt-8 pb-20">
+      <div className="container relative z-10 md:px-6 lg:px-12 pb-20 pt-32">
         {/* Top Section: Title + Interactive Animation */}
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
           {/* Left: Section Title */}

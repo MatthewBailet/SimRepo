@@ -120,7 +120,7 @@ export default function NodeItem({ icon, label, isVisible, finalPop, animateHove
                 scale: isColorPop || isHovered ? 1.15 : 1,
                 backgroundColor: isColorPop || isHovered 
                   ? colorMap[label as keyof typeof colorMap] 
-                  : "rgb(255, 39, 107)",
+                  : "rgb(202,14,73)",
               }}
               transition={{ 
                 duration: 0.3,

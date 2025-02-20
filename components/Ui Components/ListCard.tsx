@@ -20,19 +20,19 @@ export default function ListCard({
   description,
 }: ListCardProps) {
   return (
-    <div className="relative group rounded-lg border border-gray-200 bg-white px-6 pt-6 pb-6 shadow-md transition-transform duration-300 hover:scale-105">
+    <div className="relative group rounded-lg  bg-slate-900 px-6 pt-6 pb-6 shadow-md transition-transform duration-300 hover:scale-105">
       {/* Top Right Arrow */}
       <div className="absolute top-4 right-4">
-        <div className="bg-white opacity-50 rounded-full p-2 transition-transform duration-300 group-hover:scale-[103%]">
+        <div className="bg-slate-800 opacity-50 rounded-full p-2 transition-transform duration-300 group-hover:scale-[103%]">
           <ArrowRight className="w-4 h-4 text-black" />
         </div>
       </div>
       {/* Top Row: Icon */}
       <div className="flex items-center mb-2 space-x-2">
-        {icon && <div className="text-[rgb(84,104,255)]">{icon}</div>}
+        {icon && <div className="text-[rgb(202,14,73)]">{icon}</div>}
       </div>
-      <h3 className="text-sm mt-8 font-semibold text-[#0a2540]">{title}</h3>
-      <p className="text-sm text-gray-600 mt-3 leading-relaxed">{description}</p>
+      <h3 className="text-sm mt-8 font-semibold text-gray-300">{title}</h3>
+      <p className="text-sm text-gray-400 mt-3 leading-relaxed">{description}</p>
     </div>
   );
 }

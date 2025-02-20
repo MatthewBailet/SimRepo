@@ -46,7 +46,7 @@ const fragmentShader = `
   void main() {
     vec2 center = gl_PointCoord - vec2(0.5);
     float dist = length(center);
-    float circle = smoothstep(0.1, 9.45, dist);
+    float circle = smoothstep(0.1, 4.45, dist);
     vec3 baseColor = mix(vec3(0.0), vec3(1.0), vUv.y);
     baseColor *= 5.0 - vDisplacement * 2.1;
     float gridX = smoothstep(0.48, 0.5, abs(fract(vUv.x * 50.0) - 0.5));
@@ -106,7 +106,7 @@ export default function ColoredBackgroundWaveScene({
   return (
     <Canvas style={{ width: "100%", height: "100%" }}>
       <ambientLight intensity={0.3} />
-      <group rotation={[-Math.PI / 2, .2, 0]}> 
+      <group rotation={[-Math.PI / 2, .3, 0]}> 
         {/* Use a simpler rotation for testing */}
         <BackgroundWavePoints />
       </group>

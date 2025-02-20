@@ -178,12 +178,74 @@ export default function InteractiveGrid() {
   return (
     <div className="w-[500px] h-[500px] relative mx-auto" ref={ref}>
       <svg className="absolute w-[500px] h-[500px] top-0 left-0 pointer-events-none -z-10">
+        <defs>
+          <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stopColor="rgb(242, 111, 153)">
+              <animate
+                attributeName="offset"
+                values="0;0.5;0"
+                dur="4s"
+                repeatCount="indefinite"
+              />
+            </stop>
+            <stop offset="100%" stopColor="rgb(85, 112, 247)">
+              <animate
+                attributeName="offset"
+                values="0.5;1;0.5"
+                dur="4s"
+                repeatCount="indefinite"
+              />
+            </stop>
+          </linearGradient>
+          <linearGradient id="gradient2" xlinkHref="#gradient" /> {/* Reuse the same gradient */}
+          <linearGradient id="webscraper-gradient" x1="0%" y1="0%" x2="100%" y2="0%" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stopColor="rgb(242, 111, 153)">
+              <animate
+                attributeName="offset"
+                values="0;0.5;0"
+                dur="4s"
+                repeatCount="indefinite"
+              />
+            </stop>
+            <stop offset="100%" stopColor="rgb(242, 111, 153)">
+              <animate
+                attributeName="offset"
+                values="0.5;1;0.5"
+                dur="4s"
+                repeatCount="indefinite"
+              />
+            </stop>
+          </linearGradient>
+
+          <linearGradient id="plugins-gradient" x1="0%" y1="0%" x2="100%" y2="0%" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stopColor="rgb(242, 111, 153)">
+              <animate
+                attributeName="offset"
+                values="0;0.5;0"
+                dur="4s"
+                repeatCount="indefinite"
+              />
+            </stop>
+            <stop offset="100%" stopColor="rgb(85, 112, 247)">
+              <animate
+                attributeName="offset"
+                values="0.5;1;0.5"
+                dur="4s"
+                repeatCount="indefinite"
+              />
+            </stop>
+          </linearGradient>
+
+        </defs>
         {/* First path */}
         <path
           d="M 55 60 v 175 q 0 20 20 20 h 50"
           fill="none"
-          stroke="rgb(242, 111, 153)"
+          stroke="url(#gradient)"
           strokeWidth="2"
+          className={`transition-all duration-1000 ${
+            pathVisible ? 'stroke-dashoffset-0' : 'stroke-dashoffset-full'
+          }`}
           style={{
             strokeDasharray: '1000',
             strokeDashoffset: pathVisible ? '0' : '1000',
@@ -193,30 +255,35 @@ export default function InteractiveGrid() {
         <path
           d="M 153 60 v 175 q 0 20 -20 20 h -10"
           fill="none"
-          stroke="rgb(242, 111, 153)"
+          stroke="url(#gradient2)"
           strokeWidth="2"
+          className={`transition-all duration-1000 ${
+            path2Visible ? 'stroke-dashoffset-0' : 'stroke-dashoffset-full'
+          }`}
           style={{
             strokeDasharray: '1000',
             strokeDashoffset: path2Visible ? '0' : '1000',
           }}
         />
-        {/* Webscraper to Parser */}
+        {/* New path from Webscraper to Parser */}
         <path
           d="M 55 355 h 175 q 20 0 20 20"
           fill="none"
-          stroke="rgb(242, 111, 153)"
+          stroke="url(#webscraper-gradient)"
           strokeWidth="2"
+          className={`transition-all duration-1000`}
           style={{
             strokeDasharray: '1000',
             strokeDashoffset: path3Visible ? '0' : '1000',
           }}
         />
-        {/* Second Webscraper to Parser */}
+        {/* New path from second Webscraper to Parser */}
         <path
           d="M 65 460 h 165 c 25 0 20 0 20 -80"
           fill="none"
-          stroke="rgb(242, 111, 153)"
+          stroke="url(#webscraper-gradient)"
           strokeWidth="2"
+          className={`transition-all duration-1000`}
           style={{
             strokeDasharray: '1000',
             strokeDashoffset: path4Visible ? '0' : '1000',
@@ -226,8 +293,9 @@ export default function InteractiveGrid() {
         <path
           d="M 155 255 h 80"
           fill="none"
-          stroke="rgb(242, 111, 153)"
+          stroke="url(#gradient)"
           strokeWidth="2"
+          className={`transition-all duration-1000`}
           style={{
             strokeDasharray: '1000',
             strokeDashoffset: path5Visible ? '0' : '1000',
@@ -237,8 +305,9 @@ export default function InteractiveGrid() {
         <path
           d="M 250 355 v -80 h -20"
           fill="none"
-          stroke="rgb(242, 111, 153)"
+          stroke="url(#gradient2)"
           strokeWidth="2"
+          className={`transition-all duration-1000`}
           style={{
             strokeDasharray: '1000',
             strokeDashoffset: path6Visible ? '0' : '1000',
@@ -248,8 +317,9 @@ export default function InteractiveGrid() {
         <path
           d="M 250 155 v 80"
           fill="none"
-          stroke="rgb(242, 111, 153)"
+          stroke="url(#plugins-gradient)"
           strokeWidth="2"
+          className={`transition-all duration-1000`}
           style={{
             strokeDasharray: '1000',
             strokeDashoffset: path7Visible ? '0' : '1000',
@@ -259,8 +329,9 @@ export default function InteractiveGrid() {
         <path
           d="M 270 255 h 180"
           fill="none"
-          stroke="rgb(242, 111, 153)"
+          stroke="url(#gradient)"
           strokeWidth="2"
+          className={`transition-all duration-1000`}
           style={{
             strokeDasharray: '1000',
             strokeDashoffset: path8Visible ? '0' : '1000',
