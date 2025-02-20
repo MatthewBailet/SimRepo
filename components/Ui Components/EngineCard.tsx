@@ -161,6 +161,7 @@ function EngineWaveScene({
       style={{
         width: "100%",
         height: "100%",
+        borderRadius: "10px",
         background:
           "linear-gradient(165deg, rgb(74,0,18), rgb(15,10,63))",
       }}
