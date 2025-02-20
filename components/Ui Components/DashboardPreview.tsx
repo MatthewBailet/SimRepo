@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
 import {
   BarChart2, Settings, Users, Database, 
@@ -9,6 +9,7 @@ import {
   LineChart, PieChart, TrendingUp, Menu, Filter
 } from "lucide-react";
 import { Progress } from "@/components/molecules/shadcn/progress";
+import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 
 const sidebarItems = [
   { icon: <Home size={20} />, label: "Dashboard" },
@@ -68,41 +69,38 @@ const businessMetrics = [
 ];
 
 export default function DashboardPreview() {
-  const [isVisible, setIsVisible] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
+  const [ref, isVisible] = useIntersectionObserver(0.1);
   const [height, setHeight] = useState(800); // Set a default height
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          setIsVisible(entry.isIntersecting);
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    const currentRef = ref.current;
-    if (currentRef) {
-      observer.observe(currentRef);
-    }
-
-    return () => {
-      if (currentRef) {
-        observer.unobserve(currentRef);
-      }
-    };
-  }, []);
+  // Memoize the metrics to prevent unnecessary re-renders
+  const memoizedMetrics = useMemo(() => businessMetrics.map((metric, index) => (
+    <motion.div
+      key={index}
+      initial={false}
+      animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+      transition={{ delay: index * 0.1 }}
+      className="bg-white p-4 rounded-lg border border-gray-100 shadow-sm"
+    >
+      <div className="flex justify-between items-center mb-3">
+        <h3 className="text-sm font-medium text-gray-600">{metric.title}</h3>
+        <Filter className="h-4 w-4 text-gray-400" />
+      </div>
+      <div className="flex items-end justify-between mb-2">
+        <span className="text-2xl font-semibold">{metric.value}</span>
+        <span className={`text-sm ${metric.statusColor}`}>{metric.status}</span>
+      </div>
+      <Progress value={metric.progress} className="h-1 mb-2" />
+      <span className="text-xs text-gray-500">{metric.target}</span>
+    </motion.div>
+  )), [isVisible]);
 
   return (
     <div ref={ref} className="relative h-[800px]"> {/* Fixed height container */}
-      {isVisible ? (
+      {isVisible && (
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 20 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          initial={false}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
           className="w-full max-w-6xl mx-auto mt-12 bg-white rounded-xl shadow-xl overflow-hidden border border-gray-100"
         >
           {/* Top Navigation Bar */}
@@ -152,26 +150,7 @@ export default function DashboardPreview() {
             <div className="flex-1 p-6">
               {/* Business Metrics Grid */}
               <div className="grid grid-cols-3 gap-6 mb-8">
-                {businessMetrics.map((metric, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                    className="bg-white p-4 rounded-lg border border-gray-100 shadow-sm"
-                  >
-                    <div className="flex justify-between items-center mb-3">
-                      <h3 className="text-sm font-medium text-gray-600">{metric.title}</h3>
-                      <Filter className="h-4 w-4 text-gray-400" />
-                    </div>
-                    <div className="flex items-end justify-between mb-2">
-                      <span className="text-2xl font-semibold">{metric.value}</span>
-                      <span className={`text-sm ${metric.statusColor}`}>{metric.status}</span>
-                    </div>
-                    <Progress value={metric.progress} className="h-1 mb-2" />
-                    <span className="text-xs text-gray-500">{metric.target}</span>
-                  </motion.div>
-                ))}
+                {memoizedMetrics}
               </div>
 
               {/* Charts Section */}
@@ -245,8 +224,6 @@ export default function DashboardPreview() {
             </div>
           </div>
         </motion.div>
-      ) : (
-        <div className="h-[800px]" /> // Fixed height placeholder
       )}
     </div>
   );

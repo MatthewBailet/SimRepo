@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
 
 import { BarChart2, Scan, Umbrella, Wallet } from "lucide-react";
@@ -13,36 +13,12 @@ import { Separator } from "../molecules/shadcn/separator";
 import ColoredBackgroundWaveScene2 from "@/components/Ui Components/ColoredBackgroundWaveScene2";
 import ColoredBackgroundWaveSceneMobile from "@/components/Ui Components/ColoredBackgroundWaveSceneMobile";
 import DashboardPreview from "@/components/Ui Components/DashboardPreview";
+import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 
 
 export default function Features() {
-
-  const sectionRef = useRef<HTMLElement>(null);
-    const [isSectionInView, setIsSectionInView] = useState(true);
+  const [sectionRef, isSectionInView] = useIntersectionObserver(0.1);
   
-    useEffect(() => {
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            setIsSectionInView(entry.isIntersecting);
-          });
-        },
-        { threshold: 0.1 }
-      );
-  
-      const currentRef = sectionRef.current;
-      if (currentRef) {
-        observer.observe(currentRef);
-      }
-  
-      return () => {
-        if (currentRef) {
-          observer.unobserve(currentRef);
-        }
-      };
-    }, []);
-  
-
   // Updated card data with Lucide icons
   const cardsData = [
     {
@@ -79,6 +55,13 @@ export default function Features() {
     },
   ];
 
+  // Memoize card data to prevent unnecessary re-renders
+  const memoizedCards = useMemo(() => 
+    cardsData.map((card, index) => (
+      <Card key={index} {...card} />
+    ))
+  , []);
+
   return (
     <section
     ref={sectionRef} className="relative bg-white text-bold overflow-hidden">
@@ -86,7 +69,10 @@ export default function Features() {
             {isSectionInView && (
               <>
                 <div className="absolute inset-0 -z-8 -mt-[200px]  hidden md:block">
-                  <ColoredBackgroundWaveScene2 color="rgb(255,22,112)" />
+                  <ColoredBackgroundWaveScene2 
+                    color="rgb(255,22,112)" 
+                    shouldRasterize={true}
+                  />
                 </div>
                 <div className="absolute inset-0 -z-8 -mt-[1000px] md:hidden">
                   <ColoredBackgroundWaveSceneMobile color="rgb(255,22,112)" />
@@ -124,15 +110,13 @@ export default function Features() {
           </div>
         </div>
 
-        <div className="mb-80">
+        <div className="mb-72">
           <DashboardPreview />
         </div>
 
         {/* 2×2 Card Layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-0 lg:mt-24 px-3 lg:px-12 py-2">
-          {cardsData.map((card, index) => (
-            <Card key={index} {...card} />
-          ))}
+          {memoizedCards}
         </div>
       </div>
     </section>
