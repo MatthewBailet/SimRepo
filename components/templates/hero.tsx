@@ -152,7 +152,7 @@ const xlBackgroundFragmentShader = `
   void main() {
     vec2 center = gl_PointCoord - vec2(0.5);
     float dist = length(center);
-    float circle = smoothstep(0.1, 6.75, dist);
+    float circle = smoothstep(0.1, 4.75, dist);
 
     vec3 baseColor = mix(vec3(0.0), vec3(1.0), vUv.y);
     baseColor *= 5.0 - vDisplacement * 2.1;
@@ -281,7 +281,7 @@ export default function Hero() {
         </div>
       )}
 
-      <div className="lg:mt-72 pt-20 lg:pt-42 text-center  mt-8 sm:mt-20 md:mt-5 relative z-10 ">
+      <div className="lg:mt-72 pt-20 lg:pt-42 text-center  mt-8 sm:mt-20 md:mt-5 relative z-10 pb-20">
         <div className="container mx-auto px-6">
           <motion.div 
             initial={{ opacity: 0 }}
