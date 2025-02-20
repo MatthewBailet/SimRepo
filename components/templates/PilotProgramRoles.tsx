@@ -53,7 +53,7 @@ export default function PilotProgramRoles() {
             About the Pilot Program
           </h2>
           <p className="text-gray-600 text-center max-w-2xl mx-auto mb-16 leading-relaxed pb-8">
-            We're launching our pilot program to gather valuable insights and feedback from industry professionals before our full launch. This exclusive pre-launch phase helps us refine our AI simulation platform while giving early adopters special access and benefits.
+            We&apos;re launching our pilot program to gather valuable insights and feedback from industry professionals before our full launch. This exclusive pre-launch phase helps us refine our AI simulation platform while giving early adopters special access and benefits.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {roles.map((role, index) => (

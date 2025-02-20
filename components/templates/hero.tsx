@@ -201,6 +201,7 @@ export default function Hero() {
   const [isHeroInView, setIsHeroInView] = useState(true);
 
   useEffect(() => {
+    const currentRef = heroRef.current; // Store ref value
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -210,13 +211,13 @@ export default function Hero() {
       { threshold: 0.1 }
     );
 
-    if (heroRef.current) {
-      observer.observe(heroRef.current);
+    if (currentRef) {
+      observer.observe(currentRef);
     }
 
     return () => {
-      if (heroRef.current) {
-        observer.unobserve(heroRef.current);
+      if (currentRef) { // Use stored ref value
+        observer.unobserve(currentRef);
       }
     };
   }, []);

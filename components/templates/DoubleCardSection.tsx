@@ -13,21 +13,23 @@ export default function DoubleCardSection() {
   const [isSectionInView, setIsSectionInView] = useState(true);
 
   useEffect(() => {
+    const currentRef = sectionRef.current; // Store ref value
     const observer = new IntersectionObserver(
       (entries) => {
-        // We assume only one entry (the section)
         entries.forEach((entry) => {
           setIsSectionInView(entry.isIntersecting);
         });
       },
       { threshold: 0.1 }
     );
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
+
+    if (currentRef) {
+      observer.observe(currentRef);
     }
+
     return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
+      if (currentRef) { // Use stored ref value
+        observer.unobserve(currentRef);
       }
     };
   }, []);
