@@ -116,7 +116,7 @@ const mobileBackgroundFragmentShader = `
   void main() {
     vec2 center = gl_PointCoord - vec2(0.5);
     float dist = length(center);
-    float circle = smoothstep(0.1, 2.45, dist);
+    float circle = smoothstep(0.2, 3.45, dist);
 
     vec3 baseColor = mix(vec3(0.0), vec3(0.7), vUv.y);
     baseColor *= 3.0 - vDisplacement * 1.5;
