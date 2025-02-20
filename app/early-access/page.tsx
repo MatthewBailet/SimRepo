@@ -7,7 +7,7 @@ import Header from "@/components/templates/header"; // You'll need to extract yo
 export default function EarlyAccessPage() {
   return (
     <main className="min-h-screen bg-white">
-      <Header />
+    
       <EarlyAccessForm />
     </main>
   );

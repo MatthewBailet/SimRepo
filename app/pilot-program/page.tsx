@@ -9,7 +9,7 @@ import Header from "@/components/templates/header";
 export default function PilotProgramPage() {
   return (
     <main className="min-h-screen bg-white">
-      <Header />
+
       <PilotProgramHero />
       <PilotProgramRoles />
       <PilotProgramForm />

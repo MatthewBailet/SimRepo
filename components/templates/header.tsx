@@ -5,7 +5,7 @@ import Image from 'next/image'
 
 export default function Header() {
   return (
-    <header className='fixed w-full top-0 z-50 bg-white/80 backdrop-blur-sm'>
+    <header className='w-full top-0 z-50 bg-white backdrop-blur-sm absolute z-50'>
       <div className='container mx-auto px-4'>
         <div className='flex items-center justify-between h-16'>
           <Link 
@@ -27,12 +27,14 @@ export default function Header() {
           </nav>
 
           <div className='flex items-center shrink-0'>
-            <Button 
-              variant='default' 
-              className='bg-slate-900 text-white'
-            >
-              Request Access
-            </Button>
+            <Link href='/early-access'>
+              <Button 
+                variant='default' 
+                className='bg-slate-900 text-white'
+              >
+                Request Access
+              </Button>
+            </Link>
           </div>
         </div>
       </div>

@@ -5,6 +5,7 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { Button } from "@/components/molecules/shadcn/button";
 import EngineCard from "@/components/Ui Components/EngineCard"; // Adjust path as needed
+import { motion } from "framer-motion";
 
 // --------------------
 // Global Background Wave Shaders
@@ -236,9 +237,18 @@ export default function Hero() {
 
       <div className="lg:mt-12 pt-20 lg:pt-32 mt-8 sm:mt-20 md:mt-5 relative z-10">
         <div className="container mx-auto px-6">
-          <div className="grid gap-8 md:grid-cols-1 ">
-            {/* Left Column: Text & CTA */}
-            <div className="space-y-4 mb-0 lg:mb-3">
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8 }}
+            className="grid gap-8 md:grid-cols-1"
+          >
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="space-y-4 mb-0 lg:mb-3"
+            >
               <h1 className="lg:text-6xl text-slate-800 text-5xl lg:px-20 font-semibold lg:font-medium  lg:text-center mx-0  lg:mx-auto pl-0 lg:pl-4 pr-12 lg:pr-0 lg:pl-0 mt-0 lg:mt-10 lg:mt-0 text-left tracking-tight md:text-7xl lg:text-5xl w-95 w-[90%] lg:w-[80%]">
                 Powering Better Decisions with AI Based Simulations
               </h1>
@@ -253,12 +263,16 @@ export default function Hero() {
                   Book a Consultation
                 </Button>
               </div>
-            </div>
-            {/* Right Column: Engine Card */}
-            <div className="md:block sm:block mt-3 lg:mt-1 pb-10">
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="md:block sm:block mt-3 lg:mt-1 pb-10"
+            >
               <EngineCard renderWave={isHeroInView} />
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
       </div>
     </section>
