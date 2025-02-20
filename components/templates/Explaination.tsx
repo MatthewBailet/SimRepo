@@ -6,7 +6,7 @@ import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import { Terminal, Database, Network, Braces } from "lucide-react";
 import { Badge } from "@/components/molecules/shadcn/badge";
 import { Card } from "@/components/molecules/shadcn/card";
-import ColoredBackgroundWaveScene2 from "@/components/Ui Components/ColoredBackgroundWaveScene2";
+import ColoredBackgroundWaveScene from "@/components/Ui Components/ColoredBackgroundWaveScene";
 
 const features = [
   {
@@ -45,7 +45,7 @@ export default function Explanation() {
     >
       {isInView && (
         <div className="absolute inset-0 -z-8">
-          <ColoredBackgroundWaveScene2 
+          <ColoredBackgroundWaveScene 
             color="rgb(111,127,242)" 
             shouldRasterize={true}
           />

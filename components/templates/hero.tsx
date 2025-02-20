@@ -250,7 +250,7 @@ export default function Hero() {
               className="space-y-4 mb-0 lg:mb-3"
             >
               <h1 className="lg:text-6xl text-slate-800 text-5xl lg:px-20 font-semibold lg:font-medium  lg:text-center mx-0  lg:mx-auto pl-0 pr-12 lg:pr-0 lg:pl-0 mt-0 lg:mt-10 lg:mt-0 text-left tracking-tight md:text-7xl lg:text-5xl w-95 w-[90%] lg:w-[80%]">
-                Powering Better Decisions with AI Based Simulations
+                The Ultimate AI-Powered Business Intelligence Suite
               </h1>
               <p className="text-m  lg:text-center lg:justify-center  mx-auto text-gray-600 dark:text-gray-400 sm:text-left lg:w-[50%] w-[90]">
                 Providing fine-tuned AI models paired with realtime industry data to produce accurate, intelligent business forecasting.

@@ -1,79 +1,56 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
-import { ArrowRight } from "lucide-react";
-import MyButton from "@/components/Ui Components/MyButton"; // Adjust path as needed
+import React from "react";
+import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
+import { ArrowRight, Briefcase, Code, Layers } from "lucide-react";
 import { Button } from "../molecules/shadcn/button";
-import BlueWaveScene from "@/components/Ui Components/BlueWaveScene"; // Adjust path as needed
+import { Badge } from "../molecules/shadcn/badge";
+import BlueWaveScene from "@/components/Ui Components/BlueWaveScene";
 
 export default function DoubleCardSection() {
-  // Ref for the entire section.
-  const sectionRef = useRef<HTMLDivElement>(null);
-  // State to track whether the section is in view.
-  const [isSectionInView, setIsSectionInView] = useState(true);
-
-  useEffect(() => {
-    const currentRef = sectionRef.current; // Store ref value
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          setIsSectionInView(entry.isIntersecting);
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    if (currentRef) {
-      observer.observe(currentRef);
-    }
-
-    return () => {
-      if (currentRef) { // Use stored ref value
-        observer.unobserve(currentRef);
-      }
-    };
-  }, []);
+  const [ref, isSectionInView] = useIntersectionObserver(0.1);
 
   return (
     <section
-      ref={sectionRef}
-      className="relative pb-10 pt-10 bg-white text-bold overflow-hidden"
+      ref={ref}
+      className="relative py-24 bg-white text-bold overflow-hidden"
     >
-      <div className="container lg:px-24 px-3 md:px-8 pt-3 lg:pt-4">
-        {/* Grid: Top row (65%/35%) and bottom row (full width) */}
-        <div className="grid grid-cols-1 md:grid-cols-[65%_35%] grid-rows-[auto_auto] gap-5 px-3 md:px-8 pr-5">
-          {/* Card #1 (top-left, 65%) */}
-          <div className="relative group rounded-lg border border-gray-200 bg-white py-12 px-12 transform hover:scale-105 transition-transform duration-300 shadow-sm">
-            {/* Optionally add a background wave here if desired */}
-            {isSectionInView && (
-              <div className="absolute inset-0">
-                {/* You can insert an additional wave background if needed */}
-              </div>
-            )}
-            {/* Top Right Arrow */}
+      <div className="container lg:px-24 px-6">
+        <div className="grid grid-cols-1 md:grid-cols-[1.8fr_1fr] gap-6">
+          {/* Consultation Card */}
+          <div className="group relative overflow-hidden rounded-2xl border border-gray-100 bg-white p-8 shadow-lg transition-all duration-300 hover:shadow-xl">
             <div className="absolute top-4 right-4">
-              <div className="bg-white opacity-50 rounded-full p-2 transition-transform duration-300 group-hover:scale-[103%]">
-                <ArrowRight className="w-4 h-4 text-black" />
+              <div className="rounded-full bg-gray-50 p-2 transition-all duration-300 group-hover:bg-gray-100">
+                <ArrowRight className="h-4 w-4 text-gray-600" />
               </div>
             </div>
-            <div className="relative z-10">
-              <div className="transform -translate-y-4 transition-transform duration-300 group-hover:scale-[103%]">
-                <h2 className="text-xl font-semibold text-[#0a2540] mt-12">
-                  Consultation
-                </h2>
-                <p className="mt-4 text-sm text-gray-600 w-96">
-                  Form your new business from anywhere. Atlas sets up your US
-                  legal entity and tax ID, issues stock, and offers special
-                  benefits to kickstart growth.
-                </p>
-                <div className="mt-6 mb-8">
-                  <MyButton>Learn more</MyButton>
+            <div className="relative z-10 space-y-6">
+              <div className="inline-flex items-center space-x-2">
+                <div className="rounded-lg bg-blue-50 p-2">
+                  <Briefcase className="h-5 w-5 text-blue-600" />
                 </div>
+                <Badge variant="outline" className="bg-blue-50 text-blue-600 border-blue-100">
+                  Enterprise
+                </Badge>
               </div>
+              <div>
+                <h2 className="text-2xl font-semibold text-gray-900">
+                  Business Consultation
+                </h2>
+                <p className="mt-4 text-gray-600 leading-relaxed max-w-lg">
+                  Expert guidance on implementing AI solutions in your business workflow. 
+                  Our consultants help optimize your processes and maximize ROI through 
+                  data-driven strategies.
+                </p>
+              </div>
+              <Button className="bg-gray-900 hover:bg-gray-800">
+                Schedule Consultation
+              </Button>
             </div>
           </div>
-          {/* Card #2 (top-right, 35%) */}
-          <div className="relative group rounded-lg border border-gray-200 bg-slate-900 py-12 px-12 transform hover:scale-105 transition-transform duration-300 shadow-sm">
+
+          {/* API Card */}
+          <div className="group relative overflow-hidden rounded-2xl border border-gray-800 bg-gray-900 p-8 shadow-lg transition-all duration-300 hover:shadow-xl">
             {isSectionInView && (
               <div className="absolute inset-0">
                 <BlueWaveScene
@@ -82,63 +59,72 @@ export default function DoubleCardSection() {
                 />
               </div>
             )}
-            {/* Top Right Arrow */}
             <div className="absolute top-4 right-4">
-              <div className="bg-white opacity-50 rounded-full p-2 transition-transform duration-300 group-hover:scale-[103%]">
-                <ArrowRight className="w-4 h-4 text-black" />
+              <div className="rounded-full bg-white/10 p-2 transition-all duration-300 group-hover:bg-white/20">
+                <ArrowRight className="h-4 w-4 text-white" />
               </div>
             </div>
-            <div className="relative z-10">
-              <div className="transform -translate-y-4 transition-transform duration-300 group-hover:scale-[103%]">
-                <h2 className="text-xl font-semibold text-white mt-12">
-                  API
-                </h2>
-                <p className="mt-4 text-sm text-gray-300 w-80 pr-6">
-                  Integrate with our flexible API to manage business operations,
-                  launch new revenue models, and stay ahead in a rapidly changing
-                  market.
-                </p>
-                <div className="mt-6">
-                  <Button
-                    className="bg-gray-200 text-gray-800 cursor-not-allowed"
-                    variant={"outline"}
-                  >
-                    Coming soon
-                  </Button>
+            <div className="relative z-10 space-y-6">
+              <div className="inline-flex items-center space-x-2">
+                <div className="rounded-lg bg-white/10 p-2">
+                  <Code className="h-5 w-5 text-blue-400" />
                 </div>
+                <Badge variant="outline" className="bg-white/5 text-blue-400 border-blue-400/20">
+                  Developer
+                </Badge>
               </div>
+              <div>
+                <h2 className="text-2xl font-semibold text-white">
+                  API Access
+                </h2>
+                <p className="mt-4 text-gray-300 leading-relaxed">
+                  Integrate our powerful AI capabilities directly into your applications 
+                  with our comprehensive API suite.
+                </p>
+              </div>
+              <Button variant="outline" className="text-gray-300 border-gray-700 hover:bg-gray-800">
+                Coming Soon
+              </Button>
             </div>
           </div>
-          {/* Card #3 (bottom row, full width) */}
-          <div className="relative group col-span-1 md:col-span-2 rounded-lg border border-gray-200 bg-gradient-to-r from-[rgb(84,104,255)] to-[rgb(233,216,255)] py-12 px-12 transform hover:scale-105 transition-transform duration-300 shadow-sm">
+
+          {/* Platform Card */}
+          <div className="group relative col-span-full overflow-hidden rounded-2xl border border-gray-100 bg-gradient-to-r from-blue-600 to-indigo-600 p-8 shadow-lg transition-all duration-300 hover:shadow-xl">
             {isSectionInView && (
-              <div className="absolute inset-0">
+              <div className="absolute inset-0 opacity-50">
                 <BlueWaveScene
                   rotation={[-Math.PI / 3, 0.1, 4.2]}
                   enabled={isSectionInView}
                 />
               </div>
             )}
-            {/* Top Right Arrow */}
             <div className="absolute top-4 right-4">
-              <div className="bg-white opacity-50 rounded-full p-2 transition-transform duration-300 group-hover:scale-[103%]">
-                <ArrowRight className="w-4 h-4 text-black" />
+              <div className="rounded-full bg-white/10 p-2 transition-all duration-300 group-hover:bg-white/20">
+                <ArrowRight className="h-4 w-4 text-white" />
               </div>
             </div>
-            <div className="relative z-10">
-              <div className="transform -translate-y-4 transition-transform duration-300 group-hover:scale-[103%]">
-                <h2 className="text-xl font-semibold text-gray-50 mt-12">
-                  Platform
-                </h2>
-                <p className="mt-4 text-sm text-gray-100 w-96">
-                  Form your new business from anywhere. Atlas sets up your US
-                  legal entity and tax ID, issues stock, and offers special
-                  benefits to kickstart growth.
-                </p>
-                <div className="mt-6 mb-8">
-                  <Button>Request Access</Button>
+            <div className="relative z-10 space-y-6">
+              <div className="inline-flex items-center space-x-2">
+                <div className="rounded-lg bg-white/10 p-2">
+                  <Layers className="h-5 w-5 text-white" />
                 </div>
+                <Badge variant="outline" className="bg-white/5 text-white border-white/20">
+                  Platform
+                </Badge>
               </div>
+              <div className="max-w-2xl">
+                <h2 className="text-2xl font-semibold text-white">
+                  Enterprise Platform
+                </h2>
+                <p className="mt-4 text-gray-100 leading-relaxed">
+                  Access our complete suite of AI-powered tools and services. 
+                  Transform your business operations with advanced analytics, 
+                  automated workflows, and real-time insights.
+                </p>
+              </div>
+              <Button className="bg-white text-gray-900 hover:bg-gray-100">
+                Request Access
+              </Button>
             </div>
           </div>
         </div>
@@ -146,3 +132,5 @@ export default function DoubleCardSection() {
     </section>
   );
 }
+
+
