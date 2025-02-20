@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useRef, useState, useEffect } from "react";
+import { motion } from "framer-motion";
 
 import { BarChart2, Scan, Umbrella, Wallet } from "lucide-react";
 import Card from "@/components/Ui Components/Card"; // Adjust path as needed
@@ -11,6 +12,7 @@ import styles from "./features.module.css";
 import { Separator } from "../molecules/shadcn/separator";
 import ColoredBackgroundWaveScene2 from "@/components/Ui Components/ColoredBackgroundWaveScene2";
 import ColoredBackgroundWaveSceneMobile from "@/components/Ui Components/ColoredBackgroundWaveSceneMobile";
+import DashboardPreview from "@/components/Ui Components/DashboardPreview";
 
 
 export default function Features() {
@@ -92,16 +94,25 @@ export default function Features() {
               </>
             )}
       
-      <div className="container relative z-10  lg:px-20 md:px-6 px-3 pt-10 lg:mt-8 mt-2">
+      <div className="container relative z-10  lg:px-20 md:px-6 px-3 pt-4 lg:mt-8 mt-2">
         {/* Top Section: Title + Interactive Animation */}
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between">
           {/* Left: Section Title */}
-          <div className="flex-1 mb-5 lg:mb-20">
-            <SectionTitle
-              title="Smarter Decisions, Better Outcomes"
-              subtitle="AI-Powered Solutions for Better Predictions and Risk-Free Decisions"
-              description="Leverage predictive analytics and market forecasting for confident, data-driven decisions. Optimize processes, cut costs, and fine-tune strategies without costly experimentation—keeping your business ahead."
-            />
+          <div className="flex-1 mb-5 lg:mb-10">
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="text-center "
+            >
+              <h2 className="text-4xl font-semibold text-gray-900 mb-4">
+                Powerful Features
+              </h2>
+              <p className="text-gray-600 max-w-2xl mx-auto">
+                Discover how our AI-powered platform can transform your business decision-making process
+              </p>
+            </motion.div>
 
           <Separator className=" mt-8 visible lg:hidden"/>
         
@@ -111,6 +122,10 @@ export default function Features() {
           <div className="flex">
            
           </div>
+        </div>
+
+        <div className="mb-20">
+          <DashboardPreview />
         </div>
 
         {/* 2×2 Card Layout */}
