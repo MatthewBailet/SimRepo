@@ -24,28 +24,41 @@ export default function InteractiveGrid() {
     new Array(9).fill(false)
   );
   const [pathVisible, setPathVisible] = useState(false);
+  const [path2Visible, setPath2Visible] = useState(false);
 
   useEffect(() => {
     if (inView) {
       const animateConnection = async () => {
-        // Show first node (Databook)
+        // Show first node (Databook 1)
         setVisibleNodes(prev => {
           const newState = [...prev];
           newState[0] = true;
           return newState;
         });
 
-        // Start path animation
+        // Start first path animation
         await new Promise(resolve => setTimeout(resolve, 300));
         setPathVisible(true);
 
-        // Show second node (Parser) after path starts animating
+        // Show Parser node
         await new Promise(resolve => setTimeout(resolve, 500));
         setVisibleNodes(prev => {
           const newState = [...prev];
           newState[3] = true;
           return newState;
         });
+
+        // Show Databook 2
+        await new Promise(resolve => setTimeout(resolve, 400));
+        setVisibleNodes(prev => {
+          const newState = [...prev];
+          newState[1] = true;
+          return newState;
+        });
+
+        // Start second path animation
+        await new Promise(resolve => setTimeout(resolve, 300));
+        setPath2Visible(true);
       };
       
       animateConnection();
@@ -54,7 +67,6 @@ export default function InteractiveGrid() {
 
   return (
     <div className="w-[500px] h-[500px] relative mx-auto" ref={ref}>
-      {/* SVG container for the path - fixed size to match parent */}
       <svg className="absolute w-[500px] h-[500px] top-0 left-0 pointer-events-none -z-10">
         <defs>
           <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%" gradientUnits="userSpaceOnUse">
@@ -75,7 +87,9 @@ export default function InteractiveGrid() {
               />
             </stop>
           </linearGradient>
+          <linearGradient id="gradient2" xlinkHref="#gradient" /> {/* Reuse the same gradient */}
         </defs>
+        {/* First path */}
         <path
           d="M 55 60 v 175 q 0 20 20 20 h 50"
           fill="none"
@@ -87,6 +101,20 @@ export default function InteractiveGrid() {
           style={{
             strokeDasharray: '1000',
             strokeDashoffset: pathVisible ? '0' : '1000',
+          }}
+        />
+        {/* Second path */}
+        <path
+          d="M 153 60 v 175 q 0 20 -20 20 h -10"
+          fill="none"
+          stroke="url(#gradient2)"
+          strokeWidth="5"
+          className={`transition-all duration-1000 ${
+            path2Visible ? 'stroke-dashoffset-0' : 'stroke-dashoffset-full'
+          }`}
+          style={{
+            strokeDasharray: '1000',
+            strokeDashoffset: path2Visible ? '0' : '1000',
           }}
         />
       </svg>
