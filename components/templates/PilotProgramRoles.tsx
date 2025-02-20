@@ -43,18 +43,13 @@ export default function PilotProgramRoles() {
 
   return (
     <section className="relative bg-white text-bold overflow-hidden">
-      <div className="container relative z-10 px-6 md:px-6 lg:px-20 pt-32 pb-20">
+      <div className="container relative z-10 px-6 md:px-6 lg:px-32 pb-20">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <h2 className="text-3xl font-semibold text-gray-900 text-center mb-4 tracking-tight pb-8">
-            About the Pilot Program
-          </h2>
-          <p className="text-gray-600 text-center max-w-2xl mx-auto mb-16 leading-relaxed pb-8">
-            We&apos;re launching our pilot program to gather valuable insights and feedback from industry professionals before our full launch. This exclusive pre-launch phase helps us refine our AI simulation platform while giving early adopters special access and benefits.
-          </p>
+          
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {roles.map((role, index) => (
               <div 
