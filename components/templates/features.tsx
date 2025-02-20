@@ -124,7 +124,7 @@ export default function Features() {
           </div>
         </div>
 
-        <div className="mb-20">
+        <div className="mb-80">
           <DashboardPreview />
         </div>
 

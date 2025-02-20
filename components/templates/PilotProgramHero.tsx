@@ -6,7 +6,7 @@ import ColoredBackgroundWaveScene from "@/components/Ui Components/ColoredBackgr
 
 export default function PilotProgramHero() {
   return (
-    <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden">
+    <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden ">
       {/* Background Wave */}
       <div className="absolute inset-0 -z-8">
         <ColoredBackgroundWaveScene color="rgb(111,127,242)" />
