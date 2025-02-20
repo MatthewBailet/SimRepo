@@ -281,8 +281,8 @@ export default function Hero() {
         </div>
       )}
 
-      <div className="pt-20 lg:pt-42 text-center mt-8 sm:mt-20 md:mt-20 lg:mt-10 xl:mt-80 relative z-10">
-        <div className="container mx-auto px-4 sm:px-6">
+      <div className="lg:mt-72 pt-20 lg:pt-42 text-center  mt-8 sm:mt-20 md:mt-5 relative z-10 ">
+        <div className="container mx-auto px-6">
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -293,19 +293,19 @@ export default function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="space-y-6 sm:space-y-8"
+              className="space-y-4 mb-0 lg:mb-3"
             >
-              <h1 className="text-5xl sm:text-5xl md:text-6xl lg:text-5xl xl:text-7xl text-slate-800 font-medium tracking-tight text-left sm:text-left lg:text-center mx-auto px-4 sm:px-0 lg:px-20 w-full lg:w-[90%] leading-tight">
+              <h1 className="lg:text-6xl xl:text-7xl text-slate-800 text-5xl lg:px-20 font-semibold lg:font-medium  lg:text-center mx-0  lg:mx-auto pl-0 pr-12 lg:pr-0 lg:pl-0 mt-0 lg:mt-10 lg:mt-0 text-left tracking-tight md:text-7xl lg:text-5xl w-95 w-[90%] lg:w-[80%]">
                 The Ultimate AI-Powered Business Intelligence Suite
               </h1>
-              <p className="text-base sm:text-lg text-gray-600 dark:text-gray-400 max-w-[90%] sm:max-w-[80%] lg:max-w-[50%] mx-auto text-center sm:text-left lg:text-center px-4 sm:px-0">
+              <p className="text-m  lg:text-center lg:justify-center  mx-auto text-gray-600 dark:text-gray-400 sm:text-left lg:w-[50%] w-[90]">
                 Providing fine-tuned AI models paired with realtime industry data to produce accurate, intelligent business forecasting.
               </p>
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-4 px-4 sm:px-0 pb-12">
-                <Button className="w-full sm:w-auto bg-slate-900 hidden md:block" variant="default" onClick={() => window.location.href = '/early-access'}>
+              <div className="flex items-center pl-4 pl-0 lg:pl-1 justify-right lg:justify-center mx-0 lg:mx-auto lg:space-x-4 space-x-2">
+                <Button className="bg-slate-900 hidden md:block" variant="default" onClick={() => window.location.href = '/early-access'}>
                   Request Early Access
                 </Button>
-                <Button className="w-full sm:w-auto bg-slate-200 hidden md:block" variant="secondary">
+                <Button className="block bg-slate-200  hidden md:block" variant="secondary">
                   Book a Consultation
                 </Button>
               </div>
@@ -318,7 +318,7 @@ export default function Hero() {
         initial={{ opacity: 0, y: 100 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.2 }}
-        className="container relative z-10 px-6 pb-20 lg:pb-48 xl:pb-20"
+        className="container relative z-10 px-6 pb-20"
       >
         <div className="max-w-6xl mx-auto">
           <EngineCard renderWave={isHeroInView} />
