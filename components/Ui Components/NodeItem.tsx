@@ -11,7 +11,7 @@ import {
 
 // Color mapping for different node types
 const colorMap = {
-  Databook: "rgb(242, 111, 153)", // blue-500
+  Databook: "rgb(248, 0, 78)", // blue-500
   Parser: "rgb(85, 112, 247)",   // purple-500
   Webscraper: "rgb(234, 179, 8)", // yellow-500
   Engine: "rgb(111,127,242)",    // green-500
@@ -52,11 +52,13 @@ type NodeItemProps = {
   label: string;
   isVisible: boolean;
   finalPop: boolean;
+  animateHover: boolean;
 };
 
-export default function NodeItem({ icon, label, isVisible, finalPop }: NodeItemProps) {
+export default function NodeItem({ icon, label, isVisible, finalPop, animateHover }: NodeItemProps) {
   const [isColorPop, setIsColorPop] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const [showTooltip, setShowTooltip] = useState(false);
 
   useEffect(() => {
     // Only do initial pop animation if it's not the Summary node
@@ -80,9 +82,21 @@ export default function NodeItem({ icon, label, isVisible, finalPop }: NodeItemP
     }
   }, [finalPop, label]);
 
+  // Add effect for automatic hover animation
+  useEffect(() => {
+    if (animateHover) {
+      setIsHovered(true);
+      setShowTooltip(true);
+      return () => {
+        setIsHovered(false);
+        setShowTooltip(false);
+      };
+    }
+  }, [animateHover]);
+
   return (
     <TooltipProvider>
-      <Tooltip>
+      <Tooltip open={showTooltip}>
         <TooltipTrigger asChild>
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
@@ -91,36 +105,31 @@ export default function NodeItem({ icon, label, isVisible, finalPop }: NodeItemP
               scale: isVisible ? 1 : 0.8,
             }}
             transition={{ duration: 0.5 }}
-            onHoverStart={() => setIsHovered(true)}
-            onHoverEnd={() => setIsHovered(false)}
+            onHoverStart={() => {
+              setIsHovered(true);
+              setShowTooltip(true);
+            }}
+            onHoverEnd={() => {
+              setIsHovered(false);
+              setShowTooltip(false);
+            }}
           >
             <motion.div
               className="w-16 h-16 flex items-center justify-center shadow-sm hover:shadow-md relative rounded-md bg-white"
               animate={{
-                scale: isColorPop || isHovered ? 1.3 : 1,
+                scale: isColorPop || isHovered ? 1.15 : 1,
                 backgroundColor: isColorPop || isHovered 
                   ? colorMap[label as keyof typeof colorMap] 
-                  : "white",
+                  : "rgb(255, 39, 107)",
               }}
-              transition={{ duration: 0.1 }}
-              style={{
-                border: '2px solid transparent',
-                backgroundClip: 'padding-box',
-                position: 'relative',
+              transition={{ 
+                duration: 0.3,
+                ease: "easeInOut"
               }}
+
             >
               {/* Gradient Border */}
-              <div
-                className="absolute inset-0 rounded-md -z-10"
-                style={{
-                  margin: '-2px',
-                  background: `linear-gradient(45deg, 
-                    ${gradientMap[label as keyof typeof gradientMap].color1}, 
-                    ${gradientMap[label as keyof typeof gradientMap].color2})`,
-                  backgroundSize: '200% 200%',
-                  animation: 'gradient 2s ease infinite',
-                }}
-              />
+              
               
               {/* Icon with gradient */}
               <div 
@@ -128,7 +137,7 @@ export default function NodeItem({ icon, label, isVisible, finalPop }: NodeItemP
                 style={{
                   color: isColorPop || isHovered 
                     ? 'white' 
-                    : 'rgb(30,41,59)',
+                    : 'white',
                   background: 'none',
                   display: 'flex',
                   alignItems: 'center',
@@ -140,9 +149,14 @@ export default function NodeItem({ icon, label, isVisible, finalPop }: NodeItemP
             </motion.div>
           </motion.div>
         </TooltipTrigger>
-        <TooltipContent className="bg-white text-slate-800">
-          <p>{label}</p>
-        </TooltipContent>
+        <motion.div>
+          <TooltipContent 
+            className="bg-slate-800 text-white"
+            sideOffset={5}
+          >
+            <p>{label}</p>
+          </TooltipContent>
+        </motion.div>
       </Tooltip>
     </TooltipProvider>
   );
