@@ -245,7 +245,9 @@ export default function Hero() {
                 Providing fine-tuned AI models paired with realtime industry data to produce accurate, intelligent business forecasting.
               </p>
               <div className="flex items-center pl-4 pl-0 lg:pl-1 justify-right lg:justify-center mx-0 lg:mx-auto lg:space-x-4 space-x-2">
-                <Button className="bg-slate-900  hidden md:block" variant="default">Request Early Access</Button>
+                <Button className="bg-slate-900 hidden md:block" variant="default" onClick={() => window.location.href = '/early-access'}>
+                  Request Early Access
+                </Button>
                 <Button className="block bg-slate-200  hidden md:block" variant="secondary">
                   Book a Consultation
                 </Button>
