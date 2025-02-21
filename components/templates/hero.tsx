@@ -295,18 +295,18 @@ export default function Hero() {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="space-y-4 text-center pt-32"
             >
-              <h1 className="lg:text-6xl xl:text-5xl text-slate-800 text-5xl font-semibold lg:font-medium mx-auto tracking-tight md:text-7xl lg:text-5xl lg:w-[80%]">
+              <h1 className="lg:text-6xl xl:text-6xl text-slate-800 text-5xl font-medium lg:font-normal mx-auto tracking-tight md:text-7xl lg:text-5xl lg:w-[80%]">
                 The Ultimate AI-Powered Business Intelligence Suite
               </h1>
               <p className="text-m mx-auto text-gray-600 dark:text-gray-400 lg:w-[50%]">
                 Providing fine-tuned AI models paired with realtime industry data to produce accurate, intelligent business forecasting.
               </p>
               <div className="flex items-center justify-center space-x-4">
-                <Button className="bg-slate-900 hidden md:block" variant="default" onClick={() => window.location.href = '/early-access'}>
+                <Button className="bg-slate-800 hidden md:block" variant="default" onClick={() => window.location.href = '/early-access'}>
                   Request Early Access
                 </Button>
-                <Button className="bg-slate-200 hidden md:block" variant="secondary">
-                  Book a Consultation
+                <Button className="bg-sky-100 hidden md:block" variant="secondary">
+                  Book a Demo
                 </Button>
               </div>
             </motion.div>
@@ -316,12 +316,12 @@ export default function Hero() {
 
       {/* Engine card at bottom */}
       <motion.div
-        initial={{ opacity: 0, y: 100 }}
+        initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.2 }}
         className="container mx-auto px-6 pb-10"
       >
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-9xl mx-auto">
           <EngineCard renderWave={isHeroInView} />
         </div>
       </motion.div>
