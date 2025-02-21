@@ -295,7 +295,7 @@ export default function Hero() {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="space-y-4 text-center pt-32"
             >
-              <h1 className="lg:text-6xl xl:text-6xl text-slate-800 text-5xl font-medium lg:font-normal mx-auto tracking-tight md:text-7xl lg:text-5xl lg:w-[80%]">
+              <h1 className="lg:text-5xl text-slate-800 text-5xl font-medium lg:font-normal mx-auto tracking-tight lg:w-[80%] w-95%">
                 The Ultimate AI-Powered Business Intelligence Suite
               </h1>
               <p className="text-m mx-auto text-gray-600 dark:text-gray-400 lg:w-[50%]">
@@ -305,7 +305,7 @@ export default function Hero() {
                 <Button className="bg-slate-800 hidden md:block" variant="default" onClick={() => window.location.href = '/early-access'}>
                   Request Early Access
                 </Button>
-                <Button className="bg-sky-100 hidden md:block" variant="secondary">
+                <Button className="bg-slate-200 hidden md:block" variant="secondary">
                   Book a Demo
                 </Button>
               </div>
