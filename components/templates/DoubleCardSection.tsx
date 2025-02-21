@@ -13,7 +13,7 @@ export default function DoubleCardSection() {
   return (
     <section
       ref={ref}
-      className="relative py-24 bg-white text-bold overflow-hidden"
+      className="relative pt-24 pb-4 bg-white text-bold overflow-hidden"
     >
       <div className="container lg:px-24 px-6">
         <div className="grid grid-cols-1 md:grid-cols-[1.8fr_1fr] gap-6">

@@ -248,7 +248,7 @@ export default function Hero() {
   const [isHeroInView, setIsHeroInView] = useState(true);
 
   useEffect(() => {
-    const currentRef = heroRef.current; // Store ref value
+    const currentRef = heroRef.current;
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -263,7 +263,7 @@ export default function Hero() {
     }
 
     return () => {
-      if (currentRef) { // Use stored ref value
+      if (currentRef) {
         observer.unobserve(currentRef);
       }
     };
@@ -272,16 +272,16 @@ export default function Hero() {
   return (
     <section
       ref={heroRef}
-      className="relative flex min-h-screen items-center justify-between flex-col overflow-hidden"
+      className="relative min-h-screen flex flex-col justify-between overflow-hidden"
     >
-      {/* Only render the expensive 3D wave background if the hero is in view */}
       {isHeroInView && (
-        <div className="absolute -z-8 inset-0 -z-10 py-3 -mt-20">
+        <div className="absolute inset-0 -z-10">
           <BackgroundWaveScene />
         </div>
       )}
 
-      <div className="lg:mt-48 pt-20 lg:pt-42 text-center  mt-8 sm:mt-20 md:mt-5 relative z-10 pb-20">
+      {/* Center content */}
+      <div className="flex-1 flex items-center justify-center">
         <div className="container mx-auto px-6">
           <motion.div 
             initial={{ opacity: 0 }}
@@ -293,19 +293,19 @@ export default function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="space-y-4 mb-0 lg:mb-3 md:mt-0 2xl:mt-32"
+              className="space-y-4 text-center pt-32"
             >
-              <h1 className="lg:text-6xl xl:text-7xl text-slate-800 text-5xl lg:px-20 font-semibold lg:font-medium  lg:text-center mx-0  lg:mx-auto pl-0 pr-12 lg:pr-0 lg:pl-0 mt-0 lg:mt-10 lg:mt-0 text-left tracking-tight md:text-7xl lg:text-5xl w-95 w-[90%] lg:w-[80%]">
+              <h1 className="lg:text-6xl xl:text-5xl text-slate-800 text-5xl font-semibold lg:font-medium mx-auto tracking-tight md:text-7xl lg:text-5xl lg:w-[80%]">
                 The Ultimate AI-Powered Business Intelligence Suite
               </h1>
-              <p className="text-m  lg:text-center lg:justify-center  mx-auto text-gray-600 dark:text-gray-400 sm:text-left lg:w-[50%] w-[90]">
+              <p className="text-m mx-auto text-gray-600 dark:text-gray-400 lg:w-[50%]">
                 Providing fine-tuned AI models paired with realtime industry data to produce accurate, intelligent business forecasting.
               </p>
-              <div className="flex items-center pl-4 pl-0 lg:pl-1 justify-right lg:justify-center mx-0 lg:mx-auto lg:space-x-4 space-x-2">
+              <div className="flex items-center justify-center space-x-4">
                 <Button className="bg-slate-900 hidden md:block" variant="default" onClick={() => window.location.href = '/early-access'}>
                   Request Early Access
                 </Button>
-                <Button className="block bg-slate-200  hidden md:block" variant="secondary">
+                <Button className="bg-slate-200 hidden md:block" variant="secondary">
                   Book a Consultation
                 </Button>
               </div>
@@ -314,11 +314,12 @@ export default function Hero() {
         </div>
       </div>
 
+      {/* Engine card at bottom */}
       <motion.div
         initial={{ opacity: 0, y: 100 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.2 }}
-        className="container relative z-10 px-6 pb-20"
+        className="container mx-auto px-6 pb-10"
       >
         <div className="max-w-6xl mx-auto">
           <EngineCard renderWave={isHeroInView} />
