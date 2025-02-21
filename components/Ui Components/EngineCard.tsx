@@ -3,7 +3,7 @@
 import React, { useState, useMemo, useRef } from "react";
 import Link from "next/link";
 import { Card, CardContent } from "@/components/molecules/shadcn/card";
-import { ArrowRight, Plane, Rocket } from "lucide-react";
+import { ArrowRight, Badge, Plane, Rocket } from "lucide-react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
@@ -163,7 +163,7 @@ function EngineWaveScene({
         height: "100%",
         borderRadius: "12px",
         background:
-          "linear-gradient(165deg, rgb(109, 143, 255), rgb(8, 1, 55))",
+          "linear-gradient(165deg, rgb(194, 208, 255), rgb(79, 58, 219))",
       }}
     >
       <ambientLight intensity={0.3} />
@@ -232,6 +232,9 @@ const EngineCard: React.FC<EngineCardProps> = ({ renderWave = true }) => {
                 Join our Pilot Program
               </h3>
               <h4 className="mt-2 text-sm text-white/70 font-normal">March 2025</h4>
+
+
+                          
             </div>
           </CardContent>
         </Card>

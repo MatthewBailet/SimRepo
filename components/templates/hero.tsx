@@ -312,7 +312,7 @@ export default function Hero() {
         transition={{ duration: 0.8, delay: 0.2 }}
         className="container mx-auto px-6 pb-10"
       >
-        <div className="max-w-9xl mx-auto">
+        <div className="max-w-8xl mx-auto">
           <EngineCard renderWave={isInView} />
         </div>
       </motion.div>
