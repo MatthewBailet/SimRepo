@@ -295,7 +295,7 @@ export default function Hero() {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="space-y-4 text-center pt-32"
             >
-              <h1 className="lg:text-4xl text-slate-800 text-5xl font-normal lg:font-normal mx-auto tracking-tight lg:w-[80%] w-[100%]">
+              <h1 className="lg:text-5xl text-slate-800 text-5xl font-normal lg:font-normal mx-auto tracking-tight lg:w-[80%] w-[100%]">
                 The AI-Powered Business <span className="inline-block bg-gradient-to-r from-sky-600 via-sky-300 to-slate-200 bg-[length:200%_auto] bg-clip-text text-transparent animate-[gradient_1s_linear_infinite] pb-1">Intelligence</span> Suite
               </h1>
               <p className="text-m mx-auto text-gray-600 dark:text-gray-400 lg:w-[50%]">
