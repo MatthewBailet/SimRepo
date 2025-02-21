@@ -295,15 +295,15 @@ export default function Hero() {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="space-y-4 text-center pt-32"
             >
-              <h1 className="lg:text-4xl text-slate-800 text-5xl font-normal lg:font-normal mx-auto tracking-tight lg:w-[80%] w-95%">
-                The Ultimate AI-Powered Business Intelligence Suite.
+              <h1 className="lg:text-4xl text-slate-800 text-5xl font-normal lg:font-normal mx-auto tracking-tight lg:w-[80%] w-[100%]">
+                The AI-Powered Business <span className="inline-block bg-gradient-to-r from-sky-600 via-sky-300 to-slate-200 bg-[length:200%_auto] bg-clip-text text-transparent animate-[gradient_1s_linear_infinite] pb-1">Intelligence</span> Suite
               </h1>
               <p className="text-m mx-auto text-gray-600 dark:text-gray-400 lg:w-[50%]">
                 Providing fine-tuned AI models paired with realtime industry data to produce accurate, intelligent business forecasting.
               </p>
               <div className="flex items-center justify-center space-x-4">
                 <Button className="bg-slate-700 hidden md:block" variant="default" onClick={() => window.location.href = '/early-access'}>
-                  Request Early Access
+                  Request Access
                 </Button>
                 <Button className="bg-slate-200 hidden md:block" variant="secondary">
                   Book a Demo
