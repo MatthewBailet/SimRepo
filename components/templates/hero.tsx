@@ -152,7 +152,7 @@ const xlBackgroundFragmentShader = `
   void main() {
     vec2 center = gl_PointCoord - vec2(0.5);
     float dist = length(center);
-    float circle = smoothstep(0.1, 4.75, dist);
+    float circle = smoothstep(0.1, 1.75, dist);
 
     vec3 baseColor = mix(vec3(0.0), vec3(1.0), vUv.y);
     baseColor *= 5.0 - vDisplacement * 2.1;
@@ -275,9 +275,12 @@ export default function Hero() {
       className="relative min-h-screen flex flex-col justify-between overflow-hidden"
     >
       {isHeroInView && (
-        <div className="absolute inset-0 -z-10">
-          <BackgroundWaveScene />
-        </div>
+        <>
+          <div className="absolute inset-0 -z-20">
+            <BackgroundWaveScene />
+          </div>
+          <div className="absolute inset-0 -z-10 backdrop-blur-[2px]" />
+        </>
       )}
 
       {/* Center content */}
