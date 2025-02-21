@@ -6,6 +6,7 @@ import * as THREE from "three";
 import { Button } from "@/components/molecules/shadcn/button";
 import EngineCard from "@/components/Ui Components/EngineCard"; // Adjust path as needed
 import { motion } from "framer-motion";
+import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 
 // --------------------
 // Global Background Wave Shaders
@@ -244,42 +245,29 @@ function BackgroundWaveScene() {
 // Hero Section with Lazy and Fading Wave Rendering
 // --------------------
 export default function Hero() {
-  const heroRef = useRef<HTMLElement>(null);
-  const [isHeroInView, setIsHeroInView] = useState(true);
-
-  useEffect(() => {
-    const currentRef = heroRef.current;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          setIsHeroInView(entry.isIntersecting);
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    if (currentRef) {
-      observer.observe(currentRef);
-    }
-
-    return () => {
-      if (currentRef) {
-        observer.unobserve(currentRef);
-      }
-    };
-  }, []);
+  const [ref, isInView] = useIntersectionObserver(0.1);
 
   return (
     <section
-      ref={heroRef}
+      ref={ref}
       className="relative min-h-screen flex flex-col justify-between overflow-hidden"
     >
-      {isHeroInView && (
+      {isInView && (
         <>
           <div className="absolute inset-0 -z-20">
             <BackgroundWaveScene />
           </div>
-          <div className="absolute inset-0 -z-10 backdrop-blur-[2px]" />
+          <div 
+            className="absolute inset-0 -z-10 backdrop-blur-[4px]"
+            style={{
+              WebkitBackfaceVisibility: "hidden",
+              WebkitPerspective: "1000",
+              WebkitTransform: "translate3d(0,0,0) translateZ(0)",
+              backfaceVisibility: "hidden",
+              perspective: "1000",
+              transform: "translate3d(0,0,0) translateZ(0)",
+            }}
+          />
         </>
       )}
 
@@ -325,7 +313,7 @@ export default function Hero() {
         className="container mx-auto px-6 pb-10"
       >
         <div className="max-w-9xl mx-auto">
-          <EngineCard renderWave={isHeroInView} />
+          <EngineCard renderWave={isInView} />
         </div>
       </motion.div>
     </section>
