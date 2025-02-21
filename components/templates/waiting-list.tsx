@@ -22,7 +22,6 @@ export default function WaitingList() {
         <div className="absolute inset-0 -z-8">
           <ColoredBackgroundWaveScene2 
             color="rgb(111,127,242)"
-            shouldRasterize={true}
           />
         </div>
       )}

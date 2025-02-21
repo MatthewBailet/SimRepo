@@ -30,7 +30,7 @@ export default function Header() {
             <Link href='/early-access'>
               <Button 
                 variant='default' 
-                className='bg-slate-900 text-white'
+                className='bg-slate-700 text-white'
               >
                 Request Access
               </Button>
