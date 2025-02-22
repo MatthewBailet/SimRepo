@@ -56,10 +56,10 @@ const EngineCard: React.FC = () => {
               <div className="bg-sky-50/80 backdrop-blur-sm group-hover:bg-white/90 transition-all duration-300 rounded-full p-6 md:p-7">
                 <Rocket className="w-10 h-10 md:w-12 md:h-12 text-sky-500 transition-colors duration-300 group-hover:text-sky-500" />
               </div>
-              <h3 className="mt-5 text-md text-base text-sky-800 font-medium tracking-wide">
+              <h3 className="mt-5 text-md text-sky-700 md:text-slate-800 font-medium tracking-wide">
                 Pilot Program Launch
               </h3>
-              <h4 className=" text-sm text-sky-800 font-medium">
+              <h4 className=" text-sm text-sky-600 md:text-sky-800 font-medium">
                 March 2025
               </h4>
             </div>
