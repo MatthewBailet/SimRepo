@@ -7,7 +7,6 @@ import { Button } from "@/components/molecules/shadcn/button";
 import EngineCard from "@/components/Ui Components/EngineCard"; // Adjust path as needed
 import { motion } from "framer-motion";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
-import { Separator } from "../molecules/shadcn/separator";
 
 // --------------------
 // Global Background Wave Shaders
@@ -251,7 +250,7 @@ export default function Hero() {
   return (
     <section
       ref={ref}
-      className="relative min-h-screen flex flex-col justify-between overflow-hidden"
+      className="relative min-h-screen flex flex-col justify-between overflow-hidden pb-6"
     >
       {isInView && (
         <>
@@ -287,11 +286,10 @@ export default function Hero() {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="space-y-4 text-center pt-32"
             >
-              <h1 className="lg:text-5xl text-left md:text-center text-slate-800 text-6xl font-medium lg:font-normal mx-auto tracking-tight lg:w-[100%] w-[100%]">
+              <h1 className="lg:text-5xl text-slate-800 text-6xl font-medium lg:font-normal mx-auto tracking-tight lg:w-[100%] w-[100%]">
                 The AI-Powered Business <span className="inline-block bg-gradient-to-r from-sky-600 via-sky-300 to-slate-200 bg-[length:200%_auto] bg-clip-text text-transparent animate-[gradient_1s_linear_infinite] pb-1">Intelligence</span> Suite
               </h1>
-              <Separator className="mx-auto w-[80%] block md:hidden my-4" />
-              <p className="text-m mx-auto text-gray-600 dark:text-gray-400 lg:w-[50%] hidden md:block">
+              <p className=" text-md md:text-m mx-auto text-gray-800 md:text-gray-600 dark:text-gray-400 lg:w-[50%] ">
                 Providing fine-tuned AI models paired with realtime industry data to produce accurate, intelligent business forecasting.
               </p>
               <div className="flex items-center justify-center space-x-4">
@@ -312,10 +310,10 @@ export default function Hero() {
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.2 }}
-        className="container mx-auto px-6 pb-10"
+        className="container mx-auto px-6 pb-4 md:pb-10"
       >
         <div className="max-w-8xl mx-auto">
-          <EngineCard renderWave={isInView} />
+          <EngineCard />
         </div>
       </motion.div>
     </section>

@@ -167,6 +167,9 @@ importers:
       vaul:
         specifier: ^0.9.1
         version: 0.9.9(@types/react-dom@18.3.5(@types/react@18.3.18))(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      whatamesh:
+        specifier: ^0.2.0
+        version: 0.2.0
       zod:
         specifier: ^3.23.8
         version: 3.24.2
@@ -1297,6 +1300,9 @@ packages:
 
   color-name@1.1.4:
     resolution: {integrity: sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==}
+
+  color-schemes-generator@1.0.1:
+    resolution: {integrity: sha512-pmXbEO84zprScjQR2C2wJ980VX0uk2FjUYvjOox91YnX5xgzeNvnCEhANgC7q3RLQE8GnKdJTAzpmbkJsa3LRg==}
 
   commander@4.1.1:
     resolution: {integrity: sha512-NOKm8xhkzAjzFx8B2v5OAHT+u5pRQc2UCa2Vq9jYL/31o2wi9mxBA7LIFs3sV5VSC49z6pEhfbMULvShKj26WA==}
@@ -2661,6 +2667,9 @@ packages:
       react: ^16.8 || ^17.0 || ^18.0
       react-dom: ^16.8 || ^17.0 || ^18.0
 
+  whatamesh@0.2.0:
+    resolution: {integrity: sha512-p+ZK+IPbW+38UyNvrdxKNC1OFevlxf7xgiyKxYGCkuNrWFjxiY0yrugdry0c2vEC0RQseov+DDSrsQmp7eoLcg==}
+
   which-boxed-primitive@1.1.1:
     resolution: {integrity: sha512-TbX3mj8n0odCBFVlY8AxkqcHASw3L60jIuF8jFP78az3C2YhmGvqbHBpAjTRH2/xqYunrJ9g1jSyjCjpoWzIAA==}
     engines: {node: '>= 0.4'}
@@ -3848,6 +3857,8 @@ snapshots:
       color-name: 1.1.4
 
   color-name@1.1.4: {}
+
+  color-schemes-generator@1.0.1: {}
 
   commander@4.1.1: {}
 
@@ -5412,6 +5423,10 @@ snapshots:
     transitivePeerDependencies:
       - '@types/react'
       - '@types/react-dom'
+
+  whatamesh@0.2.0:
+    dependencies:
+      color-schemes-generator: 1.0.1
 
   which-boxed-primitive@1.1.1:
     dependencies:

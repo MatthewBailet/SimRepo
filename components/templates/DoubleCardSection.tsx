@@ -15,7 +15,7 @@ export default function DoubleCardSection() {
       ref={ref}
       className="relative pt-24 pb-4 bg-white text-bold overflow-hidden"
     >
-      <div className="container lg:px-24 px-6">
+      <div className="container lg:px-14 px-6">
         <div className="grid grid-cols-1 md:grid-cols-[1.8fr_1fr] gap-6">
           {/* Consultation Card */}
           <div className="group relative overflow-hidden rounded-2xl border border-gray-100 bg-white p-8 shadow-lg transition-all duration-300 hover:shadow-xl">
