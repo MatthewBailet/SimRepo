@@ -55,7 +55,7 @@ const ResearchCard: React.FC = () => {
             <div className="transform -translate-y-4 flex flex-col items-center transition-all duration-300 group-hover:scale-105">
               {/* Icon Circle */}
               <div className="bg-white/50 group-hover:bg-white/90 transition-all duration-300 rounded-full p-6 md:p-7">
-                <Microscope className="w-12 h-12 md:w-12 md:h-12 text-rose-400 transition-colors duration-300 group-hover:text-rose-500" />
+                <Microscope className="w-12 h-12 md:w-12 md:h-12 text-rose-400 transition-colors duration-300 group-hover:text-rose-400" />
               </div>
               <div className="flex items-center">
                 <Badge className="mt-5 text-xs text-sky-800 bg-white/30 hover:bg-white/35 font-medium tracking-wide flex items-center gap-1.5">

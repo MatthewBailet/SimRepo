@@ -59,7 +59,20 @@ export default function Explanation() {
             color="rgb(111,127,242)" 
           />
         </div>
+        
       )}
+
+<div 
+            className="absolute inset-0 -z-14 backdrop-blur-[4px]"
+            style={{
+              WebkitBackfaceVisibility: "hidden",
+              WebkitPerspective: "1000",
+              WebkitTransform: "translate3d(0,0,0) translateZ(0)",
+              backfaceVisibility: "hidden",
+              perspective: "1000",
+              transform: "translate3d(0,0,0) translateZ(0)",
+            }}
+          />
 
       <div className="container relative z-10 px-6 md:px-6 lg:px-20">
         <div className="max-w-3xl mx-auto text-center mb-20">
