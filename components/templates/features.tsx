@@ -89,7 +89,10 @@ export default function Features() {
             <div className="space-y-6">
               {featureCards.map((card, index) => (
                 <motion.div
-
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
                 >
                   <div className="backdrop-blur-sm border border-gray-200 rounded-lg p-6 transition-all duration-300 bg-white">
                     <div className="rounded-lg bg-blue-50 p-2 w-fit mb-4">
