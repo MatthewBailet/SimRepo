@@ -20,7 +20,7 @@ import EngineCard from "@/components/Ui Components/EngineCard";
 const featureCards = [
   {
     icon: <Sparkles className="h-6 w-6" />,
-    title: "Run Sims",
+    title: "Run Case Simulation",
     subtitle: "Fast and accurate market analysis",
     description: "Advanced AI-driven simulations that process vast amounts of market data to generate precise business scenarios and strategic insights.",
     details: [
@@ -58,12 +58,20 @@ export default function Features() {
 
   return (
     <section ref={ref} className="relative bg-white text-bold overflow-hidden">
+
+<div className="max-w-6xl mx-auto px-3 pt-4 md:pt-20 ">
+          <EngineCard />
+        </div>
       
+      <motion.div
+        className="container mx-auto px-14 pb-10 md:pb-10  "
+        
+      >
+        
+      </motion.div>
       <div className="container relative z-10 pt-12">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+
           className="text-center mb-20"
         >
           <h2 className="text-4xl font-semibold text-slate-800 mb-4">
@@ -81,12 +89,9 @@ export default function Features() {
             <div className="space-y-6">
               {featureCards.map((card, index) => (
                 <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
+
                 >
-                  <div className="backdrop-blur-sm border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-all duration-300 bg-white">
+                  <div className="backdrop-blur-sm border border-gray-200 rounded-lg p-6 transition-all duration-300 bg-white">
                     <div className="rounded-lg bg-blue-50 p-2 w-fit mb-4">
                       <div className="h-5 w-5 text-blue-600">
                         {card.icon}

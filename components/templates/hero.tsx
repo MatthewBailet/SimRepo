@@ -4,9 +4,13 @@ import React, { useRef, useState, useEffect } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { Button } from "@/components/molecules/shadcn/button";
-import EngineCard from "@/components/Ui Components/EngineCard"; // Adjust path as needed
 import { motion } from "framer-motion";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
+import { Skeleton } from "@/components/molecules/shadcn/skeleton";
+import { Gradient } from "whatamesh";
+
+const gradient = new Gradient()
+
 
 // --------------------
 // Global Background Wave Shaders
@@ -83,20 +87,20 @@ const backgroundFragmentShader = `
   void main() {
     vec2 center = gl_PointCoord - vec2(0.5);
     float dist = length(center);
-    float circle = smoothstep(0.1, 3.75, dist);
+    float circle = smoothstep(0.05, 1.45, dist);
 
-    vec3 baseColor = mix(vec3(0.0), vec3(1.0), vUv.y);
-    baseColor *= 5.0 - vDisplacement * 2.1;
+    vec3 baseColor = mix(vec3(0.0), vec3(0.7), vUv.y);
+    baseColor *= 3.0 - vDisplacement * 1.5;
 
-    float gridX = smoothstep(0.48, 0.5, abs(fract(vUv.x * 50.0) - 0.5));
-    float gridY = smoothstep(0.48, 0.5, abs(fract(vUv.y * 50.0) - 0.5));
+    float gridX = smoothstep(0.48, 0.5, abs(fract(vUv.x * 70.0) - 0.5));
+    float gridY = smoothstep(0.48, 0.5, abs(fract(vUv.y * 70.0) - 0.5));
     float gridPattern = max(gridX, gridY);
-    baseColor -= gridPattern * 0.0;
+    baseColor -= gridPattern * 0.2;
 
     if (vRand < 0.99) {
-      float pulse = abs(sin(uTime * 1.0 + vRand * 10.0));
-      float mixFactor = smoothstep(0.02, 0.2, pulse);
-      baseColor = mix(baseColor, vec3(0.6, 0.8, 1.0), mixFactor);
+      float pulse = abs(sin(uTime * 1.5 + vRand * 15.0));
+      float mixFactor = smoothstep(0.02, 0.3, pulse);
+      baseColor = mix(baseColor, vec3(0.4, 0.6, 0.8), mixFactor);
     }
 
     vec2 centeredUv = vUv - vec2(0.5);
@@ -104,7 +108,7 @@ const backgroundFragmentShader = `
     float roundedMask = 1.0 - smoothstep(0.48, 0.9, edgeDist);
 
     float finalAlpha = circle * roundedMask;
-    gl_FragColor = vec4(baseColor, finalAlpha * uFade);
+    gl_FragColor = vec4(baseColor, finalAlpha * uFade * 1.5);
   }
 `;
 
@@ -118,7 +122,7 @@ const mobileBackgroundFragmentShader = `
   void main() {
     vec2 center = gl_PointCoord - vec2(0.5);
     float dist = length(center);
-    float circle = smoothstep(0.1, 2.45, dist);
+    float circle = smoothstep(0.05, 1.45, dist);
 
     vec3 baseColor = mix(vec3(0.0), vec3(0.7), vUv.y);
     baseColor *= 3.0 - vDisplacement * 1.5;
@@ -153,20 +157,20 @@ const xlBackgroundFragmentShader = `
   void main() {
     vec2 center = gl_PointCoord - vec2(0.5);
     float dist = length(center);
-    float circle = smoothstep(0.1, 1.75, dist);
+    float circle = smoothstep(0.05, 1.45, dist);
 
-    vec3 baseColor = mix(vec3(0.0), vec3(1.0), vUv.y);
-    baseColor *= 5.0 - vDisplacement * 2.1;
+    vec3 baseColor = mix(vec3(0.0), vec3(0.7), vUv.y);
+    baseColor *= 3.0 - vDisplacement * 1.5;
 
-    float gridX = smoothstep(0.48, 0.5, abs(fract(vUv.x * 50.0) - 0.5));
-    float gridY = smoothstep(0.48, 0.5, abs(fract(vUv.y * 50.0) - 0.5));
+    float gridX = smoothstep(0.48, 0.5, abs(fract(vUv.x * 70.0) - 0.5));
+    float gridY = smoothstep(0.48, 0.5, abs(fract(vUv.y * 70.0) - 0.5));
     float gridPattern = max(gridX, gridY);
-    baseColor -= gridPattern * 0.0;
+    baseColor -= gridPattern * 0.2;
 
     if (vRand < 0.99) {
-      float pulse = abs(sin(uTime * 1.0 + vRand * 10.0));
-      float mixFactor = smoothstep(0.02, 0.2, pulse);
-      baseColor = mix(baseColor, vec3(0.6, 0.8, 1.0), mixFactor);
+      float pulse = abs(sin(uTime * 1.5 + vRand * 15.0));
+      float mixFactor = smoothstep(0.02, 0.3, pulse);
+      baseColor = mix(baseColor, vec3(0.4, 0.6, 0.8), mixFactor);
     }
 
     vec2 centeredUv = vUv - vec2(0.5);
@@ -174,7 +178,7 @@ const xlBackgroundFragmentShader = `
     float roundedMask = 1.0 - smoothstep(0.48, 0.9, edgeDist);
 
     float finalAlpha = circle * roundedMask;
-    gl_FragColor = vec4(baseColor, finalAlpha * uFade);
+    gl_FragColor = vec4(baseColor, finalAlpha * uFade * 1.5);
   }
 `;
 
@@ -203,6 +207,8 @@ function BackgroundWavePoints() {
   });
 
   const planeGeom = new THREE.PlaneGeometry(18, 21, screenType === 'mobile' ? 488 : 688, screenType === 'mobile' ? 228 : 328);
+  
+
   
   let shaderToUse;
   if (screenType === 'xl') {
@@ -250,7 +256,7 @@ export default function Hero() {
   return (
     <section
       ref={ref}
-      className="relative min-h-screen flex flex-col justify-between overflow-hidden pb-6"
+      className="relative md:min-h-screen max-h-screen flex flex-col justify-between overflow-hidden mt-0 pt-0 "
     >
       {isInView && (
         <>
@@ -268,52 +274,138 @@ export default function Hero() {
               transform: "translate3d(0,0,0) translateZ(0)",
             }}
           />
+          <div
+            className="absolute inset-x-0 bottom-0 h-32 -z-2 hidden md:block"
+            style={{
+              background: 'linear-gradient(to bottom, transparent, white)',
+            }}
+          />
         </>
       )}
 
       {/* Center content */}
-      <div className="flex-1 flex items-center justify-center">
-        <div className="container mx-auto px-6">
+      <div className="flex-1 flex justify-center items-center">
+        <div className="container mx-auto px-6 mt-0 md:mt-20 ">
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 0.3 }}
             className="grid gap-8 md:grid-cols-1"
           >
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="space-y-4 text-center pt-32"
+              transition={{ duration: 0.3, delay: 0.2 }}
+              className="space-y-4 text-center mt-10" 
             >
-              <h1 className="lg:text-5xl text-slate-800 text-6xl font-medium lg:font-normal mx-auto tracking-tight lg:w-[100%] w-[100%]">
-                The AI-Powered Business <span className="inline-block bg-gradient-to-r from-sky-600 via-sky-300 to-slate-200 bg-[length:200%_auto] bg-clip-text text-transparent animate-[gradient_1s_linear_infinite] pb-1">Intelligence</span> Suite
+
+              
+
+              <h1 className="lg:text-5xl text-slate-800 text-6xl font-medium lg:font-normal mx-auto tracking-tight w-[90%] pt-24">
+                The AI-Powered Business <span className="inline-block bg-gradient-to-r from-sky-400 via-blue-600 to-slate-200 bg-[length:200%_auto] bg-clip-text text-transparent animate-[gradient_1s_linear_infinite] pb-1">Intelligence</span> Suite
               </h1>
-              <p className=" text-md md:text-m mx-auto text-gray-800 md:text-gray-600 dark:text-gray-400 lg:w-[50%] ">
+              <p className=" text-md md:text-md mx-auto text-gray-800 md:text-gray-600 dark:text-gray-400 lg:w-[50%] ">
                 Providing fine-tuned AI models paired with realtime industry data to produce accurate, intelligent business forecasting.
               </p>
               <div className="flex items-center justify-center space-x-4">
-                <Button className="bg-slate-700 hidden md:block" variant="default" onClick={() => window.location.href = '/early-access'}>
+                <Button className="bg-sky-950 hidden md:block" variant="default" onClick={() => window.location.href = '/early-access'}>
                   Request Access
                 </Button>
                 <Button className="bg-slate-200 hidden md:block" variant="secondary">
                   Book a Demo
                 </Button>
+
+
               </div>
+           
+         
             </motion.div>
           </motion.div>
         </div>
       </div>
 
-      {/* Engine card at bottom */}
+      {/* Dashboard Preview */}
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.2 }}
-        className="container mx-auto px-6 pb-4 md:pb-10"
+        transition={{ duration: 0.4, delay: 0.2 }}
+        className="relative w-full hidden md:block -z-10 mt-0 md:mt-[5vh]"
+        style={{
+          height: '650px',
+          background: 'linear-gradient(to bottom, transparent, white 100%)',
+          transform: 'perspective(1000px) rotateX(2deg)',
+          transformOrigin: 'center'
+        }}
       >
-        <div className="max-w-8xl mx-auto">
-          <EngineCard />
+        <div className="container mx-auto px-6 relative h-full min-h-[70vh]" >
+          <div className="relative w-full max-w-6xl mx-auto">
+            <div className="bg-white rounded-xl shadow-2xl flex ">
+              {/* Sidebar */}
+              <div className="w-64 bg-slate-50 p-6 rounded-l-xl border-r">
+                <div className="space-y-4">
+                  {/* Logo placeholder */}
+                  <div className="h-8 bg-slate-200 rounded-md w-24 mb-8" />
+                  
+                  {/* Nav items */}
+                  <div className="space-y-2">
+                    {[...Array(6)].map((_, i) => (
+                      <div key={i} className="flex items-center space-x-3">
+                        <div className="h-4 w-4 bg-slate-200 rounded" />
+                        <div className="h-4 bg-slate-200 rounded w-32" />
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Section divider */}
+                  <div className="h-px bg-slate-200 my-6" />
+
+                  {/* More nav items */}
+                  <div className="space-y-2">
+                    {[...Array(3)].map((_, i) => (
+                      <div key={i} className="flex items-center space-x-3">
+                        <div className="h-4 w-4 bg-slate-200 rounded" />
+                        <div className="h-4 bg-slate-200 rounded w-28" />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Main Content */}
+              <div className="flex-1 p-8 bg-slate-50">
+                {/* Dashboard Header */}
+                <div className="flex items-center justify-between mb-8">
+                  <div className="h-8 bg-slate-200 rounded w-48" />
+                  <div className="h-8 bg-slate-200 rounded w-32" />
+                </div>
+
+                {/* Stats Grid */}
+                <div className="grid grid-cols-3 gap-6 mb-8">
+                  {[...Array(3)].map((_, i) => (
+                    <div key={i} className="bg-white p-6 rounded-lg shadow-sm">
+                      <div className="h-4 bg-slate-200 rounded w-20 mb-4" />
+                      <div className="h-8 bg-slate-200 rounded w-28" />
+                    </div>
+                  ))}
+                </div>
+
+                {/* Chart Area */}
+                <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
+                  <div className="h-[220px] w-full bg-slate-100 rounded-lg" />
+                </div>
+
+                {/* Bottom Grid */}
+                <div className="grid grid-cols-2 gap-6">
+                  <div className="bg-white rounded-lg shadow-sm p-6">
+                    <div className="h-[160px] w-full bg-slate-100 rounded-lg" />
+                  </div>
+                  <div className="bg-white rounded-lg shadow-sm p-6">
+                    <div className="h-[160px] w-full bg-slate-100 rounded-lg" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </motion.div>
     </section>

@@ -115,7 +115,7 @@ export function NavigationMenuDemo() {
         </NavigationMenuItem>
         
         <NavigationMenuItem>
-          <Link href='/' legacyBehavior passHref>
+          <Link href='/documentation' legacyBehavior passHref>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>Documentation</NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
