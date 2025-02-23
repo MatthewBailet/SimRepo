@@ -2,16 +2,7 @@
 
 import React, { useRef, useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
-
 import { BarChart2, Scan, Umbrella, Wallet, Activity, Database, Globe, Sparkles } from "lucide-react";
-import Card from "@/components/Ui Components/Card"; // Adjust path as needed
-import SectionTitle from "@/components/Ui Components/SectionTitle"; // Adjust path as needed
-import InteractiveGrid from "@/components/Ui Components/InteractiveGrid"; // new component
-import { AspectRatio } from "@/components/molecules/shadcn/aspect-ratio"; // ShadCN's AspectRatio component
-import styles from "./features.module.css";
-import { Separator } from "../molecules/shadcn/separator";
-import ColoredBackgroundWaveScene2 from "@/components/Ui Components/ColoredBackgroundWaveScene2";
-import ColoredBackgroundWaveSceneMobile from "@/components/Ui Components/ColoredBackgroundWaveSceneMobile";
 import DashboardPreview from "@/components/Ui Components/DashboardPreview";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import { Badge } from "@/components/molecules/shadcn/badge";
@@ -61,6 +52,7 @@ export default function Features() {
 
 <div className="max-w-6xl mx-auto px-3 pt-4 md:pt-20 ">
           <EngineCard />
+
         </div>
       
       <motion.div

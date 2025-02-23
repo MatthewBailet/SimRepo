@@ -302,7 +302,7 @@ export default function Hero() {
               
 
               <h1 className="lg:text-5xl text-slate-800 text-6xl font-medium lg:font-normal mx-auto tracking-tight w-[90%] pt-24">
-                The AI-Powered Business <span className="inline-block bg-gradient-to-r from-sky-400 via-blue-600 to-slate-200 bg-[length:200%_auto] bg-clip-text text-transparent animate-[gradient_1s_linear_infinite] pb-1">Intelligence</span> Suite
+                The AI-Powered Business <span className="inline-block bg-gradient-to-r from-sky-300 via-blue-500 bg-[length:200%_auto] bg-clip-text text-transparent animate-[gradient_1s_linear_infinite] pb-1">Intelligence</span> Suite
               </h1>
               <p className=" text-md md:text-md mx-auto text-gray-800 md:text-gray-600 dark:text-gray-400 lg:w-[50%] ">
                 Providing fine-tuned AI models paired with realtime industry data to produce accurate, intelligent business forecasting.

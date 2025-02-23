@@ -6,7 +6,11 @@ import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import { Terminal, Database, Network, Braces } from "lucide-react";
 import { Badge } from "@/components/molecules/shadcn/badge";
 import { Card } from "@/components/molecules/shadcn/card";
-import ColoredBackgroundWaveScene from "@/components/Ui Components/ColoredBackgroundWaveScene";
+import ColoredBackgroundWaveScene from "@/components/Ui Components/ColoredBackgroundWaveScene2";
+import ColoredBackgroundWaveScene2 from "@/components/Ui Components/ColoredBackgroundWaveScene2";
+import ResearchCard from "@/components/Ui Components/ResearchCard";
+import EngineCard from "@/components/Ui Components/EngineCard";
+
 
 const features = [
   {
@@ -40,12 +44,18 @@ export default function Explanation() {
 
   return (
     <section
-      ref={ref}
-      className="relative bg-white text-bold overflow-hidden py-12"
+       ref={ref} className="relative bg-white text-bold overflow-hidden"
     >
+
+<div className="max-w-6xl mx-auto px-3 pt-4 md:pt-20 relative z-10 mb-12">
+          <ResearchCard />
+        </div>
+      
+      
+
       {isInView && (
-        <div className="absolute inset-0 -z-8">
-          <ColoredBackgroundWaveScene 
+        <div className="absolute inset-0 -z-15">
+          <ColoredBackgroundWaveScene2 
             color="rgb(111,127,242)" 
           />
         </div>

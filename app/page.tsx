@@ -10,8 +10,8 @@ export default function Home() {
     
       <Hero></Hero>
       <Features></Features>
+      <Explaination/> 
       <DoubleCardSection/>
-      <Explaination/>
       <WaitingList></WaitingList>
 
     </>
