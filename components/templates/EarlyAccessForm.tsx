@@ -42,7 +42,7 @@ export default function EarlyAccessForm() {
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
+        transition={{ duration: 0.3 }}
         className="relative z-10 w-full max-w-xl mx-auto px-4"
       >
         <div className="bg-white/80 backdrop-blur-lg rounded-xl p-8 shadow-xl">

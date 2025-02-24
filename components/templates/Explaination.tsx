@@ -74,19 +74,14 @@ export default function Explanation() {
             }}
           />
 
-      <div className="container relative z-10 px-6 md:px-6 lg:px-20">
+      <div className="container relative z-10 px-6 md:px-6 lg:px-20  pt-12">
         <div className="max-w-3xl mx-auto text-center mb-20">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <Badge 
-              variant="outline" 
-              className="bg-blue-500/5 text-blue-600 border-blue-200 mb-4"
-            >
-              Technical Architecture
-            </Badge>
+
             <h2 className="text-4xl font-semibold text-slate-900 mb-6">
               Built for Enterprise Scale
             </h2>
