@@ -20,7 +20,7 @@ export default function DoubleCardSection() {
       <div className="container lg:px-14 px-6">
         <div className="grid grid-cols-1 md:grid-cols-[1.8fr_1fr] gap-6">
           {/* Consultation Card */}
-          <div className="group relative overflow-hidden rounded-2xl border border-gray-100 bg-white p-8 shadow-lg transition-all duration-300 hover:shadow-xl">
+          <div className="group relative overflow-hidden rounded-2xl border border-gray-100 bg-white p-8 shadow-lg transition-all duration-300">
             <div className="absolute top-4 right-4">
               <div className="rounded-full bg-gray-50 p-2 transition-all duration-300 group-hover:bg-gray-100">
                 <ArrowRight className="h-4 w-4 text-gray-600" />
@@ -52,7 +52,7 @@ export default function DoubleCardSection() {
           </div>
 
           {/* API Card */}
-          <div className="group relative overflow-hidden rounded-2xl border border-gray-800 bg-gray-900 p-8 shadow-lg transition-all duration-300 hover:shadow-xl">
+          <div className="group relative overflow-hidden rounded-2xl border border-gray-800 bg-gray-900 p-8 shadow-lg transition-all duration-300">
             {isSectionInView && (
               <div className="absolute inset-0">
                 <BlueWaveScene
@@ -91,7 +91,7 @@ export default function DoubleCardSection() {
           </div>
 
           {/* Platform Card */}
-          <div className="group relative col-span-full overflow-hidden rounded-2xl border border-gray-100 bg-gradient-to-r from-blue-600 to-indigo-600 p-8 shadow-lg transition-all duration-300 hover:shadow-xl">
+          <div className="group relative col-span-full overflow-hidden rounded-2xl border border-gray-100 bg-gradient-to-r from-blue-600 to-indigo-600 p-8 shadow-lg transition-all duration-300">
             {isSectionInView && (
               <div className="absolute inset-0 opacity-50">
                 <BlueWaveScene

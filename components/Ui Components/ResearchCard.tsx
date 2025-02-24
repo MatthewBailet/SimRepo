@@ -29,7 +29,7 @@ const ResearchCard: React.FC = () => {
         onMouseLeave={() => setCardHovered(false)}
         className="block group"
       >
-        <Card className="lg:aspect-[5/2] aspect-[5/3]  xs:aspect-[5/2] md:aspect-[4/1] rounded-sm px-10 py-0 sm:py-8 relative overflow-hidden transition-all duration-300 group-hover:scale-[102%] hover:shadow-2xl">
+        <Card className="lg:aspect-[5/2] aspect-[5/4]  xs:aspect-[5/3] md:aspect-[4/1] rounded-sm px-12 py-0 sm:py-8 relative overflow-hidden transition-all duration-300 group-hover:scale-[102%] hover:shadow-2xl">
           <canvas
             id="gradient-canvas2"
             ref={canvasRef}

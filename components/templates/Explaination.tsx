@@ -47,9 +47,7 @@ export default function Explanation() {
        ref={ref} className="relative bg-white text-bold overflow-hidden"
     >
 
-<div className="max-w-6xl mx-auto px-3 pt-4 md:pt-20 relative z-10 mb-12">
-          <ResearchCard />
-        </div>
+
       
       
 
@@ -74,7 +72,13 @@ export default function Explanation() {
             }}
           />
 
-      <div className="container relative z-10 px-6 md:px-6 lg:px-20  pt-12">
+      <div className="container relative z-10 px-6 md:px-6 lg:px-14  pt-12">
+      
+      
+      <div className="mx-auto pt- md:pt-0 relative z-10 mb-20">
+          <ResearchCard />
+        </div>
+
         <div className="max-w-3xl mx-auto text-center mb-20">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -100,7 +104,7 @@ export default function Explanation() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
             >
-              <Card className="bg-white/50 backdrop-blur-sm border-gray-100 p-6 h-full hover:shadow-lg transition-shadow duration-300">
+              <Card className="bg-white/50 backdrop-blur-sm border-gray-100 p-6 h-full duration-300">
                 <div className="flex items-start gap-4">
                   <div className="p-3 bg-blue-500/5 rounded-lg text-blue-600">
                     {feature.icon}

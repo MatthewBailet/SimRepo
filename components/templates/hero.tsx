@@ -87,7 +87,7 @@ const backgroundFragmentShader = `
   void main() {
     vec2 center = gl_PointCoord - vec2(0.5);
     float dist = length(center);
-    float circle = smoothstep(0.05, 1.45, dist);
+    float circle = smoothstep(0.05, 5.45, dist);
 
     vec3 baseColor = mix(vec3(0.0), vec3(0.7), vUv.y);
     baseColor *= 3.0 - vDisplacement * 1.5;
@@ -157,7 +157,7 @@ const xlBackgroundFragmentShader = `
   void main() {
     vec2 center = gl_PointCoord - vec2(0.5);
     float dist = length(center);
-    float circle = smoothstep(0.05, 1.45, dist);
+    float circle = smoothstep(0.1, 3.45, dist);
 
     vec3 baseColor = mix(vec3(0.0), vec3(0.7), vUv.y);
     baseColor *= 3.0 - vDisplacement * 1.5;
@@ -167,7 +167,7 @@ const xlBackgroundFragmentShader = `
     float gridPattern = max(gridX, gridY);
     baseColor -= gridPattern * 0.2;
 
-    if (vRand < 0.99) {
+    if (vRand < 0.69) {
       float pulse = abs(sin(uTime * 1.5 + vRand * 15.0));
       float mixFactor = smoothstep(0.02, 0.3, pulse);
       baseColor = mix(baseColor, vec3(0.4, 0.6, 0.8), mixFactor);
@@ -256,7 +256,7 @@ export default function Hero() {
   return (
     <section
       ref={ref}
-      className="relative md:min-h-screen max-h-screen flex flex-col justify-between overflow-hidden mt-0 pt-0 "
+      className="relative md:min-h-screen max-h-full flex flex-col justify-between overflow-hidden mt-0 pt-0 "
     >
       {isInView && (
         <>
@@ -296,13 +296,13 @@ export default function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, delay: 0.2 }}
-              className="space-y-4 text-center mt-10" 
+              className="space-y-4 text-center mt-32" 
             >
 
               
 
-              <h1 className="lg:text-5xl text-slate-800 text-6xl font-medium lg:font-normal mx-auto tracking-tight w-[90%] pt-24">
-                The AI-Powered Business <span className="inline-block bg-gradient-to-r from-sky-300 via-blue-500 bg-[length:200%_auto] bg-clip-text text-transparent animate-[gradient_1s_linear_infinite] pb-1">Intelligence</span> Suite
+              <h1 className=" w-full lg:text-6xl md:text-6xl text-slate-700 text-5xl font-semibold md:font-medium lg:font-medium mx-auto tracking-tight w-[90%] pt-24 ">
+                The AI-Powered Business <span className="inline-block bg-gradient-to-r from-blue-500 via-sky-300 bg-[length:200%_auto] bg-clip-text text-transparent animate-[gradient_1s_linear_infinite] pb-2">Intelligence</span> Suite
               </h1>
               <p className=" text-md md:text-md mx-auto text-gray-800 md:text-gray-600 dark:text-gray-400 lg:w-[50%] ">
                 Providing fine-tuned AI models paired with realtime industry data to produce accurate, intelligent business forecasting.

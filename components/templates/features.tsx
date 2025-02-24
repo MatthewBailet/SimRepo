@@ -48,20 +48,26 @@ export default function Features() {
   const [ref, isInView] = useIntersectionObserver(0.1);
 
   return (
-    <section ref={ref} className="relative bg-white text-bold overflow-hidden">
+    <section ref={ref} className="relative bg-white text-bold overflow-hidden pb-8">
 
-<div className="max-w-6xl mx-auto px-3 pt-4 md:pt-20 ">
-          <EngineCard />
 
-        </div>
-      
       <motion.div
-        className="container mx-auto px-14 pb-10 md:pb-10  "
+        className="container mx-auto pb-10 md:pb-10  "
         
       >
+
+      
         
       </motion.div>
       <div className="container relative z-10 pt-12">
+
+        
+<div className="mx-auto md:pt-10 mb-20 px-0 md:px-6 ">
+          <EngineCard />
+
+        </div>
+
+
         <motion.div
 
           className="text-center mb-20"

@@ -27,7 +27,7 @@ export default function WaitingList() {
       )}
 
       <div className='container relative z-10 mx-auto px-4 md:px-6 lg:px-8'>
-        <Card className="max-w-3xl mx-auto bg-white/50 backdrop-blur-sm border-gray-100 p-8 shadow-lg">
+        <Card className="max-w-7xl mx-auto bg-white/50 backdrop-blur-sm border-gray-100 p-8 shadow-lg">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
