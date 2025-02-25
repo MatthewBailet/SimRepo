@@ -337,8 +337,8 @@ export default function Hero() {
           transformOrigin: 'center'
         }}
       >
-        <div className="container mx-auto px-6 relative h-full min-h-[70vh]" >
-          <div className="relative w-full max-w-6xl mx-auto">
+        <div className="container mx-auto px-6 relative h-full min-h-[70vh] w-full " >
+          <div className="relative w-full max-w-8xl mx-auto px-3">
             <div className="bg-white rounded-xl shadow-2xl flex ">
               {/* Sidebar */}
               <div className="w-64 bg-slate-50 p-6 rounded-l-xl border-r">

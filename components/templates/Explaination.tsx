@@ -72,7 +72,7 @@ export default function Explanation() {
             }}
           />
 
-      <div className="container relative z-10 px-6 md:px-6 lg:px-14  pt-12">
+      <div className="container relative z-10 px-6 md:px-6 lg:px-9  pt-12">
       
       
       <div className="mx-auto pt- md:pt-0 relative z-10 mb-20">

@@ -29,6 +29,11 @@ const ResearchCard: React.FC = () => {
         onMouseLeave={() => setCardHovered(false)}
         className="block group"
       >
+         <div className="flex items-center">
+<h1 className="text-lg font-semibold text-slate-600 pb-1 pr-1">Research </h1>
+<ArrowRight className="w-5 h-5 text-slate-600 transition-transform duration-300 transform translate-x-0 group-hover:translate-x-1 pb-1" />
+         </div>
+        
         <Card className="lg:aspect-[5/2] aspect-[5/4]  xs:aspect-[5/3] md:aspect-[4/1] rounded-sm px-12 py-0 sm:py-8 relative overflow-hidden transition-all duration-300 group-hover:scale-[102%] hover:shadow-2xl">
           <canvas
             id="gradient-canvas2"
@@ -59,7 +64,7 @@ const ResearchCard: React.FC = () => {
               </div>
               <div className="flex items-center">
                 <Badge className="mt-5 text-xs text-sky-800 bg-white/30 hover:bg-white/35 font-medium tracking-wide flex items-center gap-1.5">
-                  Our Research
+                  Access Research
                   <ArrowRight className="w-3.5 h-3.5 text-sky-800 transition-transform duration-300 transform translate-x-0 group-hover:translate-x-1" />
                 </Badge>
               </div>
