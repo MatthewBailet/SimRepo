@@ -40,11 +40,12 @@ const ResearchCard: React.FC = () => {
             ref={canvasRef}
             className="absolute inset-0 w-full h-full transition-opacity duration-300 rounded-xs "
             style={{ 
-              opacity: cardHovered ? 1 : 1,
+              opacity: cardHovered ? 1 : 1,              
+              '--gradient-color-4': '#ffb8c6',
               '--gradient-color-1': '#ffc2dc',
               '--gradient-color-2': '#f46cb4',
               '--gradient-color-3': '#ffe0eb',
-              '--gradient-color-4': '#ffb8c6'
+
             } as React.CSSProperties}
           />
 
