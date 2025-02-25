@@ -126,24 +126,26 @@ const DashboardPreview = () => {
     }
   };
 
-  const memoizedMetrics = useMemo(() => businessMetrics.map((metric, index) => (
-    <motion.div
-      key={index}
-      variants={itemVariants}
-      className="bg-white p-4 rounded-lg border border-gray-100 shadow-sm"
-    >
-      <div className="flex justify-between items-center mb-3">
-        <h3 className="text-sm font-medium text-gray-600">{metric.title}</h3>
-        <Filter className="h-4 w-4 text-gray-400" />
-      </div>
-      <div className="flex items-end justify-between mb-2">
-        <span className="text-2xl font-semibold">{metric.value}</span>
-        <span className={`text-sm ${metric.statusColor}`}>{metric.status}</span>
-      </div>
-      <Progress value={metric.progress} className="h-1 mb-2" />
-      <span className="text-xs text-gray-500">{metric.target}</span>
-    </motion.div>
-  )), []);
+  const memoizedMetrics = useMemo(() => {
+    return businessMetrics.map((metric, index) => (
+      <motion.div
+        key={index}
+        variants={itemVariants}
+        className="bg-white p-4 rounded-lg border border-gray-100 shadow-sm"
+      >
+        <div className="flex justify-between items-center mb-3">
+          <h3 className="text-sm font-medium text-gray-600">{metric.title}</h3>
+          <Filter className="h-4 w-4 text-gray-400" />
+        </div>
+        <div className="flex items-end justify-between mb-2">
+          <span className="text-2xl font-semibold">{metric.value}</span>
+          <span className={`text-sm ${metric.statusColor}`}>{metric.status}</span>
+        </div>
+        <Progress value={metric.progress} className="h-1 mb-2" />
+        <span className="text-xs text-gray-500">{metric.target}</span>
+      </motion.div>
+    ));
+  }, [itemVariants]);
 
   return (
     <motion.div 

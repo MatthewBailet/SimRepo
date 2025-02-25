@@ -65,7 +65,7 @@ const IndustryIntelligenceAnimation = () => {
       setCurrentSite(prev => (prev + 1) % websites.length);
     }, 2000);
     return () => clearInterval(interval);
-  }, []);
+  }, [websites.length]);
 
   return (
     <div className="relative h-20 mt-4 mb-0 mt-16 select-none" style={{ userSelect: 'none' }}>
@@ -98,9 +98,9 @@ const CaseSimulationAnimation = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   
-  const queries = [
+  const queries = useMemo(() => [
     "How will market trends affect revenue?",
-    "What if we increase prices by 10%?", 
+    "What if we increase prices by 10%?",
     "Best expansion regions for Q3 2024?",
     "Competitor response to our new product?",
     "Customer churn prediction next quarter",
@@ -108,7 +108,7 @@ const CaseSimulationAnimation = () => {
     "Marketing budget allocation ROI",
     "Employee retention impact analysis",
     "New product launch timing simulation"
-  ];
+  ], []);
 
   useEffect(() => {
     const currentQuery = queries[currentIndex];
