@@ -248,6 +248,7 @@ const IntegrationAnimation = () => {
 export default function Features() {
   const [ref, isInView] = useIntersectionObserver(0.1);
   const [activeCard, setActiveCard] = useState(0);
+  const [pulseIndex, setPulseIndex] = useState(-1); // Track which connector is pulsing
 
   // Cycle through animations
   useEffect(() => {
@@ -258,6 +259,37 @@ export default function Features() {
     }, 5000);
     
     return () => clearInterval(interval);
+  }, [isInView]);
+
+  // Sequential pulse animation
+  useEffect(() => {
+    if (!isInView) return;
+    
+    const startSequence = () => {
+      // Reset
+      setPulseIndex(-1);
+      
+      // First connector pulse (after a delay)
+      setTimeout(() => {
+        setPulseIndex(0);
+        
+        // Second connector pulse (after the first one completes)
+        setTimeout(() => {
+          setPulseIndex(1);
+          
+          // Reset after second pulse (with delay before restarting)
+          setTimeout(() => {
+            startSequence();
+          }, 2000);
+        }, 1500); // Time between first and second pulse
+      }, 1000); // Initial delay before first pulse
+    };
+    
+    startSequence();
+    return () => {
+      // Clean up all timeouts on unmount
+      setPulseIndex(-1);
+    };
   }, [isInView]);
 
   return (
@@ -327,26 +359,35 @@ export default function Features() {
                   
                   {/* Connector between cards, except after the last one */}
                   {index < featureCards.length - 1 && (
-                    <div className="py-2 flex justify-center">
-                      <motion.div 
-                        initial={{ height: 0 }}
-                        animate={{ height: 24 }}
-                        transition={{ delay: 0.5, duration: 0.5 }}
-                        className="w-0.5 bg-blue-200"
-                      >
+                    <div className="py-4 flex justify-center">
+                      <div className="relative">
                         <motion.div 
-                          className="w-3 h-3 bg-blue-400 rounded-full -ml-1"
-                          animate={{ 
-                            y: [0, 24, 0],
-                            opacity: [0, 1, 0]
-                          }}
-                          transition={{ 
-                            duration: 1.5, 
-                            repeat: Infinity,
-                            repeatDelay: 1
-                          }}
-                        />
-                      </motion.div>
+                          initial={{ height: 0 }}
+                          animate={{ height: 40 }}
+                          transition={{ delay: 0.5, duration: 0.5 }}
+                          className="w-0.5 bg-blue-200"
+                        >
+                          {pulseIndex === index && (
+                            <motion.div 
+                              className="absolute top-0 w-full"
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ 
+                                height: [0, 40, 40], 
+                                opacity: [0, 1, 0],
+                                background: [
+                                  "linear-gradient(to bottom, rgba(96, 165, 250, 0), rgba(96, 165, 250, 0))",
+                                  "linear-gradient(to bottom, rgba(96, 165, 250, 0), rgba(96, 165, 250, 1))",
+                                  "linear-gradient(to bottom, rgba(96, 165, 250, 1), rgba(96, 165, 250, 0))"
+                                ]
+                              }}
+                              transition={{ 
+                                duration: 1.2,
+                                times: [0, 0.7, 1]
+                              }}
+                            />
+                          )}
+                        </motion.div>
+                      </div>
                     </div>
                   )}
                 </React.Fragment>
@@ -355,8 +396,8 @@ export default function Features() {
           </div>
 
           {/* Right side: Platform preview */}
-          <div className="lg:w-1/2 relative mt-12 lg:mt-0">
-            <div className="absolute left-0 right-[-50vw]">
+          <div className="w-1/2 relative mt-12 lg:mt-0 pt:0">
+            <div className="absolute inset-5 -right-[70vw]">
               <DashboardPreview />
             </div>
           </div>
