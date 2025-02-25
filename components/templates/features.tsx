@@ -81,7 +81,7 @@ const IndustryIntelligenceAnimation = () => {
   }, []);
 
   return (
-    <div className="relative h-32 select-none mx-[12%] pt-6 md:mx-[32%] lg:mx-[25%]">
+    <div className="relative h-32 select-none mx-[30%] pt-6 md:mx-[35%] lg:mx-[25%]">
 
 
 
