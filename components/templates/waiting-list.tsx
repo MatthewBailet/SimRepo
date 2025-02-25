@@ -12,6 +12,27 @@ import ColoredBackgroundWaveScene2 from "@/components/Ui Components/ColoredBackg
 
 export default function WaitingList() {
   const [ref, isInView] = useIntersectionObserver(0.1);
+  
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.5 }
+    }
+  };
 
   return (
     <section 
@@ -25,55 +46,59 @@ export default function WaitingList() {
           />
         </div>
       )}
-
-      <div className='container relative z-10 mx-auto px-4 md:px-6 lg:px-8'>
-        <Card className="max-w-7xl mx-auto bg-white/50 backdrop-blur-sm border-gray-100 p-8 shadow-lg">
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-center"
-          >
-            <div className="inline-flex items-center space-x-2 mb-6">
-              <div className="p-2 bg-blue-50 rounded-lg">
-                <Mail className="h-5 w-5 text-blue-600" />
+      
+      <motion.div
+        initial="hidden"
+        animate={isInView ? "visible" : "hidden"}
+        variants={containerVariants}
+        className="container relative z-10 px-6 mx-auto"
+      >
+        <motion.div 
+          variants={itemVariants}
+          className="max-w-3xl mx-auto text-center mb-12"
+        >
+          <Badge className="mb-4 bg-blue-100 text-blue-800 border-blue-200 hover:bg-blue-200">
+            Limited Access
+          </Badge>
+          <h2 className="text-4xl font-semibold text-gray-900 mb-4">
+            Join Our Early Access Program
+          </h2>
+          <p className="text-lg text-gray-600">
+            Be among the first to experience our AI-powered business intelligence platform.
+          </p>
+        </motion.div>
+        
+        <motion.div
+          variants={itemVariants}
+          className="max-w-md mx-auto"
+        >
+          <Card className="p-6 border-gray-200 shadow-md bg-white/80 backdrop-blur-sm">
+            <div className="space-y-4">
+              <div className="flex items-center space-x-3">
+                <div className="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
+                  <Mail className="h-5 w-5 text-blue-600" />
+                </div>
+                <div>
+                  <h3 className="font-medium text-gray-900">Request Access</h3>
+                  <p className="text-sm text-gray-500">We'll notify you when you're approved</p>
+                </div>
               </div>
-              <Badge 
-                variant="outline" 
-                className="bg-blue-50 text-blue-600 border-blue-100"
-              >
-                Development Updates
-              </Badge>
-            </div>
-
-            <h2 className='text-3xl font-semibold text-gray-900 mb-4 tracking-tight sm:text-4xl'>
-              Stay Informed on Development
-            </h2>
-            <p className='text-gray-600 mb-8 max-w-xl mx-auto'>
-              Join our newsletter to receive exclusive insights into our development process, 
-              upcoming features, and early access opportunities.
-            </p>
-
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className='flex justify-center'
-            >
-              <div className='flex w-full max-w-md items-center space-x-2'>
-                <Input 
-                  className='flex-1 bg-white/80 border-gray-200 focus:border-blue-300 focus:ring-blue-200' 
-                  placeholder='Enter your email' 
-                  type='email' 
-                />
-                <Button className="bg-gray-900 hover:bg-gray-800">
-                  Subscribe
+              
+              <div className="space-y-3">
+                <Input placeholder="name@company.com" type="email" className="border-gray-300" />
+                <Input placeholder="Company Name" className="border-gray-300" />
+                <Button className="w-full bg-blue-600 hover:bg-blue-700">
+                  Join Waitlist
                 </Button>
               </div>
-            </motion.div>
-          </motion.div>
-        </Card>
-      </div>
+              
+              <p className="text-xs text-gray-500 text-center">
+                By submitting, you agree to our Terms of Service and Privacy Policy.
+              </p>
+            </div>
+          </Card>
+        </motion.div>
+      </motion.div>
     </section>
-  )
+  );
 }

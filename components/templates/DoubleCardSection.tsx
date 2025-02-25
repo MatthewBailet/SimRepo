@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { motion } from "framer-motion";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import { ArrowRight, Briefcase, Code, Layers } from "lucide-react";
 import { Button } from "../molecules/shadcn/button";
@@ -9,50 +10,80 @@ import BlueWaveScene from "@/components/Ui Components/BlueWaveScene";
 
 export default function DoubleCardSection() {
   const [ref, isSectionInView] = useIntersectionObserver(0.1);
+  
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+        delayChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.5 }
+    }
+  };
 
   return (
     <section
       ref={ref}
       className="relative pt-24 pb-4 bg-white text-bold overflow-hidden"
     >
-
-      
       <div className="container lg:px-14 px-6">
-        <div className="grid grid-cols-1 md:grid-cols-[1.8fr_1fr] gap-6">
+        <motion.div 
+          initial="hidden"
+          animate={isSectionInView ? "visible" : "hidden"}
+          variants={containerVariants}
+          className="grid grid-cols-1 md:grid-cols-[1.8fr_1fr] gap-6"
+        >
           {/* Consultation Card */}
-          <div className="group relative overflow-hidden rounded-2xl border border-gray-100 bg-white p-8 shadow-lg transition-all duration-300">
+          <motion.div 
+            variants={itemVariants}
+            className="group relative overflow-hidden rounded-2xl border border-gray-100 bg-white p-8 shadow-lg transition-all duration-300"
+          >
             <div className="absolute top-4 right-4">
               <div className="rounded-full bg-gray-50 p-2 transition-all duration-300 group-hover:bg-gray-100">
                 <ArrowRight className="h-4 w-4 text-gray-600" />
               </div>
             </div>
-            <div className="relative z-10 space-y-6">
+            
+            <div className="space-y-6">
               <div className="inline-flex items-center space-x-2">
                 <div className="rounded-lg bg-blue-50 p-2">
-                  <Briefcase className="h-5 w-5 text-blue-600" />
+                  <Briefcase className="h-5 w-5 text-blue-500" />
                 </div>
-                <Badge variant="outline" className="bg-blue-50 text-blue-600 border-blue-100">
-                  Enterprise
+                <Badge variant="outline" className="bg-blue-50 text-blue-500 border-blue-200">
+                  Business
                 </Badge>
               </div>
               <div>
                 <h2 className="text-2xl font-semibold text-gray-900">
-                  Business Consultation
+                  Strategic Consultation
                 </h2>
-                <p className="mt-4 text-gray-600 leading-relaxed max-w-lg">
-                  Expert guidance on implementing AI solutions in your business workflow. 
-                  Our consultants help optimize your processes and maximize ROI through 
-                  data-driven strategies.
+                <p className="mt-4 text-gray-600 leading-relaxed">
+                  Work with our team of strategic consultants to analyze your market 
+                  position and develop actionable intelligence for your business.
                 </p>
               </div>
-              <Button className="bg-gray-900 hover:bg-gray-800">
-                Schedule Consultation
+              <Button className="bg-blue-500 hover:bg-blue-600">
+                Book a Call
               </Button>
             </div>
-          </div>
+          </motion.div>
 
           {/* API Card */}
-          <div className="group relative overflow-hidden rounded-2xl border border-gray-800 bg-gray-900 p-8 shadow-lg transition-all duration-300">
+          <motion.div 
+            variants={itemVariants}
+            className="group relative overflow-hidden rounded-2xl border border-gray-800 bg-gray-900 p-8 shadow-lg transition-all duration-300"
+          >
             {isSectionInView && (
               <div className="absolute inset-0">
                 <BlueWaveScene
@@ -88,48 +119,8 @@ export default function DoubleCardSection() {
                 Coming Soon
               </Button>
             </div>
-          </div>
-
-          {/* Platform Card */}
-          <div className="group relative col-span-full overflow-hidden rounded-2xl border border-gray-100 bg-gradient-to-r from-blue-600 to-indigo-600 p-8 shadow-lg transition-all duration-300">
-            {isSectionInView && (
-              <div className="absolute inset-0 opacity-50">
-                <BlueWaveScene
-                  rotation={[-Math.PI / 3, 0.1, 4.2]}
-                  enabled={isSectionInView}
-                />
-              </div>
-            )}
-            <div className="absolute top-4 right-4">
-              <div className="rounded-full bg-white/10 p-2 transition-all duration-300 group-hover:bg-white/20">
-                <ArrowRight className="h-4 w-4 text-white" />
-              </div>
-            </div>
-            <div className="relative z-10 space-y-6">
-              <div className="inline-flex items-center space-x-2">
-                <div className="rounded-lg bg-white/10 p-2">
-                  <Layers className="h-5 w-5 text-white" />
-                </div>
-                <Badge variant="outline" className="bg-white/5 text-white border-white/20">
-                  Platform
-                </Badge>
-              </div>
-              <div className="max-w-2xl">
-                <h2 className="text-2xl font-semibold text-white">
-                  Enterprise Platform
-                </h2>
-                <p className="mt-4 text-gray-100 leading-relaxed">
-                  Access our complete suite of AI-powered tools and services. 
-                  Transform your business operations with advanced analytics, 
-                  automated workflows, and real-time insights.
-                </p>
-              </div>
-              <Button className="bg-white text-gray-900 hover:bg-gray-100">
-                Request Access
-              </Button>
-            </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   );

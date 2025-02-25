@@ -93,9 +93,10 @@ const IndustryIntelligenceAnimation = () => {
 };
 
 const CaseSimulationAnimation = () => {
-  const [currentQuery, setCurrentQuery] = useState(0);
-  const [displayText, setDisplayText] = useState('');
-  const [isTyping, setIsTyping] = useState(true); // true = typing, false = deleting
+  const [text, setText] = useState('');
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
   
   const queries = [
     "How will market trends affect revenue?",
@@ -110,43 +111,44 @@ const CaseSimulationAnimation = () => {
   ];
 
   useEffect(() => {
-    const fullText = queries[currentQuery];
+    const currentQuery = queries[currentIndex];
     
-    if (isTyping) {
-      // Typing forward
-      if (displayText.length < fullText.length) {
-        const timeout = setTimeout(() => {
-          setDisplayText(fullText.substring(0, displayText.length + 1));
-        }, 40); // typing speed
-        
-        return () => clearTimeout(timeout);
-      } else {
-        // Done typing, pause before deleting
-        const timeout = setTimeout(() => {
-          setIsTyping(false);
-        }, 1500); // pause time after full text is displayed
-        
-        return () => clearTimeout(timeout);
-      }
-    } else {
-      // Deleting
-      if (displayText.length > 0) {
-        const timeout = setTimeout(() => {
-          setDisplayText(displayText.substring(0, displayText.length - 1));
-        }, 20); // deleting speed (faster than typing)
-        
-        return () => clearTimeout(timeout);
-      } else {
-        // Done deleting, move to next query and start typing again
-        const timeout = setTimeout(() => {
-          setCurrentQuery(prev => (prev + 1) % queries.length);
-          setIsTyping(true);
-        }, 500); // pause time before starting next query
-        
-        return () => clearTimeout(timeout);
-      }
+    if (isPaused) {
+      const pauseTimeout = setTimeout(() => {
+        setIsPaused(false);
+      }, isDeleting ? 700 : 1500);
+      
+      return () => clearTimeout(pauseTimeout);
     }
-  }, [displayText, isTyping, currentQuery, queries]);
+    
+    let timer;
+    
+    if (isDeleting) {
+      if (text === '') {
+        // Move to next query when deletion is complete
+        setIsDeleting(false);
+        setCurrentIndex((prev) => (prev + 1) % queries.length);
+        return;
+      }
+      
+      timer = setTimeout(() => {
+        setText((prev) => prev.slice(0, -1));
+      }, 30);
+    } else {
+      if (text === currentQuery) {
+        // Start deleting after typing is complete
+        setIsPaused(true);
+        setIsDeleting(true);
+        return;
+      }
+      
+      timer = setTimeout(() => {
+        setText(currentQuery.slice(0, text.length + 1));
+      }, 80);
+    }
+    
+    return () => clearTimeout(timer);
+  }, [text, isDeleting, currentIndex, isPaused, queries]);
 
   return (
     <div className="h-24 mt-4 mb-6 select-none" style={{ userSelect: 'none' }}>
@@ -157,7 +159,7 @@ const CaseSimulationAnimation = () => {
               className="h-8 bg-white rounded px-3 py-1 border border-gray-200 flex items-center overflow-hidden"
             >
               <span className="pr-1 text-sm">
-                {displayText}
+                {text}
               </span>
               <motion.span 
                 animate={{ opacity: [1, 0, 1] }}
@@ -168,8 +170,7 @@ const CaseSimulationAnimation = () => {
           </div>
           <div className="flex justify-end mt-2 space-x-2">
             <motion.button 
-              className="px-3 py-1 text-xs rounded bg-gray-200 text-gray-700 "
-
+              className="px-3 py-1 text-xs rounded bg-gray-200 text-gray-700"
             >
               Quick run
             </motion.button>
