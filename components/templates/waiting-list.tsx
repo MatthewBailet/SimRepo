@@ -40,10 +40,8 @@ export default function WaitingList() {
       className='relative bg-white py-24 overflow-hidden'
     >
       {isInView && (
-        <div className="absolute inset-0 -z-8">
-          <ColoredBackgroundWaveScene2 
-            color="rgb(111,127,242)"
-          />
+        <div className="absolute inset-0 z-0">
+          <ColoredBackgroundWaveScene2 />
         </div>
       )}
       
@@ -51,15 +49,12 @@ export default function WaitingList() {
         initial="hidden"
         animate={isInView ? "visible" : "hidden"}
         variants={containerVariants}
-        className="container relative z-10 px-6 mx-auto"
+        className="container relative z-10 px-6 md:px-6 lg:px-9"
       >
         <motion.div 
           variants={itemVariants}
-          className="max-w-3xl mx-auto text-center mb-12"
+          className="text-center mb-12"
         >
-          <Badge className="mb-4 bg-blue-100 text-blue-800 border-blue-200 hover:bg-blue-200">
-            Limited Access
-          </Badge>
           <h2 className="text-4xl font-semibold text-gray-900 mb-4">
             Join Our Early Access Program
           </h2>
@@ -80,7 +75,7 @@ export default function WaitingList() {
                 </div>
                 <div>
                   <h3 className="font-medium text-gray-900">Request Access</h3>
-                  <p className="text-sm text-gray-500">We'll notify you when you're approved</p>
+                  <p className="text-sm text-gray-500">We&apos;ll notify you when you&apos;re approved</p>
                 </div>
               </div>
               
