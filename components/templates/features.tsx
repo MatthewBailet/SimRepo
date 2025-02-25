@@ -2,7 +2,7 @@
 
 import React, { useRef, useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
-import { BarChart2, Scan, Umbrella, Wallet, Activity, Database, Globe, Sparkles, FileText } from "lucide-react";
+import { BarChart2, Scan, Umbrella, Wallet, Activity, Database, Globe, Sparkles, FileText, Image, Table, Server, Calendar, Users, CheckCircle, Layers, Cloud } from "lucide-react";
 import DashboardPreview2 from "@/components/Ui Components/DashboardPreview";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import { Badge } from "@/components/molecules/shadcn/badge";
@@ -68,7 +68,7 @@ const IndustryIntelligenceAnimation = () => {
   }, [websites.length]);
 
   return (
-    <div className="relative h-20 mt-4 mb-0 mt-16 select-none" style={{ userSelect: 'none' }}>
+    <div className="relative h-20 mt-4 mb-0 mt-12 py-8 select-none" style={{ userSelect: 'none' }}>
       <div className="flex items-center justify-center">
         <motion.div 
           className="absolute left-6 h-8 px-3 py-2 bg-blue-100 rounded-lg flex items-center text-sm"
@@ -100,7 +100,7 @@ const CaseSimulationAnimation = () => {
   
   const queries = useMemo(() => [
     "How will market trends affect revenue?",
-    "What if we increase prices by 10%?",
+    "What if we increase prices by 10%?", 
     "Best expansion regions for Q3 2024?",
     "Competitor response to our new product?",
     "Customer churn prediction next quarter",
@@ -116,7 +116,7 @@ const CaseSimulationAnimation = () => {
     if (isPaused) {
       const pauseTimeout = setTimeout(() => {
         setIsPaused(false);
-      }, isDeleting ? 900 : 8000); // Increased pause times
+      }, isDeleting ? 1500 : 12000); // Much longer pauses
       
       return () => clearTimeout(pauseTimeout);
     }
@@ -125,7 +125,6 @@ const CaseSimulationAnimation = () => {
     
     if (isDeleting) {
       if (text === '') {
-        // Move to next query when deletion is complete
         setIsDeleting(false);
         setCurrentIndex((prev) => (prev + 1) % queries.length);
         return;
@@ -133,26 +132,25 @@ const CaseSimulationAnimation = () => {
       
       timer = setTimeout(() => {
         setText((prev) => prev.slice(0, -1));
-      }, 35); // Slightly faster deletion
+      }, 50); // Slower deletion for smoothness
     } else {
       if (text === currentQuery) {
-        // Start deleting after typing is complete
         setIsPaused(true);
         setIsDeleting(true);
         return;
       }
       
-      const randomDelay = Math.random() * 20 + 25; // Random delay between 25-45ms
+      const randomDelay = 35; // Slower typing (60-90ms)
       timer = setTimeout(() => {
         setText(currentQuery.slice(0, text.length + 1));
-      }, randomDelay); // More natural typing speed with variation
+      }, randomDelay);
     }
     
     return () => clearTimeout(timer);
   }, [text, isDeleting, currentIndex, isPaused, queries]);
 
   return (
-    <div className="h-24 mt-4 mb-6 select-none" style={{ userSelect: 'none' }}>
+    <div className="h-24 mt-6 mb-6 pt-4 select-none" style={{ userSelect: 'none' }}>
       <div className="mx-auto max-w-md">
         <motion.div className="border border-gray-200 rounded-lg p-2 bg-white shadow-sm">
           <div className="relative">
@@ -189,60 +187,147 @@ const CaseSimulationAnimation = () => {
 };
 
 const IntegrationAnimation = () => {
-  const [checked, setChecked] = useState(false);
-
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [processing, setProcessing] = useState(false);
+  const [completed, setCompleted] = useState(false);
+  
+  // Fixed sequence of data types
+  const dataTypes = [
+    { icon: <FileText className="h-5 w-5" /> },
+    { icon: <Database className="h-5 w-5" /> },
+    { icon: <Image className="h-5 w-5" aria-label="Image" /> },
+    { icon: <Table className="h-5 w-5" /> },
+    { icon: <Server className="h-5 w-5" /> },
+    { icon: <Calendar className="h-5 w-5" /> },
+    { icon: <Users className="h-5 w-5" /> },
+    { icon: <Cloud className="h-5 w-5" /> },
+  ];
+  
+  // Handle the animation sequence with slower timing
   useEffect(() => {
-    const intervalId = setInterval(() => {
-      setChecked(prev => !prev);
-    }, 3000);
+    // Start processing
+    setProcessing(true);
     
-    return () => clearInterval(intervalId);
-  }, []);
-
+    // After 1.5 seconds, mark as completed
+    const processTimer = setTimeout(() => {
+      setProcessing(false);
+      setCompleted(true);
+      
+      // After 0.8 seconds, move to next icon
+      const completeTimer = setTimeout(() => {
+        setCompleted(false);
+        setCurrentIndex((prev) => (prev + 1) % dataTypes.length);
+      }, 800);
+      
+      return () => clearTimeout(completeTimer);
+    }, 1500);
+    
+    return () => clearTimeout(processTimer);
+  }, [currentIndex, dataTypes.length]);
+  
+  // Get visible items in fixed sequence
+  const getVisibleItems = () => {
+    const items = [];
+    const len = dataTypes.length;
+    
+    // Add 5 items centered around currentIndex, maintaining order
+    for (let i = -2; i <= 2; i++) {
+      const index = (currentIndex + i + len) % len;
+      items.push({
+        ...dataTypes[index],
+        position: i
+      });
+    }
+    
+    return items;
+  };
+  
   return (
-    <div className="h-24 mt-4 mb-6 flex items-center justify-center select-none" style={{ userSelect: 'none' }}>
-      <motion.div className="relative flex items-center justify-center">
-        <motion.div 
-          className="w-16 h-20 bg-blue-50 border border-blue-100 rounded-lg flex items-center justify-center"
-          animate={{ rotate: checked ? [0, 5, 0] : 0 }}
-          transition={{ duration: 0.3 }}
-        >
-          {!checked ? (
-            <motion.div className="relative text-blue-500">
-              <FileText className="h-8 w-8" />
-              <motion.div 
-                className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-                animate={{ rotate: 360 }}
-                transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+    <div className="h-32 mt-4 mb-0 relative select-none" style={{ userSelect: 'none' }}>
+      {/* App icon at the top */}
+      <div className="absolute top-0 left-1/2 transform -translate-x-1/2">
+        <div className="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center shadow-sm">
+          <Layers className="h-6 w-6 text-blue-600" />
+        </div>
+      </div>
+      
+      {/* Connection line */}
+      <motion.div 
+        className="absolute top-12 left-1/2 transform -translate-x-1/2 w-0.5 bg-blue-400"
+        initial={{ height: 0 }}
+        animate={{ 
+          height: processing || completed ? 24 : 0,
+          opacity: processing || completed ? 1 : 0
+        }}
+        transition={{ duration: 0.4 }}
+      />
+      
+      {/* Data type carousel */}
+      <div className="absolute bottom-0 w-full">
+        <div className="relative h-16 mx-auto flex items-center justify-center">
+          {getVisibleItems().map((item, idx) => {
+            const { position } = item;
+            const isCenter = position === 0;
+            
+            // Calculate opacity based on position
+            let opacity = 1;
+            let scale = 1;
+            
+            if (Math.abs(position) === 2) {
+              opacity = 0.3;
+              scale = 0.8;
+            } else if (Math.abs(position) === 1) {
+              opacity = 0.7;
+              scale = 0.9;
+            }
+            
+            return (
+              <motion.div
+                key={`${idx}-${currentIndex}`}
+                className="absolute"
+                animate={{ 
+                  x: position * 60, 
+                  opacity, 
+                  scale,
+                  y: isCenter && (processing || completed) ? -4 : 0
+                }}
+                transition={{ 
+                  type: "spring", 
+                  stiffness: 200, // Reduced for smoother motion
+                  damping: 25 
+                }}
               >
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2">
-                  <circle cx="12" cy="12" r="10" strokeDasharray="40" strokeDashoffset="10" />
-                </svg>
+                <div 
+                  className={`w-12 h-12 rounded-full flex items-center justify-center shadow-sm
+                  ${isCenter && completed ? "bg-blue-50 text-blue-600" : "bg-white text-gray-600"}`}
+                >
+                  {isCenter && processing ? (
+                    <motion.div 
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+                      className="text-blue-500"
+                    >
+                      <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <circle cx="12" cy="12" r="10" strokeDasharray="40" strokeDashoffset="10" />
+                      </svg>
+                    </motion.div>
+                  ) : isCenter && completed ? (
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ type: "spring", stiffness: 200 }}
+                    >
+                      <CheckCircle className="h-6 w-6" />
+                    </motion.div>
+                  ) : (
+                    item.icon
+                  )}
+                </div>
               </motion.div>
-            </motion.div>
-          ) : (
-            <motion.div 
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ type: "spring", stiffness: 200, damping: 15 }}
-              className="text-green-500"
-            >
-              <motion.div>
-                <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                  <path d="M14 2v6h6" />
-                  <motion.path
-                    d="M9 12l2 2 4-4"
-                    initial={{ pathLength: 0 }}
-                    animate={{ pathLength: 1 }}
-                    transition={{ duration: 0.5 }}
-                  />
-                </svg>
-              </motion.div>
-            </motion.div>
-          )}
-        </motion.div>
-      </motion.div>
+            );
+          })}
+        </div>
+      </div>
     </div>
   );
 };
