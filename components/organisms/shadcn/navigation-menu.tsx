@@ -136,12 +136,12 @@ export function NavigationMenuDemo() {
             Our Services
           </NavigationMenuTrigger>
           <NavigationMenuContent>
-            <div className="w-[880px] p-6">
+            <div className="w-[880px] p-5">
               <div className="grid grid-cols-5 gap-6">
                 {/* Left Panel */}
                 <div className="col-span-2">
                   <div className="mb-6">
-                    <h3 className="font-medium mb-4 text-xs text-gray-500">CORE SERVICES</h3>
+                    <h3 className="font-medium mb-2 text-xs text-gray-400">Core Services</h3>
                     <div className="space-y-4">
                       {services.payments.map((item) => (
                         <NavigationMenuLink key={item.title} asChild>
@@ -151,7 +151,7 @@ export function NavigationMenuDemo() {
                                 <div className="pt-5 px-2">{item.icon}</div>
                               </div>
                               <div>
-                                <div className="font-medium text-sm text-gray-900 mb-1">{item.title}</div>
+                                <div className="font-semibold text-xs text-gray-900 mb-1">{item.title}</div>
                                 <p className="text-xs text-gray-500 leading-snug">{item.description}</p>
                               </div>
                             </div>
@@ -164,17 +164,17 @@ export function NavigationMenuDemo() {
 
                 {/* Right Panel */}
                 <div className="col-span-3">
-                  <h3 className="font-semibold mb-4 text-xs text-gray-500">FEATURES</h3>
-                  <div className="grid grid-cols-2 gap-4">
+                  <h3 className="font-medium mb-2 text-xs text-gray-400">Features</h3>
+                  <div className="grid grid-cols-2 gap-2">
                     {services.features.map((item) => (
                       <NavigationMenuLink key={item.title} asChild>
                         <Link href={item.href} className="group block">
                           <div className="flex items-start gap-3 rounded-lg p-3 hover:bg-gray-50">
                             <div className="flex-shrink-0">
-                              <div className="pt-5 px-2">{item.icon}</div>
+                              <div className="pt-4 px-2">{item.icon}</div>
                             </div>
                             <div>
-                              <div className="font-medium text-sm text-gray-900 mb-1">{item.title}</div>
+                              <div className="font-medium text-xs text-gray-900 mb-1">{item.title}</div>
                               <p className="text-xs text-gray-500 leading-snug">{item.description}</p>
                             </div>
                           </div>

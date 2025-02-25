@@ -1,32 +1,60 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import ColoredBackgroundWaveScene from "@/components/Ui Components/ColoredBackgroundWaveScene";
+import { Gradient } from "whatamesh";
 
 export default function PilotProgramHero() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const style = document.createElement('style');
+    style.textContent = `
+      #gradient-canvas-hero {
+        --gradient-color-1: #c3e4ff;
+        --gradient-color-2: #6ec3f4;
+        --gradient-color-3: #eae2ff;
+        --gradient-color-4: #b9beff;
+      }
+    `;
+    document.head.appendChild(style);
+
+    const timer = setTimeout(() => {
+      if (canvasRef.current) {
+        const gradient = new Gradient();
+        gradient.initGradient('#gradient-canvas-hero');
+      }
+    }, 100);
+
+    return () => {
+      document.head.removeChild(style);
+      clearTimeout(timer);
+    };
+  }, []);
+
   return (
-    <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden ">
-      {/* Background Wave */}
-      <div className="absolute inset-0 -z-8">
-        <ColoredBackgroundWaveScene color="rgb(111,127,242)" />
-      </div>
+    <section className="relative md:min-h-[55vh] min-h-[70vh]  flex items-center justify-center overflow-hidden">
+      <canvas
+        id="gradient-canvas-hero"
+        ref={canvasRef}
+        className="absolute inset-0 w-full h-full "
+      />
       
       <div className="container mx-auto relative z-10 px-6 md:px-20">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="space-y-7 pt-3 md:pt-28 pb-10 lg:px-12 md:px-10"
+          className="space-y-5 max-w-4xl mx-auto text-center"
         >
-          <h2 className="text-md font-semibold tracking-tight text-2s md:text-md text-[rgb(124, 0, 23)]">
+          <h2 className="text-sm font-semibold tracking-wider text-blue-700 uppercase pt-16">
             Pilot Program
           </h2>
-          <h3 className="lg:text-6xl text-5xl max-w-md font-semibold tracking-tight bg-clip-text text-transparent bg-[linear-gradient(165deg,rgb(74,0,18),rgb(15,10,63))]">
+          <h1 className="text-5xl md:text-5xl lg:text-6xl font-semibold tracking-tight text-slate-900">
             Shape the Future of AI Business Simulation
-          </h3>
-          <p className="text-slate-900 max-w-lg text-md leading-relaxed">
-            Join our exclusive pilot program and help us refine our AI-driven platform. Get free access while contributing valuable feedback to improve our service.
+          </h1>
+          <p className="text-slate-800 text-md md:text-md max-w-2xl mx-auto leading-relaxed">
+            Join our exclusive pilot program and help us refine our AI-driven platform. Get early access while contributing valuable feedback to shape the future.
           </p>
         </motion.div>
       </div>
