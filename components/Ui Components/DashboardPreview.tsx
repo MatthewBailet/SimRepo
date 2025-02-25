@@ -115,16 +115,14 @@ const DashboardPreview = () => {
     }
   };
 
-  const itemVariants = {
+  const itemVariants = useMemo(() => ({
     hidden: { opacity: 0, y: 20 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: {
-        duration: 0.5
-      }
+      transition: { duration: 0.5 }
     }
-  };
+  }), []);
 
   const memoizedMetrics = useMemo(() => {
     return businessMetrics.map((metric, index) => (

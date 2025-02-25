@@ -104,6 +104,16 @@ const Help = ({ size, className }: { size: number, className?: string }) => (
 const DashboardPreview2 = () => {
   const [ref, isVisible] = useIntersectionObserver(0.1);
   
+  // Wrap itemVariants in useMemo to prevent recreation on every render
+  const itemVariants = useMemo(() => ({
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.5 }
+    }
+  }), []);
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -111,17 +121,6 @@ const DashboardPreview2 = () => {
       transition: {
         staggerChildren: 0.1,
         delayChildren: 0.2
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.5
       }
     }
   };
@@ -143,7 +142,7 @@ const DashboardPreview2 = () => {
       <Progress value={metric.progress} className="h-1 mb-2" />
       <span className="text-xs text-gray-500">{metric.target}</span>
     </motion.div>
-  )), []);
+  )), [itemVariants]);
 
   return (
     <motion.div 
