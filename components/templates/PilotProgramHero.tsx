@@ -51,7 +51,7 @@ export default function PilotProgramHero() {
             Pilot Program
           </h2>
           <h1 className="text-5xl md:text-5xl lg:text-6xl font-semibold tracking-tight text-slate-900">
-            Shape the Future of AI Business Simulation
+            Shape the Future of Business Intelligence
           </h1>
           <p className="text-slate-800 text-md md:text-md max-w-2xl mx-auto leading-relaxed">
             Join our exclusive pilot program and help us refine our AI-driven platform. Get early access while contributing valuable feedback to shape the future.

@@ -63,12 +63,7 @@ const EngineCard3: React.FC = () => {
             } as React.CSSProperties}
           />
 
-          {/* Top Right Arrow */}
-          <div className="absolute top-5 right-5 hidden md:block">
-            <div className="backdrop-blur-sm bg-white/20 rounded-full p-2 transition-all duration-300 group-hover:scale-105">
-              <ArrowRight className="w-3 h-3 text-white" />
-            </div>
-          </div>
+
 
           {/* Card Content */}
           <CardContent className="relative flex flex-col items-center mt-6 justify-center h-full">
