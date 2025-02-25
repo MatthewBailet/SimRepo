@@ -168,8 +168,8 @@ const CaseSimulationAnimation = () => {
           </div>
           <div className="flex justify-end mt-2 space-x-2">
             <motion.button 
-              className="px-3 py-1 text-xs rounded bg-gray-200 text-gray-700 filter blur-[0.5px]"
-              whileHover={{ filter: "blur(0px)" }}
+              className="px-3 py-1 text-xs rounded bg-gray-200 text-gray-700 "
+
             >
               Quick run
             </motion.button>
@@ -267,7 +267,7 @@ export default function Features() {
           <EngineCard />
         </div>
 
-        <motion.div className="text-center mb-24">
+        <motion.div className="text-center sm:mb:10 md:mb-24">
           <h2 className="text-4xl font-semibold text-slate-800 mb-4">
             Powerful Features
           </h2>
