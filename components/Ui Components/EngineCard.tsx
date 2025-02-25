@@ -33,7 +33,7 @@ const EngineCard: React.FC = () => {
 <h1 className="text-lg font-semibold text-slate-600 pb-1 pr-1">Join Our Pilot Program </h1>
 <ArrowRight className="w-5 h-5 text-slate-600 transition-transform duration-300 transform translate-x-0 group-hover:translate-x-1 pb-1" />
          </div>
-        <Card className="lg:aspect-[5/1.5] aspect-[5/3] md:aspect-[4/1] rounded-sm py-0 sm:py-8  relative overflow-hidden transition-all duration-300 group-hover:scale-[102%] hover:shadow-2xl">
+        <Card className="lg:aspect-[5/1.2] aspect-[5/3] md:aspect-[4/1] rounded-sm py-0 sm:py-8  relative overflow-hidden transition-all duration-300 group-hover:scale-[102%] hover:shadow-2xl">
           <canvas
             id="gradient-canvas"
             ref={canvasRef}
