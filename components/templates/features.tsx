@@ -2,13 +2,25 @@
 
 import React, { useRef, useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
-import { BarChart2, Scan, Umbrella, Wallet, Activity, Database, Globe, Sparkles, FileText, Image, Table, Server, Calendar, Users, CheckCircle, Layers, Cloud } from "lucide-react";
+import { BarChart2, Scan, Umbrella, Wallet, Activity, Database, Globe, Sparkles, FileText, Image, Table, Server, Calendar, Users, CheckCircle, Layers, Cloud, Glasses, } from "lucide-react";
 import DashboardPreview2 from "@/components/Ui Components/DashboardPreview";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import { Badge } from "@/components/molecules/shadcn/badge";
 import EngineCard from "@/components/Ui Components/EngineCard";
 
 const featureCards = [
+
+  {
+    icon: <Database className="h-6 w-6" />,
+    title: "Seamless Integration", 
+    subtitle: "Seamless system connectivity",
+    description: "Comprehensive data parsing and integration capabilities that connect with your existing systems while maintaining data integrity and security.",
+    details: [
+      "Multi-format data processing",
+      "Automated ETL pipelines",
+      "Real-time synchronization"
+    ]
+  },
 
   {
     icon: <Globe className="h-6 w-6" />,
@@ -32,17 +44,7 @@ const featureCards = [
       "Risk assessment & mitigation strategies"
     ]
   },
-  {
-    icon: <Database className="h-6 w-6" />,
-    title: "Seamless Integration", 
-    subtitle: "Seamless system connectivity",
-    description: "Comprehensive data parsing and integration capabilities that connect with your existing systems while maintaining data integrity and security.",
-    details: [
-      "Multi-format data processing",
-      "Automated ETL pipelines",
-      "Real-time synchronization"
-    ]
-  }
+  
 ];
 
 // Animation components
@@ -74,14 +76,14 @@ const IndustryIntelligenceAnimation = () => {
           setIsComplete(false);
           setCurrentSite((prev) => (prev + 1) % sites.length);
         }, 2500);
-      }, 1000);
+      }, 2000);
     }, 4000);
 
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <div className="relative h-32 select-none mx-[30%] pt-6 md:mx-[35%] lg:mx-[25%]">
+    <div className="relative h-32 select-none pt-6  mx-[15vw] md:mx-[25vw] lg:mx-[7vw]">
 
 
 
@@ -144,14 +146,38 @@ const IndustryIntelligenceAnimation = () => {
             />
           ) : isComplete ? (
             <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ type: "spring", stiffness: 200 }}
+              initial={{ scale: 0.5, opacity: 0 }}
+              animate={{ 
+                scale: 1,
+                opacity: 1
+              }}
+              transition={{ 
+                type: "spring",
+                stiffness: 400,
+                damping: 15,
+                duration: 0.4
+              }}
+              className="relative"
             >
-              <CheckCircle className="w-5 h-5 text-emerald-500" />
+              <motion.div
+                initial={{ strokeDashoffset: 20, opacity: 0 }}
+                animate={{ 
+                  strokeDashoffset: 0,
+                  opacity: 1,
+                  pathLength: 1
+                }}
+                transition={{
+                  delay: 0.1,
+                  type: "tween",
+                  ease: "easeOut",
+                  duration: 0.3
+                }}
+              >
+                <CheckCircle className="w-5 h-5 text-emerald-500" strokeWidth={3} />
+              </motion.div>
             </motion.div>
           ) : (
-            <Scan className="w-5 h-5 text-slate-600" />
+            <Glasses className="w-5 h-5 text-slate-600" />
           )}
         </motion.div>
       </div>
@@ -207,7 +233,7 @@ const CaseSimulationAnimation = () => {
         return;
       }
       
-      const randomDelay = 35; // Slower typing (60-90ms)
+      const randomDelay = 40; // Slower typing (60-90ms)
       timer = setTimeout(() => {
         setText(currentQuery.slice(0, text.length + 1));
       }, randomDelay);
@@ -380,11 +406,35 @@ const IntegrationAnimation = () => {
                     </motion.div>
                   ) : isCenter && completed ? (
                     <motion.div
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      transition={{ type: "spring", stiffness: 200 }}
+                      initial={{ scale: 0.5, opacity: 0 }}
+                      animate={{ 
+                        scale: 1,
+                        opacity: 1
+                      }}
+                      transition={{ 
+                        type: "spring",
+                        stiffness: 400,
+                        damping: 15,
+                        duration: 0.4
+                      }}
+                      className="relative"
                     >
-                      <CheckCircle className="h-6 w-6" />
+                      <motion.div
+                        initial={{ strokeDashoffset: 20, opacity: 0 }}
+                        animate={{ 
+                          strokeDashoffset: 0,
+                          opacity: 1,
+                          pathLength: 1
+                        }}
+                        transition={{
+                          delay: 0.1,
+                          type: "tween",
+                          ease: "easeOut",
+                          duration: 0.3
+                        }}
+                      >
+                        <CheckCircle className="w-5 h-5 text-emerald-500" strokeWidth={3} />
+                      </motion.div>
                     </motion.div>
                   ) : (
                     item.icon
@@ -526,9 +576,9 @@ export default function Features() {
                       </p>
                       
                       {/* Animation component */}
-                      {index === 0 && <IndustryIntelligenceAnimation />}
-                      {index === 1 && <CaseSimulationAnimation />}
-                      {index === 2 && <IntegrationAnimation />}
+                      {index === 1 && <IndustryIntelligenceAnimation />}
+                      {index === 2 && <CaseSimulationAnimation />}
+                      {index === 0 && <IntegrationAnimation />}
                     </div>
                   </motion.div>
                   
