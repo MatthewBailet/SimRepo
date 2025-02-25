@@ -152,7 +152,7 @@ export function NavigationMenuDemo() {
                               </div>
                               <div>
                                 <div className="font-medium text-sm text-gray-900 mb-1">{item.title}</div>
-                                <p className="text-sm text-gray-500 leading-snug">{item.description}</p>
+                                <p className="text-xs text-gray-500 leading-snug">{item.description}</p>
                               </div>
                             </div>
                           </Link>
@@ -175,7 +175,7 @@ export function NavigationMenuDemo() {
                             </div>
                             <div>
                               <div className="font-medium text-sm text-gray-900 mb-1">{item.title}</div>
-                              <p className="text-sm text-gray-500 leading-snug">{item.description}</p>
+                              <p className="text-xs text-gray-500 leading-snug">{item.description}</p>
                             </div>
                           </div>
                         </Link>
