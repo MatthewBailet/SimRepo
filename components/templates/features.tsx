@@ -100,7 +100,7 @@ const CaseSimulationAnimation = () => {
   
   const queries = [
     "How will market trends affect revenue?",
-    "What if we increase prices by 10%?",
+    "What if we increase prices by 10%?", 
     "Best expansion regions for Q3 2024?",
     "Competitor response to our new product?",
     "Customer churn prediction next quarter",
@@ -116,7 +116,7 @@ const CaseSimulationAnimation = () => {
     if (isPaused) {
       const pauseTimeout = setTimeout(() => {
         setIsPaused(false);
-      }, isDeleting ? 700 : 1500);
+      }, isDeleting ? 900 : 8000); // Increased pause times
       
       return () => clearTimeout(pauseTimeout);
     }
@@ -133,7 +133,7 @@ const CaseSimulationAnimation = () => {
       
       timer = setTimeout(() => {
         setText((prev) => prev.slice(0, -1));
-      }, 30);
+      }, 35); // Slightly faster deletion
     } else {
       if (text === currentQuery) {
         // Start deleting after typing is complete
@@ -142,9 +142,10 @@ const CaseSimulationAnimation = () => {
         return;
       }
       
+      const randomDelay = Math.random() * 20 + 25; // Random delay between 25-45ms
       timer = setTimeout(() => {
         setText(currentQuery.slice(0, text.length + 1));
-      }, 80);
+      }, randomDelay); // More natural typing speed with variation
     }
     
     return () => clearTimeout(timer);
