@@ -7,6 +7,9 @@ import ColoredBackgroundWaveScene2 from "@/components/Ui Components/ColoredBackg
 import { Button } from "@/components/molecules/shadcn/button";
 import { Input } from "@/components/molecules/shadcn/input";
 import { Textarea } from "@/components/molecules/shadcn/textarea";
+import emailjs from '@emailjs/browser';
+import { toast } from "@/components/molecules/shadcn/use-toast";
+import { CheckCircle2 } from "lucide-react";
 
 export default function EarlyAccessForm() {
   const [formData, setFormData] = useState({
@@ -16,19 +19,61 @@ export default function EarlyAccessForm() {
     description: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
   const [ref, inView] = useInView({ threshold: 0.1 });
+  const formRef = useRef<HTMLFormElement>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Here you would typically send the data to your backend
-    await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API call
-    
-    // Reset form
-    setFormData({ name: "", email: "", company: "", description: "" });
-    setIsSubmitting(false);
-    alert("Thank you for your interest! We'll be in touch soon.");
+    try {
+      // Send email using EmailJS
+      const result = await emailjs.sendForm(
+        'service_pkzbujv', // Service ID
+        'template_c3aq3m2', // Template ID - you'll create this
+        formRef.current!, 
+        'R-JudV5vFRLMRdefk' // Replace with your EmailJS public key
+      );
+      
+      console.log('Email sent successfully:', result.text);
+      
+      // Set success state
+      setIsSuccess(true);
+      
+      // Show success message
+      toast({
+        title: "Success!",
+        description: "Your request has been submitted successfully. We'll review your application and get back to you shortly.",
+        variant: "default",
+        duration: 5000,
+        className: "bg-white border-green-100 border-2",
+        action: (
+          <div className="h-8 w-8 bg-green-50 rounded-full flex items-center justify-center">
+            <CheckCircle2 className="h-5 w-5 text-green-500" />
+          </div>
+        ),
+      });
+      
+      // Reset form
+      setFormData({ name: "", email: "", company: "", description: "" });
+      
+      // Reset success state after a delay
+      setTimeout(() => {
+        setIsSuccess(false);
+      }, 5000);
+    } catch (error) {
+      console.error('Failed to send email:', error);
+      
+      // Show error message
+      toast({
+        title: "Something went wrong",
+        description: "Please try again later or contact us directly.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -53,13 +98,14 @@ export default function EarlyAccessForm() {
             Join our exclusive early access program and be among the first to experience our AI-powered simulation platform.
           </p>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-2">
                 Name
               </label>
               <Input
                 type="text"
+                name="user_name" // Important: match EmailJS template parameter
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 required
@@ -74,6 +120,7 @@ export default function EarlyAccessForm() {
               </label>
               <Input
                 type="email"
+                name="user_email" // Important: match EmailJS template parameter
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 required
@@ -88,6 +135,7 @@ export default function EarlyAccessForm() {
               </label>
               <Input
                 type="text"
+                name="user_company" // Important: match EmailJS template parameter
                 value={formData.company}
                 onChange={(e) => setFormData({ ...formData, company: e.target.value })}
                 required
@@ -101,6 +149,7 @@ export default function EarlyAccessForm() {
                 How will you use our platform?
               </label>
               <Textarea
+                name="message" // Important: match EmailJS template parameter
                 value={formData.description}
                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                 required
@@ -117,6 +166,19 @@ export default function EarlyAccessForm() {
             >
               {isSubmitting ? "Submitting..." : "Submit Request"}
             </Button>
+            
+            {isSuccess && (
+              <motion.div 
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="mt-4 p-4 bg-green-50 border border-green-100 rounded-lg flex items-center gap-3"
+              >
+                <CheckCircle2 className="h-5 w-5 text-green-500 flex-shrink-0" />
+                <p className="text-green-800 text-sm">
+                  Your request has been submitted successfully! We'll review your application and get back to you shortly.
+                </p>
+              </motion.div>
+            )}
           </form>
         </div>
       </motion.div>

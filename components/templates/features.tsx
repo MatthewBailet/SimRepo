@@ -560,8 +560,8 @@ export default function Features() {
                     <div 
                       className={`backdrop-blur-sm border ${activeCard === index ? 'border-blue-300' : 'border-gray-200'} rounded-lg p-6 transition-all duration-300 bg-white`}
                     >
-                      <div className="rounded-lg bg-blue-50 p-2 w-fit mb-4">
-                        <div className="h-5 w-5 text-blue-600">
+                      <div className="rounded-lg bg-blue-50 p-2 w-fit mb-4 flex items-center justify-center">
+                        <div className="h-5 w-5 text-blue-600 flex items-center justify-center">
                           {card.icon}
                         </div>
                       </div>
