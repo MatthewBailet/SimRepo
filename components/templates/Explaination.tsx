@@ -11,7 +11,6 @@ import ColoredBackgroundWaveScene2 from "@/components/Ui Components/ColoredBackg
 import ResearchCard from "@/components/Ui Components/ResearchCard";
 import EngineCard from "@/components/Ui Components/EngineCard";
 
-
 const features = [
   {
     icon: <Terminal className="h-6 w-6" />,
@@ -42,67 +41,72 @@ const features = [
 export default function Explanation() {
   const [ref, isInView] = useIntersectionObserver(0.1);
 
+  // Container animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6 }
+    }
+  };
+
   return (
     <section
-       ref={ref} className="relative bg-white text-bold overflow-hidden"
+      ref={ref} className="relative bg-white text-bold overflow-hidden"
     >
-
-
-      
-      
-
-      {isInView && (
-        <div className="absolute inset-0 -z-15">
-          <ColoredBackgroundWaveScene2 
-            color="rgb(111,127,242)" 
-          />
-        </div>
-        
-      )}
-
-<div 
-            className="absolute inset-0 -z-14 backdrop-blur-[4px]"
-            style={{
-              WebkitBackfaceVisibility: "hidden",
-              WebkitPerspective: "1000",
-              WebkitTransform: "translate3d(0,0,0) translateZ(0)",
-              backfaceVisibility: "hidden",
-              perspective: "1000",
-              transform: "translate3d(0,0,0) translateZ(0)",
-            }}
-          />
-
-      <div className="container relative z-10 px-6 md:px-6 lg:px-9  pt-12">
-      
-      
-      <div className="mx-auto pt- md:pt-0 relative z-10 mb-20">
+      <div className="container relative z-10 px-6 md:px-6 lg:px-9 pt-12">
+        <motion.div
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          variants={containerVariants}
+          className="mx-auto pt- md:pt-0 relative z-10 mb-20"
+        >
           <ResearchCard />
-        </div>
+        </motion.div>
 
-        <div className="max-w-3xl mx-auto text-center mb-20">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+        <motion.div
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          variants={containerVariants} 
+          className="max-w-3xl mx-auto text-center mb-20"
+        >
+          <motion.h2 
+            variants={itemVariants}
+            className="text-4xl font-semibold text-slate-900 mb-6"
           >
+            Built for Enterprise Scale
+          </motion.h2>
+          <motion.p 
+            variants={itemVariants}
+            className="text-gray-600 text-md max-w-2xl mx-auto"
+          >
+            Our platform leverages cutting-edge technology to deliver reliable, 
+            scalable data processing with enterprise-grade security and performance.
+          </motion.p>
+        </motion.div>
 
-            <h2 className="text-4xl font-semibold text-slate-900 mb-6">
-              Built for Enterprise Scale
-            </h2>
-            <p className="text-gray-600 text-md max-w-2xl mx-auto">
-              Our platform leverages cutting-edge technology to deliver reliable, 
-              scalable data processing with enterprise-grade security and performance.
-            </p>
-          </motion.div>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <motion.div
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          variants={containerVariants}
+          className="grid grid-cols-1 md:grid-cols-2 gap-6"
+        >
           {features.map((feature, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
+              variants={itemVariants}
             >
               <Card className="bg-white/50 backdrop-blur-sm border-gray-100 p-6 h-full duration-300">
                 <div className="flex items-start gap-4">
@@ -132,7 +136,7 @@ export default function Explanation() {
               </Card>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

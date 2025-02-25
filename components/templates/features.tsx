@@ -3,7 +3,7 @@
 import React, { useRef, useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
 import { BarChart2, Scan, Umbrella, Wallet, Activity, Database, Globe, Sparkles, FileText } from "lucide-react";
-import DashboardPreview from "@/components/Ui Components/DashboardPreview";
+import DashboardPreview2 from "@/components/Ui Components/DashboardPreview";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import { Badge } from "@/components/molecules/shadcn/badge";
 import EngineCard from "@/components/Ui Components/EngineCard";
@@ -248,9 +248,30 @@ const IntegrationAnimation = () => {
 export default function Features() {
   const [ref, isInView] = useIntersectionObserver(0.1);
   const [activeCard, setActiveCard] = useState(0);
-  const [pulseIndex, setPulseIndex] = useState(-1); // Track which connector is pulsing
+  const [pulseIndex, setPulseIndex] = useState(-1);
 
-  // Cycle through animations
+  // Container animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+        delayChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.5 }
+    }
+  };
+
+  // Cycle through animations only when in view
   useEffect(() => {
     if (!isInView) return;
     
@@ -269,25 +290,24 @@ export default function Features() {
       // Reset
       setPulseIndex(-1);
       
-      // First connector pulse (after a delay)
+      // First connector pulse
       setTimeout(() => {
         setPulseIndex(0);
         
-        // Second connector pulse (after the first one completes)
+        // Second connector pulse
         setTimeout(() => {
           setPulseIndex(1);
           
-          // Reset after second pulse (with delay before restarting)
+          // Reset after second pulse
           setTimeout(() => {
             startSequence();
-          }, 2000);
-        }, 1500); // Time between first and second pulse
-      }, 1000); // Initial delay before first pulse
+          }, 1000);
+        }, 1000);
+      }, 500);
     };
     
     startSequence();
     return () => {
-      // Clean up all timeouts on unmount
       setPulseIndex(-1);
     };
   }, [isInView]);
@@ -295,30 +315,43 @@ export default function Features() {
   return (
     <section ref={ref} className="relative bg-white text-bold overflow-hidden pb-8 pt-20">
       <div className="container relative z-10 pt-0 px-3">
-        <div className="mx-auto md:pt-10 mb-28 px-0 md:px-6 ">
+        <motion.div 
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          variants={containerVariants}
+          className="mx-auto md:pt-10 mb-28 px-0 md:px-6"
+        >
           <EngineCard />
-        </div>
+        </motion.div>
 
-        <motion.div className="text-center sm:mb:10 md:mb-24">
-          <h2 className="text-4xl font-semibold text-slate-800 mb-4">
+        <motion.div 
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          variants={containerVariants}
+          className="text-center sm:mb:10 md:mb-24"
+        >
+          <motion.h2 variants={itemVariants} className="text-4xl font-semibold text-slate-800 mb-4">
             Powerful Features
-          </h2>
-          <p className="text-gray-600 text-center justify-center max-w-2xl mx-auto pd-12">
+          </motion.h2>
+          <motion.p variants={itemVariants} className="text-gray-600 text-center justify-center max-w-2xl mx-auto pd-12">
             Transform your business intelligence with our AI-powered platform, delivering 
             actionable insights through advanced analytics and real-time data processing.
-          </p>
+          </motion.p>
         </motion.div>
 
         <div className="flex flex-col lg:flex-row">
           {/* Left side: Feature cards */}
           <div className="lg:w-1/2 px-0 md:px-6 lg:pr-8">
-            <div className="space-y-1 relative">
+            <motion.div 
+              initial="hidden"
+              animate={isInView ? "visible" : "hidden"}
+              variants={containerVariants}
+              className="space-y-1 relative"
+            >
               {featureCards.map((card, index) => (
                 <React.Fragment key={index}>
                   <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.1 }}
+                    variants={itemVariants}
                   >
                     <div 
                       className={`backdrop-blur-sm border ${activeCard === index ? 'border-blue-300' : 'border-gray-200'} rounded-lg p-6 transition-all duration-300 bg-white`}
@@ -342,18 +375,6 @@ export default function Features() {
                       {index === 0 && <IndustryIntelligenceAnimation />}
                       {index === 1 && <CaseSimulationAnimation />}
                       {index === 2 && <IntegrationAnimation />}
-                      
-                      <div className="flex flex-wrap gap-2">
-                        {card.details.map((detail, i) => (
-                          <Badge 
-                            key={i}
-                            variant="outline"
-                            className="bg-blue-50 text-blue-600 border-blue-100"
-                          >
-                            {detail}
-                          </Badge>
-                        ))}
-                      </div>
                     </div>
                   </motion.div>
                   
@@ -363,9 +384,9 @@ export default function Features() {
                       <div className="relative">
                         <motion.div 
                           initial={{ height: 0 }}
-                          animate={{ height: 40 }}
+                          animate={isInView ? { height: 40 } : { height: 0 }}
                           transition={{ delay: 0.5, duration: 0.5 }}
-                          className="w-0.5 bg-blue-200"
+                          className="w-1 bg-blue-200"
                         >
                           {pulseIndex === index && (
                             <motion.div 
@@ -392,13 +413,13 @@ export default function Features() {
                   )}
                 </React.Fragment>
               ))}
-            </div>
+            </motion.div>
           </div>
 
           {/* Right side: Platform preview */}
-          <div className="w-1/2 relative mt-12 lg:mt-0 pt:0">
-            <div className="absolute inset-5 -right-[70vw]">
-              <DashboardPreview />
+          <div className="lg:w-1/2 relative mt-12 lg:mt-0">
+            <div className="absolute left-0 right-[-50vw]">
+              <DashboardPreview2 />
             </div>
           </div>
         </div>

@@ -8,6 +8,7 @@ import { motion } from "framer-motion";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import { Skeleton } from "@/components/molecules/shadcn/skeleton";
 import { Gradient } from "whatamesh";
+import DashboardPreview from "../Ui Components/DashboardPreview";
 
 const gradient = new Gradient()
 
@@ -100,7 +101,7 @@ const backgroundFragmentShader = `
     if (vRand < 0.99) {
       float pulse = abs(sin(uTime * 1.5 + vRand * 15.0));
       float mixFactor = smoothstep(0.02, 0.3, pulse);
-      baseColor = mix(baseColor, vec3(0.4, 0.6, 0.8), mixFactor);
+      baseColor = mix(baseColor, vec3(0.6, 0.8, 0.95), mixFactor);
     }
 
     vec2 centeredUv = vUv - vec2(0.5);
@@ -135,7 +136,7 @@ const mobileBackgroundFragmentShader = `
     if (vRand < 0.99) {
       float pulse = abs(sin(uTime * 1.5 + vRand * 15.0));
       float mixFactor = smoothstep(0.02, 0.3, pulse);
-      baseColor = mix(baseColor, vec3(0.4, 0.6, 0.8), mixFactor);
+      baseColor = mix(baseColor, vec3(0.6, 0.8, 0.95), mixFactor);
     }
 
     vec2 centeredUv = vUv - vec2(0.5);
@@ -170,7 +171,7 @@ const xlBackgroundFragmentShader = `
     if (vRand < 0.69) {
       float pulse = abs(sin(uTime * 1.5 + vRand * 15.0));
       float mixFactor = smoothstep(0.02, 0.3, pulse);
-      baseColor = mix(baseColor, vec3(0.4, 0.6, 0.8), mixFactor);
+      baseColor = mix(baseColor, vec3(0.6, 0.8, 0.95), mixFactor);
     }
 
     vec2 centeredUv = vUv - vec2(0.5);
@@ -324,7 +325,8 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Dashboard Preview */}
+    {/* Dashboard Preview */}
+{/* Dashboard Preview */}
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
@@ -337,8 +339,8 @@ export default function Hero() {
           transformOrigin: 'center'
         }}
       >
-        <div className="container mx-auto px-6 relative h-full min-h-[70vh] w-full " >
-          <div className="relative w-full max-w-8xl mx-auto px-3">
+        <div className="container mx-auto px-9 relative h-full min-h-8xl" >
+          <div className="relative w-full max-w-8xl mx-auto">
             <div className="bg-white rounded-xl shadow-2xl flex ">
               {/* Sidebar */}
               <div className="w-64 bg-slate-50 p-6 rounded-l-xl border-r">

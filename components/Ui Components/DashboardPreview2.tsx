@@ -101,7 +101,7 @@ const Help = ({ size, className }: { size: number, className?: string }) => (
   </svg>
 );
 
-const DashboardPreview = () => {
+const DashboardPreview2 = () => {
   const [ref, isVisible] = useIntersectionObserver(0.1);
   
   const containerVariants = {
@@ -151,7 +151,7 @@ const DashboardPreview = () => {
       initial="hidden"
       animate={isVisible ? "visible" : "hidden"}
       variants={containerVariants}
-      className="w-full  overflow-hidden rounded-lg border border-gray-200 shadow-xl bg-white"
+      className="w-full max-w-7xl overflow-hidden rounded-lg border border-gray-200 shadow-xl bg-white"
       style={{height: "900px" }}
     >
       <div className="flex h-full">
@@ -319,4 +319,4 @@ const DashboardPreview = () => {
   );
 };
 
-export default DashboardPreview;
+export default DashboardPreview2;
