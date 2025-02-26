@@ -46,7 +46,7 @@ const featureCards = [
 ];
 
 // Animation components
-const IndustryIntelligenceAnimation = () => {
+const IndustryIntelligenceAnimation: React.FC = () => {
   const [currentSite, setCurrentSite] = useState(0);
   const [isProcessing, setIsProcessing] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
@@ -64,12 +64,10 @@ const IndustryIntelligenceAnimation = () => {
     const interval = setInterval(() => {
       setIsProcessing(true);
       
-      // Show processing state for 1 second
       setTimeout(() => {
         setIsProcessing(false);
         setIsComplete(true);
         
-        // Show complete state for 2.5 seconds
         setTimeout(() => {
           setIsComplete(false);
           setCurrentSite((prev) => (prev + 1) % sites.length);
@@ -78,7 +76,7 @@ const IndustryIntelligenceAnimation = () => {
     }, 4000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [sites.length]);
 
   return (
     <div className="relative h-32 select-none pt-6  mx-[15vw] md:mx-[25vw] lg:mx-[7vw]">
