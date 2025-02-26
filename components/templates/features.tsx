@@ -23,7 +23,7 @@ const featureCards = [
   },
   {
     icon: <Globe className="h-6 w-6" />,
-    title: "Industry Intelligence",
+    title: "Real-time Industry Intelligence",
     subtitle: "High-precision data collection",
     description: "Enterprise-grade web scraping infrastructure that continuously monitors and analyzes market trends, competitor activities, and industry developments.",
     details: [
@@ -569,7 +569,7 @@ export default function Features() {
           className="text-center sm:mb:10 md:mb-24"
         >
           <motion.h2 variants={itemVariants} className="text-4xl font-semibold text-slate-800 mb-4">
-            Powerful Features
+            Model with Simulations
           </motion.h2>
           <motion.p variants={itemVariants} className="text-gray-600 text-center justify-center max-w-2xl mx-auto pd-12">
             Transform your business intelligence with our AI-powered platform, delivering 
@@ -666,7 +666,7 @@ export default function Features() {
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
           variants={containerVariants}
-          className="text-center sm:mb:10 md:mb-24"
+          className="text-center sm:mb:10 md:mb-12 mt-20"
         >
           <motion.h2 variants={itemVariants} className="text-4xl font-semibold text-slate-800 mb-4 pt-10 mt-10 px-28">
             Comprehensive Business Intelligence
@@ -676,7 +676,7 @@ export default function Features() {
           </motion.p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-5 px-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-5 px-6">
           {sites.map((site, index) => (
             <motion.div
               key={index}
@@ -684,7 +684,7 @@ export default function Features() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
             >
-              <Card className="p-6 h-full border-slate-200 hover:border-blue-200 transition-colors duration-300">
+              <Card className="p-6 h-full border-slate-200 transition-colors duration-300">
                 <div className="flex flex-col h-full">
                   <div className="p-2.5 rounded-lg bg-blue-50 w-fit mb-4">
                     {site.icon}

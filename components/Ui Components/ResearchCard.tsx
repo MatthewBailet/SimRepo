@@ -23,7 +23,7 @@ const ResearchCard: React.FC = () => {
   }, []);
 
   return (
-    <Link legacyBehavior   href="/research">
+    <Link legacyBehavior href="/research">
       <a
         onMouseEnter={() => setCardHovered(true)}
         onMouseLeave={() => setCardHovered(false)}
