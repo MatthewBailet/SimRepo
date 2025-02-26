@@ -134,7 +134,7 @@ export default function PilotProgramForm() {
               <div className="space-y-2">
                 <label className="text-sm font-medium text-slate-700">Company Name</label>
                 <Input
-                  placeholder="Acme Corp"
+                  placeholder="Company Inc."
                   value={formData.company}
                   onChange={(e) => setFormData({ ...formData, company: e.target.value })}
                   className="bg-white/50"
@@ -144,7 +144,7 @@ export default function PilotProgramForm() {
               <div className="space-y-2">
                 <label className="text-sm font-medium text-slate-700">Your Role</label>
                 <Input
-                  placeholder="Head of Strategy"
+                  placeholder="CEO, Manager, etc."
                   value={formData.role}
                   onChange={(e) => setFormData({ ...formData, role: e.target.value })}
                   className="bg-white/50"
@@ -203,16 +203,16 @@ export default function PilotProgramForm() {
             <div className="space-y-2">
               <label className="text-sm font-medium text-slate-700">Additional Information</label>
               <Textarea
-                name="message"
-                placeholder="Tell us about your specific needs and how you plan to use our platform..."
                 value={formData.message}
                 onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                 className="bg-white/50"
                 rows={4}
+                name="message"
+                placeholder="Tell us about your business needs and what you&apos;re looking to achieve with our platform"
               />
             </div>
 
-            <Button type="submit" className="w-full bg-slate-700 hover:bg-slate-800 text-white">
+            <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white">
               Submit Application
             </Button>
 
