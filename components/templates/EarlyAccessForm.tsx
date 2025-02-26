@@ -1,186 +1,97 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { useInView } from "react-intersection-observer";
-import ColoredBackgroundWaveScene2 from "@/components/Ui Components/ColoredBackgroundWaveScene2";
-import { Button } from "@/components/molecules/shadcn/button";
 import { Input } from "@/components/molecules/shadcn/input";
 import { Textarea } from "@/components/molecules/shadcn/textarea";
-import emailjs from '@emailjs/browser';
-import { toast } from "@/components/molecules/shadcn/use-toast";
-import { CheckCircle2 } from "lucide-react";
+import { Button } from "@/components/molecules/shadcn/button";
+import { Card } from "@/components/molecules/shadcn/card";
 
 export default function EarlyAccessForm() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     company: "",
-    description: "",
+    role: "",
+    message: ""
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [ref, inView] = useInView({ threshold: 0.1 });
-  const formRef = useRef<HTMLFormElement>(null);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    
-    try {
-      // Send email using EmailJS
-      const result = await emailjs.sendForm(
-        'service_pkzbujv', // Service ID
-        'template_c3aq3m2', // Template ID - you'll create this
-        formRef.current!, 
-        'R-JudV5vFRLMRdefk' // Replace with your EmailJS public key
-      );
-      
-      console.log('Email sent successfully:', result.text);
-      
-      // Set success state
-      setIsSuccess(true);
-      
-      // Show success message
-      toast({
-        title: "Success!",
-        description: "Your request has been submitted successfully. We'll review your application and get back to you shortly.",
-        variant: "default",
-        duration: 5000,
-        className: "bg-white border-green-100 border-2",
-        action: (
-          <div className="h-8 w-8 bg-green-50 rounded-full flex items-center justify-center">
-            <CheckCircle2 className="h-5 w-5 text-green-500" />
-          </div>
-        ),
-      });
-      
-      // Reset form
-      setFormData({ name: "", email: "", company: "", description: "" });
-      
-      // Reset success state after a delay
-      setTimeout(() => {
-        setIsSuccess(false);
-      }, 5000);
-    } catch (error) {
-      console.error('Failed to send email:', error);
-      
-      // Show error message
-      toast({
-        title: "Something went wrong",
-        description: "Please try again later or contact us directly.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
+    // Handle form submission
   };
 
   return (
-    <section ref={ref} className="relative min-h-screen flex items-center justify-center py-20 overflow-hidden">
-      {inView && (
-        <div className="absolute inset-0 -z-8">
-          <ColoredBackgroundWaveScene2 color="rgb(247,255,22)" />
-        </div>
-      )}
-
+    <section className="py-20 px-6">
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3 }}
-        className="relative z-10 w-full max-w-xl mx-auto px-4"
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        className="max-w-3xl mx-auto"
       >
-        <div className="bg-white/80 backdrop-blur-lg rounded-xl p-8 shadow-xl">
-          <h1 className="text-4xl font-semibold text-slate-800 mb-2">
-            Request Early Access
-          </h1>
-          <p className="text-slate-600 mb-8">
-            Join our exclusive early access program and be among the first to experience our AI-powered simulation platform.
-          </p>
+        <Card className="p-8 md:p-12 backdrop-blur-sm bg-white/80">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-semibold mb-3 text-slate-900">
+              Request Early Access
+            </h2>
+            <p className="text-slate-600">
+              Be among the first to experience our AI-powered business intelligence platform
+            </p>
+          </div>
 
-          <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">
-                Name
-              </label>
-              <Input
-                type="text"
-                name="user_name" // Important: match EmailJS template parameter
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                required
-                className="w-full"
-                placeholder="Your full name"
-              />
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-slate-700">Full Name</label>
+                <Input
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  className="bg-white/50"
+                />
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-slate-700">Email Address</label>
+                <Input
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  className="bg-white/50"
+                />
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-slate-700">Company Name</label>
+                <Input
+                  value={formData.company}
+                  onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+                  className="bg-white/50"
+                />
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-slate-700">Your Role</label>
+                <Input
+                  value={formData.role}
+                  onChange={(e) => setFormData({ ...formData, role: e.target.value })}
+                  className="bg-white/50"
+                />
+              </div>
             </div>
-
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">
-                Email
-              </label>
-              <Input
-                type="email"
-                name="user_email" // Important: match EmailJS template parameter
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                required
-                className="w-full"
-                placeholder="your@email.com"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">
-                Company
-              </label>
-              <Input
-                type="text"
-                name="user_company" // Important: match EmailJS template parameter
-                value={formData.company}
-                onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                required
-                className="w-full"
-                placeholder="Your company name"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">
-                How will you use our platform?
-              </label>
-              <Textarea
-                name="message" // Important: match EmailJS template parameter
-                value={formData.description}
-                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                required
-                className="w-full"
-                placeholder="Tell us about your use case..."
-                rows={4}
-              />
-            </div>
-
-            <Button
-              type="submit"
-              className="w-full bg-slate-900"
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? "Submitting..." : "Submit Request"}
-            </Button>
             
-            {isSuccess && (
-              <motion.div 
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="mt-4 p-4 bg-green-50 border border-green-100 rounded-lg flex items-center gap-3"
-              >
-                <CheckCircle2 className="h-5 w-5 text-green-500 flex-shrink-0" />
-                <p className="text-green-800 text-sm">
-                  Your request has been submitted successfully! We'll review your application and get back to you shortly.
-                </p>
-              </motion.div>
-            )}
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-slate-700">Additional Information</label>
+              <Textarea
+                value={formData.message}
+                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                className="bg-white/50"
+                rows={4}
+                placeholder="Tell us about your business needs and what you&apos;re looking to achieve with our platform"
+              />
+            </div>
+
+            <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white">
+              Submit Request
+            </Button>
           </form>
-        </div>
+        </Card>
       </motion.div>
     </section>
   );

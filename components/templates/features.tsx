@@ -2,14 +2,14 @@
 
 import React, { useRef, useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
-import { BarChart2, Scan, Umbrella, Wallet, Activity, Database, Globe, Sparkles, FileText, Image, Table, Server, Calendar, Users, CheckCircle, Layers, Cloud, Glasses, } from "lucide-react";
+import { BarChart2, Scan, Umbrella, Wallet, Activity, Database, Globe, Sparkles, FileText, Image, Table, Server, Calendar, Users, CheckCircle, Layers, Cloud, Glasses, ArrowRight, Code2 } from "lucide-react";
 import DashboardPreview2 from "@/components/Ui Components/DashboardPreview";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import { Badge } from "@/components/molecules/shadcn/badge";
 import EngineCard from "@/components/Ui Components/EngineCard";
+import { Card } from "@/components/molecules/shadcn/card";
 
 const featureCards = [
-
   {
     icon: <Database className="h-6 w-6" />,
     title: "Seamless Integration", 
@@ -21,7 +21,6 @@ const featureCards = [
       "Real-time synchronization"
     ]
   },
-
   {
     icon: <Globe className="h-6 w-6" />,
     title: "Industry Intelligence",
@@ -44,7 +43,6 @@ const featureCards = [
       "Risk assessment & mitigation strategies"
     ]
   },
-  
 ];
 
 // Animation components
@@ -84,9 +82,6 @@ const IndustryIntelligenceAnimation = () => {
 
   return (
     <div className="relative h-32 select-none pt-6  mx-[15vw] md:mx-[25vw] lg:mx-[7vw]">
-
-
-
       {/* Vertical Carousel */}
       <div className="absolute left-0 top-10 -translate-y-1/2 px-40">
         {[-1, 0, 1].map((offset) => {
@@ -111,7 +106,6 @@ const IndustryIntelligenceAnimation = () => {
                 ${offset === 0 ? 'scale-105' : 'scale-95'}
               `}>
                 <span className="text-sm font-medium text-slate-700">{sites[index].url}</span>
-
               </div>
             </motion.div>
           );
@@ -453,7 +447,8 @@ export default function Features() {
   const [ref, isInView] = useIntersectionObserver(0.1);
   const [activeCard, setActiveCard] = useState(0);
   const [pulseIndex, setPulseIndex] = useState(-1);
-
+  const [currentSite, setCurrentSite] = useState(0);
+  
   // Container animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -515,6 +510,47 @@ export default function Features() {
       setPulseIndex(-1);
     };
   }, [isInView]);
+
+  const sites = [
+    {
+      title: "Data Collection",
+      description: "Automated data collection from various sources including web, APIs, and databases.",
+      icon: <Database className="h-6 w-6 text-blue-500" />,
+    },
+    {
+      title: "Industry Webscraping",
+      description: "Real-time market data collection from industry-specific sources.",
+      icon: <Globe className="h-6 w-6 text-blue-500" />,
+    },
+    {
+      title: "Integrations",
+      description: "Seamless connection with your existing tools and platforms.",
+      icon: <Code2 className="h-6 w-6 text-blue-500" />,
+    },
+    {
+      title: "Reporting",
+      description: "Comprehensive insights and analytics dashboards.",
+      icon: <BarChart2 className="h-6 w-6 text-blue-500" />,
+    },
+    {
+      title: "Forecasting",
+      description: "AI-powered predictive analytics for business planning.",
+      icon: <BarChart2 className="h-6 w-6 text-blue-500" />,
+    },
+    {
+      title: "Collaboration",
+      description: "Team-based workflows and shared insights.",
+      icon: <Users className="h-6 w-6 text-blue-500" />,
+    },
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSite((prev) => (prev + 1) % sites.length);
+    }, 3000);
+    
+    return () => clearInterval(interval);
+  }, [sites.length]);
 
   return (
     <section ref={ref} className="relative bg-white text-bold overflow-hidden pb-8 pt-20">
@@ -621,11 +657,52 @@ export default function Features() {
           </div>
 
           {/* Right side: Platform preview */}
-          <div className="lg:w-1/2 relative mt-12 lg:mt-0">
+          <div className="lg:w-1/2 relative mt-12 lg:mt-0 hidden lg:block">
             <div className="absolute left-0 right-[-50vw]">
               <DashboardPreview2 />
             </div>
           </div>
+        </div>
+
+        <motion.div 
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          variants={containerVariants}
+          className="text-center sm:mb:10 md:mb-24"
+        >
+          <motion.h2 variants={itemVariants} className="text-4xl font-semibold text-slate-800 mb-4 pt-10 mt-10 px-28">
+            Comprehensive Business Intelligence
+          </motion.h2>
+          <motion.p variants={itemVariants} className="text-gray-600 text-center justify-center max-w-2xl mx-auto pd-12">
+            Our platform offers a complete suite of tools to help you make data-driven decisions
+          </motion.p>
+        </motion.div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-5 px-6">
+          {sites.map((site, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+            >
+              <Card className="p-6 h-full border-slate-200 hover:border-blue-200 transition-colors duration-300">
+                <div className="flex flex-col h-full">
+                  <div className="p-2.5 rounded-lg bg-blue-50 w-fit mb-4">
+                    {site.icon}
+                  </div>
+                  <h3 className="text-lg font-semibold text-slate-900 mb-2">{site.title}</h3>
+                  <p className="text-slate-600 text-sm flex-1">{site.description}</p>
+                  <div className="mt-4">
+                    <a href="#" className="inline-flex items-center text-blue-600 text-sm font-medium hover:text-blue-700 transition-colors duration-200">
+                      Learn more
+                      <ArrowRight className="ml-1 h-4 w-4" />
+                    </a>
+                  </div>
+                </div>
+              </Card>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>
