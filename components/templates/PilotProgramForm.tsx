@@ -58,7 +58,7 @@ export default function PilotProgramForm() {
       // Show success message
       toast({
         title: "Success!",
-        description: "Your request has been submitted successfully. We'll review your application and get back to you shortly.",
+        description: "Your request has been submitted successfully. We&apos;ll review your application and get back to you shortly.",
         variant: "default",
         duration: 5000,
         className: "bg-white border-green-100 border-2",
@@ -224,7 +224,7 @@ export default function PilotProgramForm() {
               >
                 <CheckCircle2 className="h-5 w-5 text-green-500 flex-shrink-0" />
                 <p className="text-green-800 text-sm">
-                  Your request has been submitted successfully! We'll review your application and get back to you shortly.
+                  Your request has been submitted successfully! We&apos;ll review your application and get back to you shortly.
                 </p>
               </motion.div>
             )}
