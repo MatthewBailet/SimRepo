@@ -136,12 +136,12 @@ export function NavigationMenuDemo() {
             Our Services
           </NavigationMenuTrigger>
           <NavigationMenuContent>
-            <div className="w-[880px] p-4">
+            <div className="w-[880px] pt-4 px-4">
               <div className="grid grid-cols-5 gap-6 ">
                 {/* Left Panel */}
                 <div className="col-span-2 ">
                   <div className="mb-6  bg-slate-50 rounded-lg p-4">
-                    <h3 className="font-medium mb-2 text-xs text-gray-400">Core Services</h3>
+                    <h3 className="font-medium mb-2 text-xs text-slate-600">Core Services</h3>
                     <div className="space-y-4">
                       {services.payments.map((item) => (
                         <NavigationMenuLink key={item.title} asChild>
@@ -164,7 +164,7 @@ export function NavigationMenuDemo() {
 
                 {/* Right Panel */}
                 <div className="col-span-3 py-4">
-                  <h3 className="font-medium mb-2 text-xs text-gray-400">Features</h3>
+                  <h3 className="font-medium mb-2 text-xs text-slate-600">Features</h3>
                   <div className="grid grid-cols-2 gap-2">
                     {services.features.map((item) => (
                       <NavigationMenuLink key={item.title} asChild>
@@ -186,7 +186,7 @@ export function NavigationMenuDemo() {
               </div>
 
               {/* Banner Section */}
-              <div className="mt-2 pt-0 border-t">
+              <div className="mt-0 pt-0 pb-4">
                 <motion.div 
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}

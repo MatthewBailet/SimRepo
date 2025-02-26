@@ -666,12 +666,12 @@ export default function Features() {
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
           variants={containerVariants}
-          className="text-center sm:mb:10 md:mb-12 mt-20"
+          className="text-center sm:mb:10 md:mb-12 mt-20 "
         >
-          <motion.h2 variants={itemVariants} className="text-4xl font-semibold text-slate-800 mb-4 pt-10 mt-10 px-28">
+          <motion.h2 variants={itemVariants} className="text-4xl font-semibold text-slate-800 mb-4 pt-10 mt-10 px-3 md:px-28">
             Comprehensive Business Intelligence
           </motion.h2>
-          <motion.p variants={itemVariants} className="text-gray-600 text-center justify-center max-w-2xl mx-auto pd-12">
+          <motion.p variants={itemVariants} className="text-gray-600 text-center justify-center max-w-xl mx-auto pd-12">
             Our platform offers a complete suite of tools to help you make data-driven decisions
           </motion.p>
         </motion.div>
