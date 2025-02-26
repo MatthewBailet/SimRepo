@@ -2,7 +2,7 @@
 
 import React, { useRef, useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
-import { BarChart2, Scan, Umbrella, Wallet, Activity, Database, Globe, Sparkles, FileText, Image, Table, Server, Calendar, Users, CheckCircle, Layers, Cloud, Glasses, ArrowRight, Code2 } from "lucide-react";
+import { BarChart2, Scan, Umbrella, Wallet, Activity, Database, Globe, Sparkles, FileText, Image, Table, Server, Calendar, Users, CheckCircle, Layers, Cloud, Glasses, ArrowRight, Code2, LineChart } from "lucide-react";
 import DashboardPreview2 from "@/components/Ui Components/DashboardPreview";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import { Badge } from "@/components/molecules/shadcn/badge";
@@ -535,7 +535,7 @@ export default function Features() {
     {
       title: "Forecasting",
       description: "AI-powered predictive analytics for business planning.",
-      icon: <BarChart2 className="h-6 w-6 text-blue-500" />,
+      icon: <LineChart className="h-6 w-6 text-blue-500" />,
     },
     {
       title: "Collaboration",
