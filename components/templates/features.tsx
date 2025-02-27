@@ -8,11 +8,96 @@ import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import { Badge } from "@/components/molecules/shadcn/badge";
 import EngineCard from "@/components/Ui Components/EngineCard";
 import { Card } from "@/components/molecules/shadcn/card";
+import { Gradient } from "whatamesh";
+
+
+const Ernst1: React.FC = () => {
+  const [cardHovered, setCardHovered] = useState(false);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    // Add required CSS variables
+    const style = document.createElement('style');
+    style.textContent = `
+      #ernst1 {
+        --gradient-color-1: #c3e4ff;
+        --gradient-color-2: #6ec3f4;
+        --gradient-color-3: #eae2ff;
+        --gradient-color-4: #b9beff;
+      },
+
+    `;
+    document.head.appendChild(style);
+
+    // Initialize gradient after a small delay to ensure CSS is applied
+    const timer = setTimeout(() => {
+      if (canvasRef.current) {
+        const gradient = new Gradient();
+        gradient.initGradient('#ernst1');
+
+      }
+    }, 100);
+
+    return () => {
+      document.head.removeChild(style);
+      clearTimeout(timer);
+    };
+  }, []);
+
+  useEffect(() => {
+    // Add required CSS variables
+    const style = document.createElement('style');
+    style.textContent = `
+      #ernst2 {
+        --gradient-color-1: #c3e4ff;
+        --gradient-color-2: #6ec3f4;
+        --gradient-color-3: #eae2ff;
+        --gradient-color-4: #b9beff;
+      },
+
+    `;
+    document.head.appendChild(style);
+
+    // Initialize gradient after a small delay to ensure CSS is applied
+    const timer = setTimeout(() => {
+      if (canvasRef.current) {
+        const gradient = new Gradient();
+        gradient.initGradient('#ernst2');
+      }
+    }, 100);
+
+    return () => {
+      document.head.removeChild(style);
+      clearTimeout(timer);
+    };
+  }, []);
+
+
+
+
+
+
+
+  return (
+    <div>
+      {/* Component content */}
+    </div>
+  );
+};
+
+
+
+
+
 
 const featureCards = [
+
+  
+
+
   {
     icon: <Database className="h-6 w-6" />,
-    title: "Seamless Integration", 
+    title: "Seamless Data Integration", 
     subtitle: "Seamless system connectivity",
     description: "Comprehensive data parsing and integration capabilities that connect with your existing systems while maintaining data integrity and security.",
     details: [
@@ -36,6 +121,17 @@ const featureCards = [
     icon: <Sparkles className="h-6 w-6" />,
     title: "Run Case Simulations",
     subtitle: "Fast and accurate market analysis",
+    description: "Advanced AI-driven simulations that process vast amounts of market data to generate precise business scenarios and strategic insights.",
+    details: [
+      "Real-time market condition analysis",
+      "Predictive modeling & forecasting", 
+      "Risk assessment & mitigation strategies"
+    ]
+  },
+  {
+    icon: <Sparkles className="h-6 w-6" />,
+    title: "Co-Create Parameters",
+    subtitle: "Work ",
     description: "Advanced AI-driven simulations that process vast amounts of market data to generate precise business scenarios and strategic insights.",
     details: [
       "Real-time market condition analysis",
@@ -446,6 +542,7 @@ export default function Features() {
   const [activeCard, setActiveCard] = useState(0);
   const [pulseIndex, setPulseIndex] = useState(-1);
   const [currentSite, setCurrentSite] = useState(0);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
   
   // Container animation variants
   const containerVariants = {
@@ -549,6 +646,22 @@ export default function Features() {
     
     return () => clearInterval(interval);
   }, [sites.length]);
+
+  useEffect(() => {
+    if (canvasRef.current) {
+      const gradient = new Gradient();
+      gradient.initGradient('#ernst1');
+    }
+    if (canvasRef.current) {
+      const gradient = new Gradient();
+      gradient.initGradient('#ernst2');
+    }
+
+    
+    return () => {
+      // Cleanup if needed
+    };
+  }, []);
 
   return (
     <section ref={ref} className="relative bg-white text-bold overflow-hidden pb-8 pt-20">
@@ -668,40 +781,95 @@ export default function Features() {
           variants={containerVariants}
           className="text-center sm:mb:10 md:mb-12 mt-20 "
         >
-          <motion.h2 variants={itemVariants} className="text-4xl font-semibold text-slate-800 mb-4 pt-10 mt-10 px-3 md:px-28">
-            Comprehensive Business Intelligence
+          <motion.h2 variants={itemVariants} className="text-4xl font-semibold text-slate-800 mb-20 pt-10 mt-10 px-3 md:px-28">
+            Meet Our Engines
           </motion.h2>
-          <motion.p variants={itemVariants} className="text-gray-600 text-center justify-center max-w-xl mx-auto pd-12">
-            Our platform offers a complete suite of tools to help you make data-driven decisions
-          </motion.p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-5 px-6">
-          {sites.map((site, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-            >
-              <Card className="p-6 h-full border-slate-200 transition-colors duration-300">
-                <div className="flex flex-col h-full">
-                  <div className="p-2.5 rounded-lg bg-blue-50 w-fit mb-4">
-                    {site.icon}
-                  </div>
-                  <h3 className="text-lg font-semibold text-slate-900 mb-2">{site.title}</h3>
-                  <p className="text-slate-600 text-sm flex-1">{site.description}</p>
-                  <div className="mt-4">
-                    <a href="#" className="inline-flex items-center text-blue-600 text-sm font-medium hover:text-blue-700 transition-colors duration-200">
-                      Learn more
-                      <ArrowRight className="ml-1 h-4 w-4" />
-                    </a>
-                  </div>
-                </div>
-              </Card>
-            </motion.div>
-          ))}
+
+
+
+        <div className="flex justify-center items-center gap-8 mt-12 px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="border border-gray-200 w-72 h-72 bg-slate-50 rounded-2xl   flex-col  shadow-lg flex items-center justify-center"
+          
+          >
+            <canvas
+            id="ernst1"
+            ref={canvasRef}
+            className="inset-0 w-full h-full transition-opacity duration-300 rounded-2xl "
+            style={{ 
+              '--gradient-color-1': '#ffffff',
+              '--gradient-color-2': '#d6eaff',
+              '--gradient-color-3': '#ffffff',
+              '--gradient-color-4': '#f2f2f2'
+            } as React.CSSProperties}
+          />
+            <div className="absolute">
+                    <h3 className="text-4xl font-semibold text-slate-800 block">Ernst</h3>
+            <p className="text-gray-500 text-md text-center">Hybrid</p>
+            </div>
+    
+          </motion.div>
+
+
+
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="border border-gray-200 w-72 h-72 bg-slate-50 rounded-2xl shadow-lg flex items-center flex-col  justify-center"
+          >
+           <canvas
+            id="ernst2"
+            ref={canvasRef}
+            className="inset-0 w-full h-full transition-opacity duration-300 rounded-2xl "
+            style={{ 
+              '--gradient-color-1': '#ffffff',
+              '--gradient-color-2': '#d6eaff',
+              '--gradient-color-3': '#ffffff',
+              '--gradient-color-4': '#ffe5fb'
+            } as React.CSSProperties}
+          />
+            <div className="absolute">
+                    <h3 className="text-4xl font-semibold text-slate-800 block">Ernst 2</h3>
+            <p className="text-gray-500 text-md text-center">Hybrid</p>
+            </div>
+          </motion.div>
+
+
+
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className=" border border-blue-500 w-72 h-72 rounded-2xl shadow-lg  flex-col   flex items-center justify-center relative overflow-hidden bg-white"
+          >
+
+
+
+<div className="absolute">
+            <h3 className="text-4xl font-semibold text-blue-600 text-center">Pulse</h3>
+            <Badge className="mt-1 text-xs text-blue-500  bg-white hover:bg-black/35 font-medium tracking-wide gap-1.5">
+                Deep Reasoning  
+              </Badge>
+              </div>
+            
+
+
+            
+          </motion.div>
+
+          
         </div>
+        <motion.p variants={itemVariants} className="text-gray-600 mt-10 pt-10 text-center justify-center max-w-xl mx-auto pd-12">
+            While all of our engines are built to handle the most complex data and simulations, Some use cases may not require features and implementations for specific models.
+          </motion.p>
       </div>
     </section>
   );

@@ -35,7 +35,7 @@ export default function DoubleCardSection() {
   return (
     <section
       ref={ref}
-      className="relative pt-8 pb-4 bg-white text-bold overflow-hidden"
+      className="relative pb-4 bg-white text-bold overflow-hidden"
     >
       <div className="container lg:px-9 px-6">
         <motion.div 

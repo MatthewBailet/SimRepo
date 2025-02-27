@@ -67,14 +67,6 @@ export default function Explanation() {
       ref={ref} className="relative bg-white text-bold overflow-hidden"
     >
       <div className="container relative z-10 px-6 md:px-6 lg:px-9 pt-12">
-        <motion.div
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
-          variants={containerVariants}
-          className="mx-auto pt- md:pt-0 relative z-10 mb-20"
-        >
-          <ResearchCard />
-        </motion.div>
 
         <motion.div
           initial="hidden"
@@ -136,6 +128,14 @@ export default function Explanation() {
               </Card>
             </motion.div>
           ))}
+        </motion.div>
+        <motion.div
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          variants={containerVariants}
+          className="mx-auto pt- md:pt-0 relative z-10 pb-10"
+        >
+          <ResearchCard />
         </motion.div>
       </div>
     </section>
