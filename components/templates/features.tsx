@@ -9,6 +9,7 @@ import { Badge } from "@/components/molecules/shadcn/badge";
 import EngineCard from "@/components/Ui Components/EngineCard";
 import { Card } from "@/components/molecules/shadcn/card";
 import { Gradient } from "whatamesh";
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/molecules/shadcn/accordion";
 
 
 const Ernst1: React.FC = () => {
@@ -822,12 +823,12 @@ export default function Features() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="border border-gray-200 w-72 h-72 bg-slate-50 rounded-2xl shadow-lg flex items-center flex-col  justify-center"
+            className="border backdrop-blur-sm border-gray-200 w-72 h-72 bg-slate-50 rounded-2xl shadow-lg flex items-center flex-col  justify-center"
           >
            <canvas
             id="ernst2"
             ref={canvasRef}
-            className="inset-0 w-full h-full transition-opacity duration-300 rounded-2xl "
+            className="inset-0 w-full h-full transition-opacity duration-300 rounded-2xl"
             style={{ 
               '--gradient-color-1': '#ffffff',
               '--gradient-color-2': '#d6eaff',
@@ -855,21 +856,77 @@ export default function Features() {
 
 <div className="absolute">
             <h3 className="text-4xl font-semibold text-blue-600 text-center">Pulse</h3>
-            <Badge className="mt-1 text-xs text-blue-500  bg-white hover:bg-black/35 font-medium tracking-wide gap-1.5">
+            <Badge className="mt-1 text-xs text-blue-500  bg-white  font-medium tracking-wide gap-1.5">
                 Deep Reasoning  
               </Badge>
               </div>
             
-
 
             
           </motion.div>
 
           
         </div>
-        <motion.p variants={itemVariants} className="text-gray-600 mt-10 pt-10 text-center justify-center max-w-xl mx-auto pd-12">
-            While all of our engines are built to handle the most complex data and simulations, Some use cases may not require features and implementations for specific models.
-          </motion.p>
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="mt-10 pt-10 max-w-2xl mx-auto text-medium"
+        >
+          <Accordion type="single" collapsible>
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, delay: 0.4 }}
+            >
+              <AccordionItem value="item-1">
+                <AccordionTrigger>What is an engine?</AccordionTrigger>
+                <AccordionContent>
+                  In our case, an engine is the assembly and interaction point for all the raw data that is fed into our system through both AI and user data.
+                </AccordionContent>
+              </AccordionItem>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, delay: 0.5 }}
+            >
+              <AccordionItem value="item-2">
+                <AccordionTrigger>Are all the engines the same?</AccordionTrigger>
+                <AccordionContent>
+                  While all our engines are built to handle complex data and simulations, each engine is optimized for specific use cases. Some models have specialized features that may not be necessary for every implementation.
+                </AccordionContent>
+              </AccordionItem>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, delay: 0.6 }}
+            >
+              <AccordionItem value="item-3">
+                <AccordionTrigger>How do I choose the right engine?</AccordionTrigger>
+                <AccordionContent>
+                  The best engine choice depends on your specific needs. Our team can help assess your requirements and recommend the most suitable engine based on factors like data complexity, processing needs, and integration requirements.
+                </AccordionContent>
+              </AccordionItem>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, delay: 0.7 }}
+            >
+              <AccordionItem value="item-4">
+                <AccordionTrigger>Can I switch engines later?</AccordionTrigger>
+                <AccordionContent>
+                  Yes, our platform is designed to be flexible. You can switch between engines or use multiple engines as your needs evolve, with minimal disruption to your existing workflows.
+                </AccordionContent>
+              </AccordionItem>
+            </motion.div>
+          </Accordion>
+        </motion.div>
       </div>
     </section>
   );
