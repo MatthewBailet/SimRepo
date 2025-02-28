@@ -10,6 +10,7 @@ import EngineCard from "@/components/Ui Components/EngineCard";
 import { Card } from "@/components/molecules/shadcn/card";
 import { Gradient } from "whatamesh";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/molecules/shadcn/accordion";
+import BlueWaveScene from "../Ui Components/BlueWaveScene";
 
 
 const Ernst1: React.FC = () => {
@@ -653,10 +654,7 @@ export default function Features() {
       const gradient = new Gradient();
       gradient.initGradient('#ernst1');
     }
-    if (canvasRef.current) {
-      const gradient = new Gradient();
-      gradient.initGradient('#ernst2');
-    }
+
 
     
     return () => {
@@ -819,28 +817,7 @@ export default function Features() {
 
 
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="border backdrop-blur-sm border-gray-200 w-72 h-72 bg-slate-50 rounded-2xl shadow-lg flex items-center flex-col  justify-center"
-          >
-           <canvas
-            id="ernst2"
-            ref={canvasRef}
-            className="inset-0 w-full h-full transition-opacity duration-300 rounded-2xl"
-            style={{ 
-              '--gradient-color-1': '#ffffff',
-              '--gradient-color-2': '#d6eaff',
-              '--gradient-color-3': '#ffffff',
-              '--gradient-color-4': '#ffe5fb'
-            } as React.CSSProperties}
-          />
-            <div className="absolute">
-                    <h3 className="text-4xl font-semibold text-slate-800 block">Ernst 2</h3>
-            <p className="text-gray-500 text-md text-center">Hybrid</p>
-            </div>
-          </motion.div>
+
 
 
 
@@ -849,14 +826,23 @@ export default function Features() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
-            className=" border border-blue-500 w-72 h-72 rounded-2xl shadow-lg  flex-col   flex items-center justify-center relative overflow-hidden bg-white"
+            className=" border border-sm border-blue-500 bg-blue-600 w-72 h-72 rounded-2xl shadow-lg  flex-col   flex items-center justify-center relative overflow-hidden"
           >
+                
+              <div className="absolute inset-0">
+                <BlueWaveScene
+                  rotation={[-Math.PI / 3, 2.2, 7.2]}
+              
+                />
+              </div>
+            
+            
 
 
 
-<div className="absolute">
-            <h3 className="text-4xl font-semibold text-blue-600 text-center">Pulse</h3>
-            <Badge className="mt-1 text-xs text-blue-500  bg-white  font-medium tracking-wide gap-1.5">
+<div className="absolute ">
+            <h3 className="text-4xl font-semibold text-white text-center">ErnstADV</h3>
+            <Badge className="mt-1 text-xs hover:bg-white text-blue-500 mx-auto items-center justify-center text-center bg-white  font-medium tracking-wide gap-1.5">
                 Deep Reasoning  
               </Badge>
               </div>
