@@ -28,7 +28,12 @@ import {
   Send,
   X,
   MessageSquare,
-  GripVertical
+  GripVertical,
+  LayoutDashboard,
+  Code,
+  BarChart2,
+  User,
+  Pause
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/molecules/shadcn/avatar";
 import { 
@@ -56,7 +61,7 @@ const AppPreviewLayout: React.FC = () => {
   const [darkMode, setDarkMode] = useState(false);
   const [expandedFolders, setExpandedFolders] = useState<string[]>([]);
   const [chatOpen, setChatOpen] = useState(true);
-  const [chatWidth, setChatWidth] = useState(400);
+  const [chatWidth, setChatWidth] = useState(320);
   const [messages, setMessages] = useState<ChatMessage[]>([
 
   ]);
@@ -64,6 +69,10 @@ const AppPreviewLayout: React.FC = () => {
   const [isResizing, setIsResizing] = useState(false);
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const [sidebarWidth, setSidebarWidth] = useState(256);
+  const sidebarRef = useRef<HTMLDivElement>(null);
+  const [isResizingChat, setIsResizingChat] = useState(false);
+  const chatRef = useRef<HTMLDivElement>(null);
 
   // Example data structures
   const organizations = [
@@ -175,13 +184,19 @@ const AppPreviewLayout: React.FC = () => {
 
   const stopResizing = useCallback(() => {
     setIsResizing(false);
-  }, []);
+    
+    // Auto-snap to collapsed state if width is below threshold
+    if (sidebarWidth < 180 && sidebarOpen) {
+      setSidebarOpen(false);
+    }
+  }, [sidebarWidth, sidebarOpen]);
 
   const resize = useCallback((e: MouseEvent) => {
-    if (isResizing && chatContainerRef.current) {
-      const newWidth = window.innerWidth - e.clientX;
-      if (newWidth > 300 && newWidth < 800) {
-        setChatWidth(newWidth);
+    if (isResizing && sidebarRef.current) {
+      const newWidth = e.clientX - sidebarRef.current.getBoundingClientRect().left;
+      
+      if (newWidth >= 200 && newWidth <= 400) {
+        setSidebarWidth(newWidth);
       }
     }
   }, [isResizing]);
@@ -191,11 +206,19 @@ const AppPreviewLayout: React.FC = () => {
       window.addEventListener('mousemove', resize);
       window.addEventListener('mouseup', stopResizing);
     }
+    
     return () => {
       window.removeEventListener('mousemove', resize);
       window.removeEventListener('mouseup', stopResizing);
     };
   }, [isResizing, resize, stopResizing]);
+
+  useEffect(() => {
+    if (!sidebarOpen) {
+      // Store the current width before collapsing
+      setSidebarWidth(prev => prev < 200 ? 256 : prev);
+    }
+  }, [sidebarOpen]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -230,15 +253,51 @@ const AppPreviewLayout: React.FC = () => {
     }, 1000);
   };
 
+  const startResizingChat = useCallback((e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsResizingChat(true);
+  }, []);
+
+  const stopResizingChat = useCallback(() => {
+    setIsResizingChat(false);
+  }, [chatWidth, chatOpen]);
+
+  const resizeChat = useCallback((e: MouseEvent) => {
+    if (isResizingChat && chatRef.current) {
+      const containerRight = chatRef.current.parentElement?.getBoundingClientRect().right || 0;
+      const newWidth = containerRight - e.clientX;
+      if (newWidth >= 280 && newWidth <= 500) {
+        setChatWidth(newWidth);
+      }
+    }
+  }, [isResizingChat]);
+
+  useEffect(() => {
+    if (isResizingChat) {
+      window.addEventListener('mousemove', resizeChat);
+      window.addEventListener('mouseup', stopResizingChat);
+    }
+    return () => {
+      window.removeEventListener('mousemove', resizeChat);
+      window.removeEventListener('mouseup', stopResizingChat);
+    };
+  }, [isResizingChat, resizeChat, stopResizingChat]);
+
   return (
     <div className={`flex h-screen ${darkMode ? 'dark bg-gray-900' : 'bg-gray-50'}`}>
       {/* Sidebar */}
       <div 
         className={`
-          ${sidebarOpen ? 'w-72' : 'w-16'} 
           ${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'}
-          border-r flex flex-col transition-all duration-300
+          border-r flex flex-col transition-all duration-300 overflow-y-auto scrollbar-hide
+          ${isResizing ? 'select-none' : ''}
         `}
+        style={{ 
+          width: sidebarOpen ? `${sidebarWidth}px` : '80px',
+          minWidth: sidebarOpen ? '350px' : '80px',
+          maxWidth: '400px'
+        }}
+        ref={sidebarRef}
       >
         {/* Organization Switcher */}
         <div className={`p-4 border-b ${darkMode ? 'border-gray-700' : 'border-gray-200'}`}>
@@ -251,8 +310,8 @@ const AppPreviewLayout: React.FC = () => {
                 } rounded-md`}
               >
                 <div className="flex items-center">
-                  <div className="w-8 h-8 rounded-md bg-blue-600 text-white flex items-center justify-center mr-3">
-                    {activeOrg.charAt(0)}
+                  <div className="w-10 h-10 rounded-md bg-blue-600 text-white flex items-center justify-center mr-3 flex-shrink-0">
+                    <span className="text-lg font-medium">{activeOrg.charAt(0)}</span>
                   </div>
                   {sidebarOpen && (
                     <span className={`font-medium ${darkMode ? 'text-gray-200' : 'text-gray-800'}`}>
@@ -263,217 +322,612 @@ const AppPreviewLayout: React.FC = () => {
                 {sidebarOpen && <ChevronDown size={16} />}
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent 
-              align="start" 
-              className={`w-56 ${darkMode ? 'bg-gray-800 text-gray-200' : ''}`}
-            >
-              <DropdownMenuLabel>Switch Organization</DropdownMenuLabel>
-              <DropdownMenuSeparator />
+            <DropdownMenuContent>
               {organizations.map(org => (
                 <DropdownMenuItem 
                   key={org.id}
                   onClick={() => setActiveOrg(org.name)}
-                  className="flex items-center cursor-pointer"
+                  className="cursor-pointer"
                 >
-                  <div className="w-8 h-8 rounded-md bg-blue-600 text-white flex items-center justify-center mr-3">
+                  <div className="w-8 h-8 rounded-md bg-blue-600 text-white flex items-center justify-center mr-2">
                     {org.initial}
                   </div>
                   <span>{org.name}</span>
                 </DropdownMenuItem>
               ))}
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>
-                <Plus size={16} className="mr-2" />
-                <span className="text-blue-600">Add Organization</span>
-              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
 
-        {/* Organization Projects */}
-        <div className="flex-1 overflow-y-auto">
+        {/* Search Bar */}
+        <div className={`px-4 pt-4 pb-2 ${!sidebarOpen ? 'hidden' : ''}`}>
+          <div className={`relative ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+            <Search className="absolute left-3 top-2.5 h-4 w-4 text-gray-400" />
+            <Input 
+              placeholder="Search..." 
+              className={`pl-9 h-9 ${
+                darkMode ? 'bg-gray-700 border-gray-600 placeholder:text-gray-400' : 'bg-gray-50 border-gray-200'
+              }`}
+            />
+          </div>
+        </div>
+
+        {/* Main Navigation */}
+        <div className="flex-1 overflow-y-auto scrollbar-hide">
+          {/* Organization Section */}
           <div className="p-4">
-            <h2 className={`text-sm font-semibold mb-3 ${
-              darkMode ? 'text-gray-400' : 'text-gray-500'
-            } ${!sidebarOpen && 'sr-only'}`}>
-              Organization Projects
-            </h2>
+            {sidebarOpen && (
+              <h2 className={`text-sm font-medium mb-3 ${
+                darkMode ? 'text-gray-400' : 'text-gray-500'
+              }`}>
+                Organization
+              </h2>
+            )}
             
-            {/* Project Tree */}
             <div className="space-y-1">
-              {orgProjects.map(project => (
-                <div key={project.id}>
+              {/* Overview */}
+              <button className={`w-full flex items-center px-3 py-2 rounded-md ${
+                darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'
+              }`}>
+                <LayoutDashboard size={sidebarOpen ? 18 : 22} className={`${
+                  darkMode ? 'text-gray-400' : 'text-gray-500'
+                } ${!sidebarOpen ? 'mx-auto' : ''}`} />
+                {sidebarOpen && (
+                  <span className={`ml-3 text-sm ${
+                    darkMode ? 'text-gray-300' : 'text-gray-700'
+                  }`}>
+                    Overview
+                  </span>
+                )}
+              </button>
+              
+              {/* Playground */}
+              <button className={`w-full flex items-center px-3 py-2 rounded-md ${
+                darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'
+              }`}>
+                <Code size={sidebarOpen ? 18 : 22} className={`${
+                  darkMode ? 'text-gray-400' : 'text-gray-500'
+                } ${!sidebarOpen ? 'mx-auto' : ''}`} />
+                {sidebarOpen && (
+                  <span className={`ml-3 text-sm ${
+                    darkMode ? 'text-gray-300' : 'text-gray-700'
+                  }`}>
+                    Playground
+                  </span>
+                )}
+              </button>
+              
+              {/* Reports */}
+              <button className={`w-full flex items-center px-3 py-2 rounded-md ${
+                darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'
+              }`}>
+                <BarChart2 size={sidebarOpen ? 18 : 22} className={`${
+                  darkMode ? 'text-gray-400' : 'text-gray-500'
+                } ${!sidebarOpen ? 'mx-auto' : ''}`} />
+                {sidebarOpen && (
+                  <span className={`ml-3 text-sm ${
+                    darkMode ? 'text-gray-300' : 'text-gray-700'
+                  }`}>
+                    Reports
+                  </span>
+                )}
+              </button>
+              
+              {/* Projects */}
+              <div className="mt-2">
+                {/* Project 1: Supply Chain Optimization */}
+                <div className="mb-1">
                   <button
-                    onClick={() => toggleFolder(project.id)}
-                    className={`w-full flex items-center px-2 py-1.5 rounded-md ${
+                    onClick={() => toggleFolder('proj1')}
+                    className={`w-full flex items-center px-3 py-2 rounded-md ${
                       darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'
                     }`}
                   >
-                    <ChevronRight 
-                      size={16} 
-                      className={`transform transition-transform ${
-                        expandedFolders.includes(project.id) ? 'rotate-90' : ''
-                      } ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}
-                    />
-                    <Folder size={16} className={`ml-1 ${
-                      darkMode ? 'text-gray-400' : 'text-gray-500'
-                    }`} />
+                    {sidebarOpen ? (
+                      <ChevronRight 
+                        size={18} 
+                        className={`transform transition-transform ${
+                          expandedFolders.includes('proj1') ? 'rotate-90' : ''
+                        } ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}
+                      />
+                    ) : (
+                      <Folder size={22} className={`${
+                        darkMode ? 'text-gray-400' : 'text-gray-500'
+                      } mx-auto`} />
+                    )}
+                    
                     {sidebarOpen && (
-                      <span className={`ml-2 text-sm ${
-                        darkMode ? 'text-gray-300' : 'text-gray-700'
-                      }`}>
-                        {project.name}
-                      </span>
+                      <>
+                        <Folder size={18} className={`ml-1 ${
+                          darkMode ? 'text-gray-400' : 'text-gray-500'
+                        }`} />
+                        <span className={`ml-2 text-sm ${
+                          darkMode ? 'text-gray-300' : 'text-gray-700'
+                        }`}>
+                          Projects
+                        </span>
+                      </>
                     )}
                   </button>
                   
                   {/* Project Items */}
-                  {expandedFolders.includes(project.id) && sidebarOpen && (
-                    <div className="ml-6 mt-1 space-y-1">
-                      {project.items.map(item => (
+                  {expandedFolders.includes('proj1') && sidebarOpen && (
+                    <div className="ml-7 mt-1 space-y-1">
+                      {/* Overview */}
+                      <button
+                        className={`w-full flex items-center px-3 py-1.5 rounded-md ${
+                          darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'
+                        }`}
+                      >
+                        <LayoutDashboard size={16} className={`${
+                          darkMode ? 'text-gray-400' : 'text-gray-500'
+                        }`} />
+                        <span className={`ml-2 text-sm ${
+                          darkMode ? 'text-gray-300' : 'text-gray-700'
+                        }`}>
+                          Overview
+                        </span>
+                      </button>
+                      
+                      {/* Supply Chain Optimization */}
+                      <div className="mb-1">
                         <button
-                          key={item.id}
-                          className={`w-full flex items-center px-2 py-1.5 rounded-md ${
+                          onClick={() => toggleFolder('supply-chain')}
+                          className={`w-full flex items-center px-3 py-1.5 rounded-md ${
                             darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'
                           }`}
                         >
-                          {getStatusIcon(item.status)}
+                          <ChevronRight 
+                            size={16} 
+                            className={`transform transition-transform ${
+                              expandedFolders.includes('supply-chain') ? 'rotate-90' : ''
+                            } ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}
+                          />
+                          <Folder size={16} className={`ml-1 ${
+                            darkMode ? 'text-gray-400' : 'text-gray-500'
+                          }`} />
                           <span className={`ml-2 text-sm ${
                             darkMode ? 'text-gray-300' : 'text-gray-700'
                           }`}>
-                            {item.name}
+                            Supply Chain Optimization
                           </span>
                         </button>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Personal Sims */}
-          <div className="p-4 border-t border-gray-200">
-            <h2 className={`text-sm font-semibold mb-3 ${
-              darkMode ? 'text-gray-400' : 'text-gray-500'
-            } ${!sidebarOpen && 'sr-only'}`}>
-              My Sims
-            </h2>
-            
-            <div className="space-y-1">
-              {personalSims.map(project => (
-                <div key={project.id}>
-                  <button
-                    onClick={() => toggleFolder(project.id)}
-                    className={`w-full flex items-center px-2 py-1.5 rounded-md ${
-                      darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'
-                    }`}
-                  >
-                    <ChevronRight 
-                      size={16} 
-                      className={`transform transition-transform ${
-                        expandedFolders.includes(project.id) ? 'rotate-90' : ''
-                      } ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}
-                    />
-                    <Folder size={16} className={`ml-1 ${
-                      darkMode ? 'text-gray-400' : 'text-gray-500'
-                    }`} />
-                    {sidebarOpen && (
-                      <span className={`ml-2 text-sm ${
-                        darkMode ? 'text-gray-300' : 'text-gray-700'
-                      }`}>
-                        {project.name}
-                      </span>
-                    )}
-                  </button>
-                  
-                  {expandedFolders.includes(project.id) && sidebarOpen && (
-                    <div className="ml-6 mt-1 space-y-1">
-                      {project.items.map(item => (
+                        
+                        {expandedFolders.includes('supply-chain') && (
+                          <div className="ml-7 mt-1 space-y-1">
+                            <button
+                              className={`w-full flex items-center px-3 py-1.5 rounded-md ${
+                                darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'
+                              }`}
+                            >
+                              <CheckCircle size={16} className="text-green-500" />
+                              <span className={`ml-2 text-sm ${
+                                darkMode ? 'text-gray-300' : 'text-gray-700'
+                              }`}>
+                                Q4 Disruption Analysis
+                              </span>
+                            </button>
+                            
+                            <button
+                              className={`w-full flex items-center px-3 py-1.5 rounded-md ${
+                                darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'
+                              }`}
+                            >
+                              <Play size={16} className="text-blue-500" />
+                              <span className={`ml-2 text-sm ${
+                                darkMode ? 'text-gray-300' : 'text-gray-700'
+                              }`}>
+                                Inventory Forecast
+                              </span>
+                            </button>
+                            
+                            <button
+                              className={`w-full flex items-center px-3 py-1.5 rounded-md ${
+                                darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'
+                              }`}
+                            >
+                              <FileText size={16} className="text-gray-400" />
+                              <span className={`ml-2 text-sm ${
+                                darkMode ? 'text-gray-300' : 'text-gray-700'
+                              }`}>
+                                Supplier Risk Assessment
+                              </span>
+                            </button>
+                            
+                            <button
+                              className={`w-full flex items-center px-3 py-1.5 rounded-md ${
+                                darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'
+                              }`}
+                            >
+                              <CheckCircle size={16} className="text-green-500" />
+                              <span className={`ml-2 text-sm ${
+                                darkMode ? 'text-gray-300' : 'text-gray-700'
+                              }`}>
+                                Logistics Optimization
+                              </span>
+                            </button>
+                            
+                            <button
+                              className={`w-full flex items-center px-3 py-1.5 rounded-md ${
+                                darkMode ? 'hover:bg-gray-700 text-blue-400' : 'hover:bg-gray-100 text-blue-600'
+                              }`}
+                            >
+                              <Plus size={16} />
+                              <span className="ml-2 text-sm">Add</span>
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                      
+                      {/* Market Analysis */}
+                      <div className="mb-1">
                         <button
-                          key={item.id}
-                          className={`w-full flex items-center px-2 py-1.5 rounded-md ${
+                          onClick={() => toggleFolder('market-analysis')}
+                          className={`w-full flex items-center px-3 py-1.5 rounded-md ${
                             darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'
                           }`}
                         >
-                          {getStatusIcon(item.status)}
+                          <ChevronRight 
+                            size={16} 
+                            className={`transform transition-transform ${
+                              expandedFolders.includes('market-analysis') ? 'rotate-90' : ''
+                            } ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}
+                          />
+                          <Folder size={16} className={`ml-1 ${
+                            darkMode ? 'text-gray-400' : 'text-gray-500'
+                          }`} />
                           <span className={`ml-2 text-sm ${
                             darkMode ? 'text-gray-300' : 'text-gray-700'
                           }`}>
-                            {item.name}
+                            Market Analysis
                           </span>
                         </button>
-                      ))}
+                        
+                        {expandedFolders.includes('market-analysis') && (
+                          <div className="ml-7 mt-1 space-y-1">
+                            <button
+                              className={`w-full flex items-center px-3 py-1.5 rounded-md ${
+                                darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'
+                              }`}
+                            >
+                              <AlertCircle size={16} className="text-red-500" />
+                              <span className={`ml-2 text-sm ${
+                                darkMode ? 'text-gray-300' : 'text-gray-700'
+                              }`}>
+                                Competitor Impact Study
+                              </span>
+                            </button>
+                            
+                            <button
+                              className={`w-full flex items-center px-3 py-1.5 rounded-md ${
+                                darkMode ? 'hover:bg-gray-700 text-blue-400' : 'hover:bg-gray-100 text-blue-600'
+                              }`}
+                            >
+                              <Plus size={16} />
+                              <span className="ml-2 text-sm">Add</span>
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                      
+                      {/* Financial Forecasting */}
+                      <div className="mb-1">
+                        <button 
+                          onClick={() => toggleFolder('financial-forecasting')}
+                          className={`w-full flex items-center px-3 py-1.5 rounded-md ${
+                            darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'
+                          }`}
+                        >
+                          <ChevronRight 
+                            size={16} 
+                            className={`transform transition-transform ${
+                              expandedFolders.includes('financial-forecasting') ? 'rotate-90' : ''
+                            } ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}
+                          />
+                          <Folder size={16} className={`ml-1 ${
+                            darkMode ? 'text-gray-400' : 'text-gray-500'
+                          }`} />
+                          <span className={`ml-2 text-sm ${
+                            darkMode ? 'text-gray-300' : 'text-gray-700'
+                          }`}>
+                            Product idea Validation
+                          </span>
+                        </button>
+                        
+                        {expandedFolders.includes('financial-forecasting') && (
+                          <div className="ml-7 mt-1 space-y-1">
+                            <button
+                              className={`w-full flex items-center px-3 py-1.5 rounded-md ${
+                                darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'
+                              }`}
+                            >
+                              <CheckCircle size={16} className="text-green-500" />
+                              <span className={`ml-2 text-sm ${
+                                darkMode ? 'text-gray-300' : 'text-gray-700'
+                              }`}>
+                                Q1 Revenue Projection
+                              </span>
+                            </button>
+                            
+                            <button
+                              className={`w-full flex items-center px-3 py-1.5 rounded-md ${
+                                darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'
+                              }`}
+                            >
+                              <FileText size={16} className="text-gray-400" />
+                              <span className={`ml-2 text-sm ${
+                                darkMode ? 'text-gray-300' : 'text-gray-700'
+                              }`}>
+                                Budget Scenario Planning
+                              </span>
+                            </button>
+                            
+                            <button
+                              className={`w-full flex items-center px-3 py-1.5 rounded-md ${
+                                darkMode ? 'hover:bg-gray-700 text-blue-400' : 'hover:bg-gray-100 text-blue-600'
+                              }`}
+                            >
+                              <Plus size={16} />
+                              <span className="ml-2 text-sm">Add</span>
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                      
+                      <button
+                        className={`w-full flex items-center px-3 py-1.5 rounded-md ${
+                          darkMode ? 'hover:bg-gray-700 text-blue-400' : 'hover:bg-gray-100 text-blue-600'
+                        }`}
+                      >
+                        <Plus size={16} />
+                        <span className="ml-2 text-sm">Add Project</span>
+                      </button>
                     </div>
                   )}
                 </div>
-              ))}
+              </div>
             </div>
           </div>
 
           {/* Data Sources */}
-          <div className="p-4 border-t border-gray-200">
-            <h2 className={`text-sm font-semibold mb-3 ${
-              darkMode ? 'text-gray-400' : 'text-gray-500'
-            } ${!sidebarOpen && 'sr-only'}`}>
-              Data Sources
-            </h2>
+          <div className="p-4 mt-2">
+            {sidebarOpen && (
+              <h2 className={`text-sm font-medium mb-3 ${
+                darkMode ? 'text-gray-400' : 'text-gray-500'
+              }`}>
+                Data Sources
+              </h2>
+            )}
             
             <div className="space-y-1">
-              {dataSources.map(source => (
-                <button
-                  key={source.id}
-                  className={`w-full flex items-center px-2 py-1.5 rounded-md ${
-                    darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'
-                  }`}
-                >
-                  {source.icon}
-                  {sidebarOpen && (
-                    <span className={`ml-2 text-sm ${
-                      darkMode ? 'text-gray-300' : 'text-gray-700'
-                    }`}>
-                      {source.name}
-                    </span>
-                  )}
-                </button>
-              ))}
+              <button
+                className={`w-full flex items-center px-3 py-2 rounded-md ${
+                  darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'
+                }`}
+              >
+                <FileSpreadsheet size={sidebarOpen ? 18 : 22} className={`${
+                  darkMode ? 'text-gray-400' : 'text-gray-500'
+                } ${!sidebarOpen ? 'mx-auto' : ''}`} />
+                {sidebarOpen && (
+                  <span className={`ml-3 text-sm ${
+                    darkMode ? 'text-gray-300' : 'text-gray-700'
+                  }`}>
+                    sales_data.csv
+                  </span>
+                )}
+              </button>
               
               <button
-                className={`w-full flex items-center px-2 py-1.5 rounded-md ${
+                className={`w-full flex items-center px-3 py-2 rounded-md ${
+                  darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'
+                }`}
+              >
+                <Database size={sidebarOpen ? 18 : 22} className={`${
+                  darkMode ? 'text-gray-400' : 'text-gray-500'
+                } ${!sidebarOpen ? 'mx-auto' : ''}`} />
+                {sidebarOpen && (
+                  <span className={`ml-3 text-sm ${
+                    darkMode ? 'text-gray-300' : 'text-gray-700'
+                  }`}>
+                    Customer Database
+                  </span>
+                )}
+              </button>
+              
+              <button
+                className={`w-full flex items-center px-3 py-2 rounded-md ${
+                  darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'
+                }`}
+              >
+                <LinkIcon size={sidebarOpen ? 18 : 22} className={`${
+                  darkMode ? 'text-gray-400' : 'text-gray-500'
+                } ${!sidebarOpen ? 'mx-auto' : ''}`} />
+                {sidebarOpen && (
+                  <span className={`ml-3 text-sm ${
+                    darkMode ? 'text-gray-300' : 'text-gray-700'
+                  }`}>
+                    Market API
+                  </span>
+                )}
+              </button>
+              
+              <button
+                className={`w-full flex items-center px-3 py-2 rounded-md ${
                   darkMode ? 'hover:bg-gray-700 text-blue-400' : 'hover:bg-gray-100 text-blue-600'
                 }`}
               >
-                <Plus size={16} />
-                {sidebarOpen && <span className="ml-2 text-sm">Add Data Source</span>}
+                <Plus size={sidebarOpen ? 18 : 22} className={!sidebarOpen ? 'mx-auto' : ''} />
+                {sidebarOpen && <span className="ml-3 text-sm">Add Data Source</span>}
+              </button>
+            </div>
+          </div>
+
+          {/* Separator between org and personal */}
+          <div className={`mx-4 my-6 h-px ${darkMode ? 'bg-gray-700' : 'bg-gray-200'}`}></div>
+
+          {/* My Sims */}
+          <div className="p-4">
+            {sidebarOpen && (
+              <h2 className={`text-sm font-medium mb-3 ${
+                darkMode ? 'text-gray-400' : 'text-gray-500'
+              }`}>
+                My Sims
+              </h2>
+            )}
+            
+            <div className="space-y-1">
+              <button
+                onClick={() => toggleFolder('personal1')}
+                className={`w-full flex items-center px-3 py-2 rounded-md ${
+                  darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'
+                }`}
+              >
+                {sidebarOpen ? (
+                  <ChevronRight 
+                    size={18} 
+                    className={`transform transition-transform ${
+                      expandedFolders.includes('personal1') ? 'rotate-90' : ''
+                    } ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}
+                  />
+                ) : (
+                  <Folder size={22} className={`${
+                    darkMode ? 'text-gray-400' : 'text-gray-500'
+                  } mx-auto`} />
+                )}
+                
+                {sidebarOpen && (
+                  <>
+                    <Folder size={18} className={`ml-1 ${
+                      darkMode ? 'text-gray-400' : 'text-gray-500'
+                    }`} />
+                    <span className={`ml-2 text-sm ${
+                      darkMode ? 'text-gray-300' : 'text-gray-700'
+                    }`}>
+                      My Test Projects
+                    </span>
+                  </>
+                )}
+              </button>
+              
+              {expandedFolders.includes('personal1') && sidebarOpen && (
+                <div className="ml-7 mt-1 space-y-1">
+                  <button
+                    className={`w-full flex items-center px-3 py-1.5 rounded-md ${
+                      darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'
+                    }`}
+                  >
+                    <FileText size={16} className="text-gray-400" />
+                    <span className={`ml-2 text-sm ${
+                      darkMode ? 'text-gray-300' : 'text-gray-700'
+                    }`}>
+                      New Algorithm Test
+                    </span>
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* My Data Sources */}
+          <div className="p-4 mt-2">
+            {sidebarOpen && (
+              <h2 className={`text-sm font-medium mb-3 ${
+                darkMode ? 'text-gray-400' : 'text-gray-500'
+              }`}>
+                My Data Sources
+              </h2>
+            )}
+            
+            <div className="space-y-1">
+              <button
+                className={`w-full flex items-center px-3 py-2 rounded-md ${
+                  darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'
+                }`}
+              >
+                <FileSpreadsheet size={sidebarOpen ? 18 : 22} className={`${
+                  darkMode ? 'text-gray-400' : 'text-gray-500'
+                } ${!sidebarOpen ? 'mx-auto' : ''}`} />
+                {sidebarOpen && (
+                  <span className={`ml-3 text-sm ${
+                    darkMode ? 'text-gray-300' : 'text-gray-700'
+                  }`}>
+                    sales_data.csv
+                  </span>
+                )}
+              </button>
+              
+              <button
+                className={`w-full flex items-center px-3 py-2 rounded-md ${
+                  darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'
+                }`}
+              >
+                <Database size={sidebarOpen ? 18 : 22} className={`${
+                  darkMode ? 'text-gray-400' : 'text-gray-500'
+                } ${!sidebarOpen ? 'mx-auto' : ''}`} />
+                {sidebarOpen && (
+                  <span className={`ml-3 text-sm ${
+                    darkMode ? 'text-gray-300' : 'text-gray-700'
+                  }`}>
+                    Customer Database
+                  </span>
+                )}
+              </button>
+              
+              <button
+                className={`w-full flex items-center px-3 py-2 rounded-md ${
+                  darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'
+                }`}
+              >
+                <LinkIcon size={sidebarOpen ? 18 : 22} className={`${
+                  darkMode ? 'text-gray-400' : 'text-gray-500'
+                } ${!sidebarOpen ? 'mx-auto' : ''}`} />
+                {sidebarOpen && (
+                  <span className={`ml-3 text-sm ${
+                    darkMode ? 'text-gray-300' : 'text-gray-700'
+                  }`}>
+                    Market API
+                  </span>
+                )}
+              </button>
+              
+              <button
+                className={`w-full flex items-center px-3 py-2 rounded-md ${
+                  darkMode ? 'hover:bg-gray-700 text-blue-400' : 'hover:bg-gray-100 text-blue-600'
+                }`}
+              >
+                <Plus size={sidebarOpen ? 18 : 22} className={!sidebarOpen ? 'mx-auto' : ''} />
+                {sidebarOpen && <span className="ml-3 text-sm">Add Data Source</span>}
               </button>
             </div>
           </div>
         </div>
 
         {/* Bottom Controls */}
-        <div className={`p-4 border-t ${darkMode ? 'border-gray-700' : 'border-gray-200'}`}>
+        <div className={`p-4 border-t mt-auto ${darkMode ? 'border-gray-700' : 'border-gray-200'}`}>
           <div className="flex items-center justify-between">
-            <button
-              onClick={() => setDarkMode(!darkMode)}
-              className={`p-2 rounded-md ${
-                darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'
-              }`}
-            >
-              {darkMode ? (
-                <Sun size={20} className="text-gray-400" />
-              ) : (
-                <Moon size={20} className="text-gray-600" />
-              )}
-            </button>
+            {sidebarOpen && (
+              <button
+                onClick={() => setDarkMode(!darkMode)}
+                className={`p-2 rounded-md ${
+                  darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'
+                }`}
+              >
+                {darkMode ? (
+                  <Sun size={20} className="text-gray-400" />
+                ) : (
+                  <Moon size={20} className="text-gray-600" />
+                )}
+              </button>
+            )}
             
             <Button 
               variant="ghost" 
               size="sm"
               onClick={() => setSidebarOpen(!sidebarOpen)}
-              className={darkMode ? 'text-gray-400' : 'text-gray-600'}
+              className={`${darkMode ? 'text-gray-400' : 'text-gray-600'} ${sidebarOpen ? '' : 'mx-auto'}`}
             >
               <ChevronRight 
-                size={20} 
+                size={22} 
                 className={`transform transition-transform ${
                   !sidebarOpen ? 'rotate-180' : ''
                 }`}
@@ -483,375 +937,189 @@ const AppPreviewLayout: React.FC = () => {
         </div>
       </div>
 
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col overflow-hidden">
-        {/* Top Navigation Bar */}
-        <header className={`
-          ${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'}
-          border-b py-4 px-6 flex items-center justify-between
-        `}>
-          {/* Breadcrumb / Current View */}
-          <div className={`text-lg font-semibold ${
-            darkMode ? 'text-gray-200' : 'text-gray-800'
-          }`}>
-            Supply Chain Optimization / Q4 Disruption Analysis
-          </div>
+      {/* Resize Handle */}
+      {sidebarOpen && (
+        <div
+          className={`absolute top-0 right-0 w-1 h-full cursor-ew-resize ${
+            darkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-200 hover:bg-gray-300'
+          }`}
+          onMouseDown={startResizing}
+        />
+      )}
 
-          {/* Right Side Actions */}
-          <div className="flex items-center space-x-4">
-            <Button 
-              variant="outline" 
-              size="sm"
-              className={darkMode ? 'border-gray-600 text-gray-300' : ''}
-            >
-              <History size={16} className="mr-2" />
-              Version History
-            </Button>
-            <Button size="sm">
-              <Play size={16} className="mr-2" />
-              Run Simulation
-            </Button>
-          </div>
-        </header>
-
-        {/* Main Content Area with Chat */}
-        <div className="flex-1 flex overflow-hidden">
-          {/* Main Content */}
-          <main className={`flex-1 overflow-auto p-6 ${
-            darkMode ? 'bg-gray-900' : 'bg-gray-50'
-          }`}>
-            <div className="max-w-7xl mx-auto">
-              {/* Simulation Status */}
-              <div className={`
-                mb-6 p-4 rounded-lg ${
-                  darkMode ? 'bg-gray-800' : 'bg-white'
-                } border ${
-                  darkMode ? 'border-gray-700' : 'border-gray-200'
-                }
-              `}>
-                <div className="flex items-center justify-between mb-4">
-                  <div>
-                    <h2 className={`text-xl font-semibold ${
-                      darkMode ? 'text-gray-200' : 'text-gray-800'
-                    }`}>
-                      Q4 Disruption Analysis
-                    </h2>
-                    <p className={`mt-1 ${
-                      darkMode ? 'text-gray-400' : 'text-gray-600'
-                    }`}>
-                      Last run: 2 hours ago • Status: Complete
-                    </p>
-                  </div>
-                  <div className="flex items-center">
-                    <CheckCircle size={20} className="text-green-500 mr-2" />
-                    <span className={`${
-                      darkMode ? 'text-gray-300' : 'text-gray-700'
-                    }`}>
-                      Success
-                    </span>
-                  </div>
-                </div>
-                
-                {/* Key Metrics */}
-                <div className="grid grid-cols-3 gap-4">
-                  <div className={`p-4 rounded-lg ${
-                    darkMode ? 'bg-gray-700' : 'bg-gray-50'
-                  }`}>
-                    <h3 className={`text-sm font-medium mb-2 ${
-                      darkMode ? 'text-gray-400' : 'text-gray-600'
-                    }`}>
-                      Risk Score
-                    </h3>
-                    <div className={`text-2xl font-bold ${
-                      darkMode ? 'text-gray-200' : 'text-gray-900'
-                    }`}>
-                      15%
-                    </div>
-                    <p className="text-green-500 text-sm mt-1">Low Risk</p>
-                  </div>
-                  
-                  <div className={`p-4 rounded-lg ${
-                    darkMode ? 'bg-gray-700' : 'bg-gray-50'
-                  }`}>
-                    <h3 className={`text-sm font-medium mb-2 ${
-                      darkMode ? 'text-gray-400' : 'text-gray-600'
-                    }`}>
-                      Expected Impact
-                    </h3>
-                    <div className={`text-2xl font-bold ${
-                      darkMode ? 'text-gray-200' : 'text-gray-900'
-                    }`}>
-                      $2.4M
-                    </div>
-                    <p className="text-yellow-500 text-sm mt-1">Moderate</p>
-                  </div>
-                  
-                  <div className={`p-4 rounded-lg ${
-                    darkMode ? 'bg-gray-700' : 'bg-gray-50'
-                  }`}>
-                    <h3 className={`text-sm font-medium mb-2 ${
-                      darkMode ? 'text-gray-400' : 'text-gray-600'
-                    }`}>
-                      Time to Recovery
-                    </h3>
-                    <div className={`text-2xl font-bold ${
-                      darkMode ? 'text-gray-200' : 'text-gray-900'
-                    }`}>
-                      4.5 days
-                    </div>
-                    <p className="text-blue-500 text-sm mt-1">Within Target</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* AI Insights */}
-              <div className={`
-                mb-6 p-4 rounded-lg ${
-                  darkMode ? 'bg-gray-800' : 'bg-white'
-                } border ${
-                  darkMode ? 'border-gray-700' : 'border-gray-200'
-                }
-              `}>
-                <h2 className={`text-lg font-semibold mb-4 ${
-                  darkMode ? 'text-gray-200' : 'text-gray-800'
-                }`}>
-                  AI Insights
-                </h2>
-                <ul className="space-y-3">
-                  <li className="flex items-start">
-                    <AlertCircle size={16} className="text-yellow-500 mt-1 mr-2" />
-                    <p className={`${
-                      darkMode ? 'text-gray-300' : 'text-gray-700'
-                    }`}>
-                      20% probability of minor supply chain disruption in Week 4
-                    </p>
-                  </li>
-                  <li className="flex items-start">
-                    <CheckCircle size={16} className="text-green-500 mt-1 mr-2" />
-                    <p className={`${
-                      darkMode ? 'text-gray-300' : 'text-gray-700'
-                    }`}>
-                      Current inventory levels sufficient to handle projected demand
-                    </p>
-                  </li>
-                  <li className="flex items-start">
-                    <AlertCircle size={16} className="text-blue-500 mt-1 mr-2" />
-                    <p className={`${
-                      darkMode ? 'text-gray-300' : 'text-gray-700'
-                    }`}>
-                      Recommend increasing safety stock by 15% for critical components
-                    </p>
-                  </li>
-                </ul>
-              </div>
-
-              {/* Simulation Details */}
-              <div className={`
-                grid grid-cols-2 gap-6
-              `}>
-                {/* Parameters */}
-                <div className={`
-                  p-4 rounded-lg ${
-                    darkMode ? 'bg-gray-800' : 'bg-white'
-                  } border ${
-                    darkMode ? 'border-gray-700' : 'border-gray-200'
-                  }
-                `}>
-                  <h2 className={`text-lg font-semibold mb-4 ${
-                    darkMode ? 'text-gray-200' : 'text-gray-800'
-                  }`}>
-                    Simulation Parameters
-                  </h2>
-                  <div className="space-y-4">
-                    <div>
-                      <label className={`block text-sm font-medium mb-1 ${
-                        darkMode ? 'text-gray-400' : 'text-gray-600'
-                      }`}>
-                        Time Horizon
-                      </label>
-                      <Input 
-                        value="12 weeks"
-                        readOnly
-                        className={darkMode ? 'bg-gray-700 border-gray-600 text-gray-300' : ''}
-                      />
-                    </div>
-                    <div>
-                      <label className={`block text-sm font-medium mb-1 ${
-                        darkMode ? 'text-gray-400' : 'text-gray-600'
-                      }`}>
-                        Confidence Level
-                      </label>
-                      <Input 
-                        value="95%"
-                        readOnly
-                        className={darkMode ? 'bg-gray-700 border-gray-600 text-gray-300' : ''}
-                      />
-                    </div>
-                    <div>
-                      <label className={`block text-sm font-medium mb-1 ${
-                        darkMode ? 'text-gray-400' : 'text-gray-600'
-                      }`}>
-                        Scenario Type
-                      </label>
-                      <Input 
-                        value="Monte Carlo"
-                        readOnly
-                        className={darkMode ? 'bg-gray-700 border-gray-600 text-gray-300' : ''}
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                {/* Data Sources */}
-                <div className={`
-                  p-4 rounded-lg ${
-                    darkMode ? 'bg-gray-800' : 'bg-white'
-                  } border ${
-                    darkMode ? 'border-gray-700' : 'border-gray-200'
-                  }
-                `}>
-                  <h2 className={`text-lg font-semibold mb-4 ${
-                    darkMode ? 'text-gray-200' : 'text-gray-800'
-                  }`}>
-                    Connected Data Sources
-                  </h2>
-                  <div className="space-y-3">
-                    {dataSources.map(source => (
-                      <div 
-                        key={source.id}
-                        className={`flex items-center p-3 rounded-md ${
-                          darkMode ? 'bg-gray-700' : 'bg-gray-50'
-                        }`}
-                      >
-                        {source.icon}
-                        <span className={`ml-3 ${
-                          darkMode ? 'text-gray-300' : 'text-gray-700'
-                        }`}>
-                          {source.name}
-                        </span>
-                        <CheckCircle size={14} className="ml-auto text-green-500" />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
+      {/* Main Content Area */}
+      <div className="flex-1 flex flex-col h-full overflow-hidden">
+        {/* Top Navigation */}
+        <div className={`border-b ${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'}`}>
+          <div className="flex items-center justify-between h-16 px-6">
+            <div className="flex items-center">
+              <h1 className={`text-xl font-semibold ${darkMode ? 'text-white' : 'text-gray-800'}`}>
+                Dashboard
+              </h1>
             </div>
-          </main>
-
-          {/* Resizable Chat Panel */}
-          {chatOpen && (
-            <div 
-              ref={chatContainerRef}
-              className={`flex flex-col border-l ${
-                darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'
-              }`}
-              style={{ width: chatWidth }}
-            >
-              {/* Chat Header */}
-              <div className={`p-4 border-b flex items-center justify-between ${
-                darkMode ? 'border-gray-700' : 'border-gray-200'
-              }`}>
-                <div className="flex items-center">
-                  <MessageSquare size={20} className={
-                    darkMode ? 'text-gray-400' : 'text-gray-600'
-                  } />
-                  <span className={`ml-2 font-medium ${
-                    darkMode ? 'text-gray-200' : 'text-gray-800'
-                  }`}>
-                   
-                  </span>
-                </div>
-                <button
-                  onClick={() => setChatOpen(false)}
-                  className={`p-1 rounded-md ${
-                    darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'
-                  }`}
-                >
-                  <X size={16} className={
-                    darkMode ? 'text-gray-400' : 'text-gray-600'
-                  } />
-                </button>
-              </div>
-
-              {/* Chat Messages */}
-              <div className="flex-1 overflow-y-auto p-4 space-y-4">
-                {messages.map((message) => (
-                  <div
-                    key={message.id}
-                    className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
-                  >
-                    <div className={`max-w-[80%] rounded-lg p-3 ${
-                      message.role === 'user'
-                        ? darkMode 
-                          ? 'bg-blue-600 text-white'
-                          : 'bg-blue-500 text-white'
-                        : darkMode
-                          ? 'bg-gray-700 text-gray-200'
-                          : 'bg-gray-100 text-gray-800'
-                    }`}>
-                      <p className="text-sm">{message.content}</p>
-                      <span className={`text-xs mt-1 block ${
-                        message.role === 'user'
-                          ? 'text-blue-100'
-                          : darkMode
-                            ? 'text-gray-400'
-                            : 'text-gray-500'
-                      }`}>
-                        {message.timestamp.toLocaleTimeString()}
-                      </span>
-                    </div>
-                  </div>
-                ))}
-                <div ref={messagesEndRef} />
-              </div>
-
-              {/* Chat Input */}
-              <div className={`p-4 border-t ${
-                darkMode ? 'border-gray-700' : 'border-gray-200'
-              }`}>
-                <div className="flex items-center space-x-2">
-                  <Input
-                    value={inputMessage}
-                    onChange={(e) => setInputMessage(e.target.value)}
-                    onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-                    placeholder="Type your message..."
-                    className={darkMode ? 'bg-gray-700 border-gray-600 text-gray-200' : ''}
-                  />
-                  <Button
-                    onClick={handleSendMessage}
-                    size="icon"
-                    className={darkMode ? 'bg-blue-600 hover:bg-blue-700' : ''}
-                  >
-                    <Send size={16} />
+            
+            <div className="flex items-center space-x-4">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="sm" className="rounded-full">
+                    <Avatar className="h-8 w-8">
+                      <AvatarImage src="/avatar.png" alt="User" />
+                      <AvatarFallback>JD</AvatarFallback>
+                    </Avatar>
                   </Button>
-                </div>
-              </div>
-
-              {/* Resize Handle */}
-              <div
-                className={`absolute left-0 top-0 bottom-0 w-1 cursor-ew-resize ${
-                  darkMode ? 'hover:bg-gray-600' : 'hover:bg-gray-300'
-                }`}
-                onMouseDown={startResizing}
-              />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem>
+                    <User className="mr-2 h-4 w-4" />
+                    <span>Profile</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Settings className="mr-2 h-4 w-4" />
+                    <span>Settings</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem>
+                    <LogOut className="mr-2 h-4 w-4" />
+                    <span>Log out</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
-          )}
-
-          {/* Chat Toggle Button (when chat is closed) */}
-          {!chatOpen && (
-            <button
-              onClick={() => setChatOpen(true)}
-              className={`fixed bottom-6 right-6 p-3 rounded-full shadow-lg ${
-                darkMode ? 'bg-gray-800 text-gray-200' : 'bg-white text-gray-800'
-              }`}
-            >
-              <MessageSquare size={24} />
-            </button>
-          )}
+          </div>
         </div>
+
+        {/* Main Content */}
+        <div className={`flex-1 overflow-auto p-6 ${darkMode ? 'bg-gray-900' : 'bg-gray-50'}`}>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+            {/* Empty Metric Cards */}
+            {[1, 2, 3].map((_, i) => (
+              <div 
+                key={i} 
+                className={`rounded-lg p-6 ${
+                  darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'
+                } border shadow-sm h-40`}
+              />
+            ))}
+          </div>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+            {/* Empty Chart Cards */}
+            {[1, 2].map((_, i) => (
+              <div 
+                key={i} 
+                className={`rounded-lg p-6 ${
+                  darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'
+                } border shadow-sm h-80`}
+              />
+            ))}
+          </div>
+          
+          <div className="grid grid-cols-1 gap-6">
+            {/* Empty Table Card */}
+            <div 
+              className={`rounded-lg p-6 ${
+                darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'
+              } border shadow-sm h-96`}
+            />
+          </div>
+        </div>
+
+        {/* Simulation Progress Bar - Moved to bottom */}
+        <div className={`px-6 py-2 flex items-center space-x-4 border-t ${
+          darkMode ? 'bg-gray-750 border-gray-700' : 'bg-gray-50 border-gray-200'
+        }`}>
+          <div className="flex-1 flex items-center space-x-3">
+            <div className="w-32">
+              <span className={`text-xs font-medium ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                Simulation Progress
+              </span>
+            </div>
+            <div className="flex-1">
+              <Progress value={45} className="h-2" />
+            </div>
+            <div>
+              <span className={`text-xs ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                Processing data (45%)
+              </span>
+            </div>
+          </div>
+          <div className="flex items-center space-x-2">
+            <Button size="sm" variant="outline" className={`h-8 px-2 ${
+              darkMode ? 'border-gray-600 hover:bg-gray-700' : ''
+            }`}>
+              <Pause size={16} className="mr-1" />
+              <span className="text-xs">Pause</span>
+            </Button>
+            <Button size="sm" variant="ghost" className="h-8 w-8 p-0">
+              <FileText size={16} />
+            </Button>
+          </div>
+        </div>
+      </div>
+
+      {/* Chat Panel - Fixed width behavior */}
+      <div
+        ref={chatRef}
+        className={`border-l flex flex-col h-screen ${
+          darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'
+        } ${isResizingChat ? 'select-none' : ''}`}
+        style={{ 
+          width: chatOpen ? `${chatWidth}px` : '0px',
+          minWidth: chatOpen ? '280px' : '0px',
+          maxWidth: chatOpen ? '500px' : '0px',
+          flexShrink: 0
+        }}
+      >
+        {/* Chat Header */}
+        <div className={`p-4 border-b flex items-center justify-between ${
+          darkMode ? 'border-gray-700' : 'border-gray-200'
+        }`}>
+          <h2 className={`font-medium ${darkMode ? 'text-gray-200' : 'text-gray-800'}`}>
+            Chat
+          </h2>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setChatOpen(!chatOpen)}
+            className={darkMode ? 'text-gray-400' : 'text-gray-600'}
+          >
+            <ChevronRight
+              size={20}
+              className={`transform transition-transform ${!chatOpen ? 'rotate-180' : ''}`}
+            />
+          </Button>
+        </div>
+
+        {/* Chat Messages */}
+        <div className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-hide">
+          {/* Chat content will go here */}
+        </div>
+
+        {/* Chat Input */}
+        <div className={`p-4 border-t ${darkMode ? 'border-gray-700' : 'border-gray-200'}`}>
+          <div className="flex items-center space-x-2">
+            <Input
+              placeholder="Type a message..."
+              className={darkMode ? 'bg-gray-700 border-gray-600' : 'bg-white'}
+            />
+            <Button size="icon" className="shrink-0">
+              <Send size={16} />
+            </Button>
+          </div>
+        </div>
+
+        {/* Resize Handle */}
+        {chatOpen && (
+          <div
+            className={`absolute top-0 left-0 w-1 h-full cursor-ew-resize ${
+              darkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-200 hover:bg-gray-300'
+            }`}
+            onMouseDown={startResizingChat}
+          />
+        )}
       </div>
     </div>
   );
 };
 
-export default AppPreviewLayout; 
+export default AppPreviewLayout;
