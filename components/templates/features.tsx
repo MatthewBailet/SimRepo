@@ -27,9 +27,16 @@ const Ernst1: React.FC = () => {
         --gradient-color-3: #eae2ff;
         --gradient-color-4: #b9beff;
       },
+      #ernst2 {
+        --gradient-color-1: #c3e4ff;
+        --gradient-color-2: #6ec3f4;
+        --gradient-color-3: #eae2ff;
+        --gradient-color-4: #b9beff;
+      },
 
     `;
     document.head.appendChild(style);
+    
 
     // Initialize gradient after a small delay to ensure CSS is applied
     const timer = setTimeout(() => {
@@ -38,6 +45,8 @@ const Ernst1: React.FC = () => {
         gradient.initGradient('#ernst1');
 
       }
+      
+      
     }, 100);
 
     return () => {
@@ -544,7 +553,6 @@ export default function Features() {
   const [activeCard, setActiveCard] = useState(0);
   const [pulseIndex, setPulseIndex] = useState(-1);
   const [currentSite, setCurrentSite] = useState(0);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
   
   // Container animation variants
   const containerVariants = {
@@ -648,19 +656,6 @@ export default function Features() {
     
     return () => clearInterval(interval);
   }, [sites.length]);
-
-  useEffect(() => {
-    if (canvasRef.current) {
-      const gradient = new Gradient();
-      gradient.initGradient('#ernst1');
-    }
-
-
-    
-    return () => {
-      // Cleanup if needed
-    };
-  }, []);
 
   return (
     <section ref={ref} className="relative bg-white text-bold overflow-hidden pb-8 pt-20">
@@ -773,146 +768,6 @@ export default function Features() {
             </div>
           </div>
         </div>
-
-        <motion.div 
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
-          variants={containerVariants}
-          className="text-center sm:mb:10 md:mb-12 mt-20 "
-        >
-          <motion.h2 variants={itemVariants} className="text-4xl font-semibold text-slate-800 mb-20 pt-10 mt-10 px-3 md:px-28">
-            Meet Our Engines
-          </motion.h2>
-        </motion.div>
-
-
-
-
-        <div className="flex justify-center items-center gap-8 mt-12 px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="border border-gray-200 w-72 h-72 bg-slate-50 rounded-2xl   flex-col  shadow-lg flex items-center justify-center"
-          
-          >
-            <canvas
-            id="ernst1"
-            ref={canvasRef}
-            className="inset-0 w-full h-full transition-opacity duration-300 rounded-2xl "
-            style={{ 
-              '--gradient-color-1': '#ffffff',
-              '--gradient-color-2': '#d6eaff',
-              '--gradient-color-3': '#ffffff',
-              '--gradient-color-4': '#f2f2f2'
-            } as React.CSSProperties}
-          />
-            <div className="absolute">
-                    <h3 className="text-4xl font-semibold text-slate-800 block">Ernst</h3>
-            <p className="text-gray-500 text-md text-center">Hybrid</p>
-            </div>
-    
-          </motion.div>
-
-
-
-
-
-
-
-
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-            className=" border border-sm border-blue-500 bg-blue-600 w-72 h-72 rounded-2xl shadow-lg  flex-col   flex items-center justify-center relative overflow-hidden"
-          >
-                
-              <div className="absolute inset-0">
-                <BlueWaveScene
-                  rotation={[-Math.PI / 3, 2.2, 7.2]}
-              
-                />
-              </div>
-            
-            
-
-
-
-<div className="absolute ">
-            <h3 className="text-4xl font-semibold text-white text-center">ErnstADV</h3>
-            <Badge className="mt-1 text-xs hover:bg-white text-blue-500 mx-auto items-center justify-center text-center bg-white  font-medium tracking-wide gap-1.5">
-                Deep Reasoning  
-              </Badge>
-              </div>
-            
-
-            
-          </motion.div>
-
-          
-        </div>
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="mt-10 pt-10 max-w-2xl mx-auto text-medium"
-        >
-          <Accordion type="single" collapsible>
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: 0.4 }}
-            >
-              <AccordionItem value="item-1">
-                <AccordionTrigger>What is an engine?</AccordionTrigger>
-                <AccordionContent>
-                  In our case, an engine is the assembly and interaction point for all the raw data that is fed into our system through both AI and user data.
-                </AccordionContent>
-              </AccordionItem>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: 0.5 }}
-            >
-              <AccordionItem value="item-2">
-                <AccordionTrigger>Are all the engines the same?</AccordionTrigger>
-                <AccordionContent>
-                  While all our engines are built to handle complex data and simulations, each engine is optimized for specific use cases. Some models have specialized features that may not be necessary for every implementation.
-                </AccordionContent>
-              </AccordionItem>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: 0.6 }}
-            >
-              <AccordionItem value="item-3">
-                <AccordionTrigger>How do I choose the right engine?</AccordionTrigger>
-                <AccordionContent>
-                  The best engine choice depends on your specific needs. Our team can help assess your requirements and recommend the most suitable engine based on factors like data complexity, processing needs, and integration requirements.
-                </AccordionContent>
-              </AccordionItem>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: 0.7 }}
-            >
-              <AccordionItem value="item-4">
-                <AccordionTrigger>Can I switch engines later?</AccordionTrigger>
-                <AccordionContent>
-                  Yes, our platform is designed to be flexible. You can switch between engines or use multiple engines as your needs evolve, with minimal disruption to your existing workflows.
-                </AccordionContent>
-              </AccordionItem>
-            </motion.div>
-          </Accordion>
-        </motion.div>
       </div>
     </section>
   );

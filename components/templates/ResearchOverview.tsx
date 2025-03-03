@@ -30,12 +30,12 @@ export default function ResearchOverview() {
   ];
 
   return (
-    <section className="py-20 bg-slate-50">
+    <section className="py-20 bg-white">
       <div className="container mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
           className="max-w-5xl mx-auto"
         >
           <div className="text-center mb-16">

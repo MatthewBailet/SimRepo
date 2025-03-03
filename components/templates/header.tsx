@@ -5,7 +5,7 @@ import Image from 'next/image'
 
 export default function Header() {
   return (
-    <header className='w-full top-0 z-50 bg-white backdrop-blur-sm absolute z-50'>
+    <header className='w-full top-0 z-50 bg-white backdrop-blur-sm absolute z-40'>
       <div className='container mx-auto px-4'>
         <div className='flex items-center justify-between h-16'>
           <Link 

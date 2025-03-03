@@ -74,6 +74,7 @@ export default function Explanation() {
           variants={containerVariants} 
           className="max-w-3xl mx-auto text-center mb-20"
         >
+       
           <motion.h2 
             variants={itemVariants}
             className="text-4xl font-semibold text-slate-900 mb-6"

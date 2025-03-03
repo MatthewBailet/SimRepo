@@ -9,7 +9,7 @@ import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import { Skeleton } from "@/components/molecules/shadcn/skeleton";
 import { Gradient } from "whatamesh";
 import DashboardPreview from "../Ui Components/DashboardPreview";
-
+import { ArrowRight } from "lucide-react";
 const gradient = new Gradient()
 
 
@@ -88,7 +88,7 @@ const backgroundFragmentShader = `
   void main() {
     vec2 center = gl_PointCoord - vec2(0.5);
     float dist = length(center);
-    float circle = smoothstep(0.05, 5.45, dist);
+    float circle = smoothstep(0.05, 3.45, dist);
 
     vec3 baseColor = mix(vec3(0.0), vec3(0.7), vUv.y);
     baseColor *= 3.0 - vDisplacement * 1.5;
@@ -207,7 +207,7 @@ function BackgroundWavePoints() {
     }
   });
 
-  const planeGeom = new THREE.PlaneGeometry(18, 21, screenType === 'mobile' ? 488 : 688, screenType === 'mobile' ? 228 : 328);
+  const planeGeom = new THREE.PlaneGeometry(18, 21, screenType === 'mobile' ? 288 : 488, screenType === 'mobile' ? 228 : 328);
   
 
   
@@ -265,7 +265,7 @@ export default function Hero() {
             <BackgroundWaveScene />
           </div>
           <div 
-            className="absolute inset-0 -z-10 backdrop-blur-[4px]"
+            className="absolute inset-0 -z-10 backdrop-blur-[2px]"
             style={{
               WebkitBackfaceVisibility: "hidden",
               WebkitPerspective: "1000",
@@ -291,7 +291,7 @@ export default function Hero() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.3 }}
-            className="grid gap-8 md:grid-cols-1"
+            className="grid gap-10 md:grid-cols-1"
           >
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
@@ -309,13 +309,16 @@ export default function Hero() {
                 Providing fine-tuned AI models paired with realtime industry data to produce accurate, intelligent business forecasting.
                 
               </p>
-              <div className="flex items-center justify-center space-x-4">
-                <Button className="bg-sky-950 hidden md:block" variant="default" onClick={() => window.location.href = '/early-access'}>
+              <div className="flex items-center justify-center space-x-8">
+                <Button className="bg-sky-950 hover:bg-sky-900 hidden md:block" variant="default" onClick={() => window.location.href = '/early-access'}>
                   Request Access
                 </Button>
-                <Button className="bg-slate-200 hidden md:block" variant="secondary">
-                  Book a Demo
-                </Button>
+                <div className="hidden md:flex items-center group cursor-pointer">
+                  <div className="bg-slate-100 rounded-full p-2 mr-2">
+                    <ArrowRight className="h-4 w-4 text-slate-600 transition-transform group-hover:translate-x-1" />
+                  </div>
+                  <span className="text-slate-500">Book a Demo</span>
+                </div>
 
 
               </div>
