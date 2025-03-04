@@ -60,19 +60,12 @@ const AppPreviewLayout: React.FC = () => {
   const [activeOrg, setActiveOrg] = useState("Acme Corp");
   const [darkMode, setDarkMode] = useState(false);
   const [expandedFolders, setExpandedFolders] = useState<string[]>([]);
-  const [chatOpen, setChatOpen] = useState(true);
-  const [chatWidth, setChatWidth] = useState(320);
-  const [messages, setMessages] = useState<ChatMessage[]>([
-
-  ]);
+  const [chatOpen, setChatOpen] = useState(false);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [inputMessage, setInputMessage] = useState('');
-  const [isResizing, setIsResizing] = useState(false);
-  const chatContainerRef = useRef<HTMLDivElement>(null);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-  const [sidebarWidth, setSidebarWidth] = useState(256);
-  const sidebarRef = useRef<HTMLDivElement>(null);
   const [isResizingChat, setIsResizingChat] = useState(false);
   const chatRef = useRef<HTMLDivElement>(null);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Example data structures
   const organizations = [
@@ -177,49 +170,6 @@ const AppPreviewLayout: React.FC = () => {
     }
   };
 
-  const startResizing = useCallback((e: React.MouseEvent) => {
-    e.preventDefault();
-    setIsResizing(true);
-  }, []);
-
-  const stopResizing = useCallback(() => {
-    setIsResizing(false);
-    
-    // Auto-snap to collapsed state if width is below threshold
-    if (sidebarWidth < 180 && sidebarOpen) {
-      setSidebarOpen(false);
-    }
-  }, [sidebarWidth, sidebarOpen]);
-
-  const resize = useCallback((e: MouseEvent) => {
-    if (isResizing && sidebarRef.current) {
-      const newWidth = e.clientX - sidebarRef.current.getBoundingClientRect().left;
-      
-      if (newWidth >= 200 && newWidth <= 400) {
-        setSidebarWidth(newWidth);
-      }
-    }
-  }, [isResizing]);
-
-  useEffect(() => {
-    if (isResizing) {
-      window.addEventListener('mousemove', resize);
-      window.addEventListener('mouseup', stopResizing);
-    }
-    
-    return () => {
-      window.removeEventListener('mousemove', resize);
-      window.removeEventListener('mouseup', stopResizing);
-    };
-  }, [isResizing, resize, stopResizing]);
-
-  useEffect(() => {
-    if (!sidebarOpen) {
-      // Store the current width before collapsing
-      setSidebarWidth(prev => prev < 200 ? 256 : prev);
-    }
-  }, [sidebarOpen]);
-
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -253,36 +203,6 @@ const AppPreviewLayout: React.FC = () => {
     }, 1000);
   };
 
-  const startResizingChat = useCallback((e: React.MouseEvent) => {
-    e.preventDefault();
-    setIsResizingChat(true);
-  }, []);
-
-  const stopResizingChat = useCallback(() => {
-    setIsResizingChat(false);
-  }, [chatWidth, chatOpen]);
-
-  const resizeChat = useCallback((e: MouseEvent) => {
-    if (isResizingChat && chatRef.current) {
-      const containerRight = chatRef.current.parentElement?.getBoundingClientRect().right || 0;
-      const newWidth = containerRight - e.clientX;
-      if (newWidth >= 280 && newWidth <= 500) {
-        setChatWidth(newWidth);
-      }
-    }
-  }, [isResizingChat]);
-
-  useEffect(() => {
-    if (isResizingChat) {
-      window.addEventListener('mousemove', resizeChat);
-      window.addEventListener('mouseup', stopResizingChat);
-    }
-    return () => {
-      window.removeEventListener('mousemove', resizeChat);
-      window.removeEventListener('mouseup', stopResizingChat);
-    };
-  }, [isResizingChat, resizeChat, stopResizingChat]);
-
   return (
     <div className={`flex h-screen ${darkMode ? 'dark bg-gray-900' : 'bg-gray-50'}`}>
       {/* Sidebar */}
@@ -290,14 +210,8 @@ const AppPreviewLayout: React.FC = () => {
         className={`
           ${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'}
           border-r flex flex-col transition-all duration-300 overflow-y-auto scrollbar-hide
-          ${isResizing ? 'select-none' : ''}
+          ${sidebarOpen ? 'w-[350px]' : 'w-[80px]'}
         `}
-        style={{ 
-          width: sidebarOpen ? `${sidebarWidth}px` : '80px',
-          minWidth: sidebarOpen ? '350px' : '80px',
-          maxWidth: '400px'
-        }}
-        ref={sidebarRef}
       >
         {/* Organization Switcher */}
         <div className={`p-4 border-b ${darkMode ? 'border-gray-700' : 'border-gray-200'}`}>
@@ -937,28 +851,26 @@ const AppPreviewLayout: React.FC = () => {
         </div>
       </div>
 
-      {/* Resize Handle */}
-      {sidebarOpen && (
-        <div
-          className={`absolute top-0 right-0 w-1 h-full cursor-ew-resize ${
-            darkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-200 hover:bg-gray-300'
-          }`}
-          onMouseDown={startResizing}
-        />
-      )}
-
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col h-full overflow-hidden">
+      <div className="flex-1 flex flex-col h-full min-w-0 overflow-hidden">
         {/* Top Navigation */}
         <div className={`border-b ${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'}`}>
           <div className="flex items-center justify-between h-16 px-6">
             <div className="flex items-center">
               <h1 className={`text-xl font-semibold ${darkMode ? 'text-white' : 'text-gray-800'}`}>
-                Dashboard
+              Supply Chain Optimization/ Q4 Disruption Analysis
               </h1>
             </div>
             
             <div className="flex items-center space-x-4">
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setChatOpen(!chatOpen)}
+                className={`${darkMode ? 'text-gray-400 hover:text-gray-300' : 'text-gray-600 hover:text-gray-800'}`}
+              >
+                <MessageSquare size={20} />
+              </Button>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" size="sm" className="rounded-full">
@@ -988,43 +900,124 @@ const AppPreviewLayout: React.FC = () => {
           </div>
         </div>
 
-        {/* Main Content */}
-        <div className={`flex-1 overflow-auto p-6 ${darkMode ? 'bg-gray-900' : 'bg-gray-50'}`}>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
-            {/* Empty Metric Cards */}
-            {[1, 2, 3].map((_, i) => (
+        {/* Main Content with Chat */}
+        <div className="flex flex-1 overflow-hidden">
+          {/* Main Content */}
+          <div className={`flex-1 overflow-auto p-6 ${darkMode ? 'bg-gray-900' : 'bg-gray-50'}`}>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+              {/* Empty Metric Cards */}
+              {[1, 2, 3].map((_, i) => (
+                <div 
+                  key={i} 
+                  className={`rounded-lg p-6 ${
+                    darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'
+                  } border shadow-sm h-40`}
+                />
+              ))}
+            </div>
+            
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+              {/* Empty Chart Cards */}
+              {[1, 2].map((_, i) => (
+                <div 
+                  key={i} 
+                  className={`rounded-lg p-6 ${
+                    darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'
+                  } border shadow-sm h-80`}
+                />
+              ))}
+            </div>
+            
+            <div className="grid grid-cols-1 gap-6">
+              {/* Empty Table Card */}
               <div 
-                key={i} 
                 className={`rounded-lg p-6 ${
                   darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'
-                } border shadow-sm h-40`}
+                } border shadow-sm h-96`}
               />
-            ))}
+            </div>
           </div>
-          
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-            {/* Empty Chart Cards */}
-            {[1, 2].map((_, i) => (
-              <div 
-                key={i} 
-                className={`rounded-lg p-6 ${
-                  darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'
-                } border shadow-sm h-80`}
-              />
-            ))}
-          </div>
-          
-          <div className="grid grid-cols-1 gap-6">
-            {/* Empty Table Card */}
-            <div 
-              className={`rounded-lg p-6 ${
-                darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'
-              } border shadow-sm h-96`}
-            />
+
+          {/* Chat Panel - Integrated into layout */}
+          <div
+            className={`border-l flex flex-col ${
+              darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'
+            } transition-all duration-300`}
+            style={{ 
+              width: chatOpen ? '320px' : '0px',
+              opacity: chatOpen ? 1 : 0,
+              visibility: chatOpen ? 'visible' : 'hidden'
+            }}
+          >
+            {/* Chat Header */}
+            <div className={`p-4 border-b flex items-center justify-between ${
+              darkMode ? 'border-gray-700' : 'border-gray-200'
+            }`}>
+              <h2 className={`font-medium ${darkMode ? 'text-gray-200' : 'text-gray-800'}`}>
+                Chat
+              </h2>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setChatOpen(false)}
+                className={darkMode ? 'text-gray-400' : 'text-gray-600'}
+              >
+                <X size={20} />
+              </Button>
+            </div>
+
+            {/* Chat Messages */}
+            <div className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-hide">
+              {messages.map((message) => (
+                <div
+                  key={message.id}
+                  className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
+                >
+                  <div className={`
+                    max-w-[80%] rounded-lg p-3
+                    ${message.role === 'user' 
+                      ? darkMode 
+                        ? 'bg-blue-600 text-white' 
+                        : 'bg-blue-500 text-white'
+                      : darkMode
+                        ? 'bg-gray-700 text-gray-200'
+                        : 'bg-gray-100 text-gray-800'
+                    }
+                  `}>
+                    <p className="text-sm">{message.content}</p>
+                    <span className="text-xs opacity-70 mt-1 block">
+                      {message.timestamp.toLocaleTimeString()}
+                    </span>
+                  </div>
+                </div>
+              ))}
+              <div ref={messagesEndRef} />
+            </div>
+
+            {/* Chat Input */}
+            <div className={`p-4`}>
+              <div className="flex items-center space-x-2">
+                <Input
+                  value={inputMessage}
+                  onChange={(e) => setInputMessage(e.target.value)}
+                  placeholder="Type a message..."
+                  className={darkMode ? 'bg-gray-700 border-gray-600' : 'bg-white'}
+                  onKeyPress={(e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                      e.preventDefault();
+                      handleSendMessage();
+                    }
+                  }}
+                />
+                <Button size="icon" className="shrink-0" onClick={handleSendMessage}>
+                  <Send size={16} />
+                </Button>
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* Simulation Progress Bar - Moved to bottom */}
+        {/* Simulation Progress Bar */}
         <div className={`px-6 py-2 flex items-center space-x-4 border-t ${
           darkMode ? 'bg-gray-750 border-gray-700' : 'bg-gray-50 border-gray-200'
         }`}>
@@ -1044,79 +1037,31 @@ const AppPreviewLayout: React.FC = () => {
             </div>
           </div>
           <div className="flex items-center space-x-2">
-            <Button size="sm" variant="outline" className={`h-8 px-2 ${
-              darkMode ? 'border-gray-600 hover:bg-gray-700' : ''
-            }`}>
+            <Button 
+              size="sm" 
+              variant="outline" 
+              className={`h-8 px-2 ${
+                darkMode 
+                  ? 'border-gray-600 hover:bg-gray-600 text-gray-300 bg-gray-700' 
+                  : 'hover:bg-gray-100'
+              }`}
+            >
               <Pause size={16} className="mr-1" />
               <span className="text-xs">Pause</span>
             </Button>
-            <Button size="sm" variant="ghost" className="h-8 w-8 p-0">
+            <Button 
+              size="sm" 
+              variant="ghost" 
+              className={`h-8 w-8 p-0 ${
+                darkMode
+                  ? 'text-gray-300 hover:bg-gray-700'
+                  : 'hover:bg-gray-100'
+              }`}
+            >
               <FileText size={16} />
             </Button>
           </div>
         </div>
-      </div>
-
-      {/* Chat Panel - Fixed width behavior */}
-      <div
-        ref={chatRef}
-        className={`border-l flex flex-col h-screen ${
-          darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'
-        } ${isResizingChat ? 'select-none' : ''}`}
-        style={{ 
-          width: chatOpen ? `${chatWidth}px` : '0px',
-          minWidth: chatOpen ? '280px' : '0px',
-          maxWidth: chatOpen ? '500px' : '0px',
-          flexShrink: 0
-        }}
-      >
-        {/* Chat Header */}
-        <div className={`p-4 border-b flex items-center justify-between ${
-          darkMode ? 'border-gray-700' : 'border-gray-200'
-        }`}>
-          <h2 className={`font-medium ${darkMode ? 'text-gray-200' : 'text-gray-800'}`}>
-            Chat
-          </h2>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => setChatOpen(!chatOpen)}
-            className={darkMode ? 'text-gray-400' : 'text-gray-600'}
-          >
-            <ChevronRight
-              size={20}
-              className={`transform transition-transform ${!chatOpen ? 'rotate-180' : ''}`}
-            />
-          </Button>
-        </div>
-
-        {/* Chat Messages */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-hide">
-          {/* Chat content will go here */}
-        </div>
-
-        {/* Chat Input */}
-        <div className={`p-4 border-t ${darkMode ? 'border-gray-700' : 'border-gray-200'}`}>
-          <div className="flex items-center space-x-2">
-            <Input
-              placeholder="Type a message..."
-              className={darkMode ? 'bg-gray-700 border-gray-600' : 'bg-white'}
-            />
-            <Button size="icon" className="shrink-0">
-              <Send size={16} />
-            </Button>
-          </div>
-        </div>
-
-        {/* Resize Handle */}
-        {chatOpen && (
-          <div
-            className={`absolute top-0 left-0 w-1 h-full cursor-ew-resize ${
-              darkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-200 hover:bg-gray-300'
-            }`}
-            onMouseDown={startResizingChat}
-          />
-        )}
       </div>
     </div>
   );
